@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:soft_dev_app/theme/pallete.dart';
+import 'package:soft_dev_app/core/theme/pallete.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
