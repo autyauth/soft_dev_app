@@ -6,7 +6,7 @@ class AppTheme {
     brightness: Brightness.light,
     primaryColor: Pallete.whiteColor,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: Pallete.greyColor,
+      backgroundColor: Pallete.backgroundColor,
     ),
   );
 }
