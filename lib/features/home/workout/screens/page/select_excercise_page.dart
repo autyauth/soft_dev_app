@@ -8,13 +8,35 @@ class SelectExercisePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(children: [
+        child: Column(
+          children: [
             topLabelWidget(),
-            SelectExerciseWidget(
-                onTap: () {}, title: 'Chest', img: 'assets/images/chest.png'),
-          ]),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: List.generate(
+                    5,
+                    (index) {
+                      return Column(
+                        children: [
+                          SelectExerciseWidget(
+                            onTap: () {},
+                            title: 'Exercise',
+                            img: 'assets/images/temp_exercise.jpg',
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -9,17 +9,26 @@ class SelectExerciseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(color: Colors.grey),
-      width: double.infinity,
-      height: 80,
-      child: const Center(
-        child: Text(
-          'Select Your Exercise',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 35,
-            fontWeight: FontWeight.w500,
+    return GestureDetector(
+      onTap: () => onTap(),
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage(img), fit: BoxFit.cover),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
+        width: double.infinity,
+        height: 140,
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 35,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),

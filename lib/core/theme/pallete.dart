@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Pallete {
+class Palette {
   static const Color backgroundColor = Colors.black;
   static const Color blueColor = Color.fromRGBO(29, 155, 240, 1);
   static const Color whiteColor = Colors.white;

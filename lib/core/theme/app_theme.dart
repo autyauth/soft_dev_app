@@ -4,9 +4,9 @@ import 'package:soft_dev_app/core/theme/pallete.dart';
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    primaryColor: Pallete.whiteColor,
+    primaryColor: Palette.backgroundColor,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: Pallete.backgroundColor,
+      backgroundColor: Palette.backgroundColor,
     ),
   );
 }
