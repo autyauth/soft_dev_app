@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
 
-Widget TopLabelWidget() {
+Widget topLabelWidget() {
   return Container(
-    decoration: BoxDecoration(color: Pallete.greyColor),
+    decoration: const BoxDecoration(color: Pallete.greyColor),
     width: double.infinity,
     height: 80,
     child: const Center(
