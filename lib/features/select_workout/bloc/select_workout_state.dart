@@ -1,8 +1,8 @@
 part of 'select_workout_bloc.dart';
 
 @immutable
-abstract class WorkoutState {}
+abstract class SelectWorkoutState {}
 
-abstract class WorkoutActionState extends WorkoutState {}
+abstract class SelectWorkoutActionState extends SelectWorkoutState {}
 
-class WorkoutInitial extends WorkoutState {}
+class SelectWorkoutInitial extends SelectWorkoutState {}

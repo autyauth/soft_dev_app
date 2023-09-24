@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/pallete.dart';
+import '../../bloc/select_workout_bloc.dart';
 import '../../data/exercise_data.dart';
 import '../../data/list_of_part.dart';
 import '../../data/list_of_workout.dart';
@@ -17,6 +19,7 @@ class SelectExercisePage extends StatefulWidget {
 }
 
 class _SelectExercisePageState extends State<SelectExercisePage> {
+  final SelectWorkoutBloc selectWorkoutBloc = SelectWorkoutBloc();
   List<WorkoutListModel> workoutList = [];
   @override
   void initState() {
@@ -49,50 +52,60 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Select Your Exercise',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Palette.whiteColor,
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Palette.greyColor,
-      ),
-      backgroundColor: Colors.black,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: List.generate(
-                    workoutList.length,
-                    (index) {
-                      final workout = workoutList[index];
-                      return Column(
-                        children: [
-                          SelectExerciseWidget(
-                            onTap: () {},
-                            workout: workout,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          )
-                        ],
-                      );
-                    },
-                  ),
-                ),
+    return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
+      bloc: selectWorkoutBloc,
+      listenWhen: (previous, current) => current is SelectWorkoutActionState,
+      buildWhen: (previous, current) => current is! SelectWorkoutActionState,
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Select Your Exercise',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Palette.whiteColor,
+                fontSize: 30,
+                fontWeight: FontWeight.w500,
               ),
             ),
-          ],
-        ),
-      ),
+            centerTitle: true,
+            backgroundColor: Palette.greyColor,
+          ),
+          backgroundColor: Colors.black,
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: List.generate(
+                        workoutList.length,
+                        (index) {
+                          final workout = workoutList[index];
+                          return Column(
+                            children: [
+                              SelectExerciseWidget(
+                                onTap: () {},
+                                workout: workout,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              )
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
   // @override

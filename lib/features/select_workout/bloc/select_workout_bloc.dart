@@ -4,9 +4,9 @@ import 'package:meta/meta.dart';
 part 'select_workout_event.dart';
 part 'select_workout_state.dart';
 
-class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
-  WorkoutBloc() : super(WorkoutInitial()) {
-    on<WorkoutEvent>((event, emit) {
+class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
+  SelectWorkoutBloc() : super(SelectWorkoutInitial()) {
+    on<SelectWorkoutEvent>((event, emit) {
       // TODO: implement event handler
     });
   }
