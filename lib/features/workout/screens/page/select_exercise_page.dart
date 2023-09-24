@@ -23,33 +23,6 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
     loadWorkout();
   }
 
-  // void loadExercise() async {
-  //   // final exercise = await ExerciseRepository().getExercise();
-  //   // setState(() {
-  //   //   exerciseList = exercise;
-  //   // });
-  //   int i = 0;
-  //   for (WorkoutListModel workout in listWorkout) {
-  //     workoutList.add(workout);
-  //     if (!workout.havePart) {
-  //       List<ExerciseModel> temp = workout.getRandomExercises(exerciseList, 2);
-  //       workoutList[i].setExerciseList(temp);
-  //     } else {
-  //       workoutList[i].setPartBodyList(all_part);
-  //       //print(workoutList[i].partBodyList!.length);
-  //       int y = 0;
-  //       for (PartBodyModel partBody in workoutList[i].partBodyList!) {
-  //         List<ExerciseModel> temp =
-  //             partBody.getRandomExercises(exerciseList, 2);
-  //         workoutList[i].partBodyList?[y].setExerciseList(temp);
-  //         print(workoutList[i].partBodyList![y].exerciseList?.length);
-  //         y++;
-  //       }
-  //       print(workoutList[i].partBodyList![0].exerciseList?.length);
-  //     }
-  //     i++;
-  //   }
-  // }
   void loadWorkout() {
     int i = 0;
     for (WorkoutListModel workout in listWorkout) {
@@ -121,4 +94,52 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
       ),
     );
   }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: const Text(
+  //         'Select Your Exercise',
+  //         textAlign: TextAlign.center,
+  //         style: TextStyle(
+  //           color: Palette.whiteColor,
+  //           fontSize: 30,
+  //           fontWeight: FontWeight.w500,
+  //         ),
+  //       ),
+  //       centerTitle: true,
+  //       backgroundColor: Palette.greyColor,
+  //     ),
+  //     backgroundColor: Colors.black,
+  //     body: SafeArea(
+  //       child: Column(
+  //         children: [
+  //           Expanded(
+  //             child: SingleChildScrollView(
+  //               child: Column(
+  //                 children: List.generate(
+  //                   workoutList.length,
+  //                   (index) {
+  //                     final workout = workoutList[index];
+  //                     return Column(
+  //                       children: [
+  //                         SelectExerciseWidget(
+  //                           onTap: () {},
+  //                           workout: workout,
+  //                         ),
+  //                         const SizedBox(
+  //                           height: 20,
+  //                         )
+  //                       ],
+  //                     );
+  //                   },
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }
