@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:soft_dev_app/core/theme/pallete.dart';
+
+import '../../../../core/theme/pallete.dart';
 
 Widget topLabelWidget() {
   return Container(

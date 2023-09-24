@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:soft_dev_app/features/home/screens/page/home_page.dart';
-import 'package:soft_dev_app/features/workout/screens/page/select_exercise_page.dart';
-import 'package:soft_dev_app/features/workout/screens/page/workout_home_page.dart';
-import 'package:soft_dev_app/routing/route_constants.dart';
+
+import '../features/home/screens/page/home_page.dart';
+import '../features/workout/screens/page/select_exercise_page.dart';
+import '../features/workout/screens/page/workout_home_page.dart';
+import 'route_constants.dart';
 
 class RouteConfig {
   GoRouter router = GoRouter(

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:soft_dev_app/core/theme/pallete.dart';
-import 'package:soft_dev_app/features/workout/data/exercise_data.dart';
-import 'package:soft_dev_app/features/workout/data/list_of_part.dart';
-import 'package:soft_dev_app/features/workout/data/list_of_workout.dart';
-import 'package:soft_dev_app/features/workout/domain/models/exercise_model.dart';
-import 'package:soft_dev_app/features/workout/domain/models/part_body_model.dart';
-import 'package:soft_dev_app/features/workout/domain/models/workout_list_model.dart';
-import 'package:soft_dev_app/features/workout/screens/widget/select_exercise_widget.dart';
+
+import '../../../../core/theme/pallete.dart';
+import '../../data/exercise_data.dart';
+import '../../data/list_of_part.dart';
+import '../../data/list_of_workout.dart';
+import '../../domain/models/exercise_model.dart';
+import '../../domain/models/part_body_model.dart';
+import '../../domain/models/workout_list_model.dart';
+import '../widget/select_exercise_widget.dart';
 
 class SelectExercisePage extends StatefulWidget {
   const SelectExercisePage({super.key});

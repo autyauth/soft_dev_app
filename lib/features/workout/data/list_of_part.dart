@@ -1,4 +1,4 @@
-import 'package:soft_dev_app/features/workout/domain/models/part_body_model.dart';
+import '../domain/models/part_body_model.dart';
 
 List<PartBodyModel> all_part = [
   PartBodyModel.withWorkout(

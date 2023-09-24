@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:soft_dev_app/features/workout/domain/models/exercise_model.dart';
+import 'exercise_model.dart';
 
 class PartBodyModel {
   PartBodyModel({

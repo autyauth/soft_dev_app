@@ -1,4 +1,4 @@
-import 'package:soft_dev_app/features/workout/domain/models/exercise_model.dart';
+import '../domain/models/exercise_model.dart';
 
 List<ExerciseModel> exerciseList = [
   ExerciseModel(
