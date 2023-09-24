@@ -1,4 +1,4 @@
-part of 'workout_bloc.dart';
+part of 'select_workout_bloc.dart';
 
 @immutable
 abstract class WorkoutState {}

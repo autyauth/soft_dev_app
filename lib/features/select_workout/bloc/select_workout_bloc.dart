@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-part 'workout_event.dart';
-part 'workout_state.dart';
+part 'select_workout_event.dart';
+part 'select_workout_state.dart';
 
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   WorkoutBloc() : super(WorkoutInitial()) {
