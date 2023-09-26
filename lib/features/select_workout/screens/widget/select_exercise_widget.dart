@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../domain/models/part_body_model.dart';
 import '../../domain/models/workout_list_model.dart';
 
-class SelectExerciseWidget extends StatelessWidget {
+class SelectExerciseWidget<T> extends StatelessWidget {
   const SelectExerciseWidget(
-      {super.key, required this.onTap, required this.workout});
+      {super.key, required this.onTap, required this.model});
   final Function onTap;
-  final WorkoutListModel workout;
+  final T model;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,10 @@ class SelectExerciseWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(workout.image), fit: BoxFit.cover),
+              image: AssetImage(model is WorkoutListModel
+                  ? (model as WorkoutListModel).image
+                  : (model as PartBodyModel).image),
+              fit: BoxFit.cover),
           borderRadius: BorderRadius.circular(20),
         ),
         margin: const EdgeInsets.all(20),
@@ -25,7 +29,9 @@ class SelectExerciseWidget extends StatelessWidget {
         child: Align(
           alignment: Alignment.topLeft,
           child: Text(
-            workout.title,
+            model is WorkoutListModel
+                ? (model as WorkoutListModel).title
+                : (model as PartBodyModel).title,
             style: TextStyle(
               color: Colors.white,
               fontSize: 35,

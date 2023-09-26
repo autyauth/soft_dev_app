@@ -1,44 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-//import 'package:soft_dev_app/features/select_workout/domain/models/part_body_model.dart';
-
-import '../../../../core/theme/pallete.dart';
-import '../../../../routing/route_constants.dart';
+import '../../../../core/theme/theme.dart';
 import '../../bloc/select_workout_bloc.dart';
-import '../../domain/models/workout_list_model.dart';
+import '../../domain/models/part_body_model.dart';
 import '../widget/select_exercise_widget.dart';
 
-class SelectExercisePage extends StatefulWidget {
-  const SelectExercisePage({super.key});
-
+class SelectSpecificPage extends StatefulWidget {
+  const SelectSpecificPage({super.key, required this.partBodyList});
+  final List<PartBodyModel> partBodyList;
   @override
-  State<SelectExercisePage> createState() => _SelectExercisePageState();
+  State<SelectSpecificPage> createState() => _SelectSpecificPageState();
 }
 
-class _SelectExercisePageState extends State<SelectExercisePage> {
+class _SelectSpecificPageState extends State<SelectSpecificPage> {
   final SelectWorkoutBloc selectWorkoutBloc = SelectWorkoutBloc();
-  List<WorkoutListModel> workoutList = [];
   @override
   void initState() {
-    selectWorkoutBloc.add(SelectWorkoutInitialEvent());
-    //loadWorkout();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    for (PartBodyModel partBody in widget.partBodyList) {
+      print(partBody.title);
+    }
+
     return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
       bloc: selectWorkoutBloc,
       listenWhen: (previous, current) => current is SelectWorkoutActionState,
       buildWhen: (previous, current) => current is! SelectWorkoutActionState,
-      listener: (context, state) {
-        if (state is SelectWorkoutNavigateToSelectSpecificPageState) {
-          context.pushNamed(RouteConstants.specificPage,
-              extra: state.partBodyList);
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         switch (state.runtimeType) {
           case SelectWorkoutLoadingState:
@@ -48,12 +40,10 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
               ),
             );
           case SelectWorkoutLoadedSuccessState:
-            final successState = state as SelectWorkoutLoadedSuccessState;
-            workoutList = successState.workoutList;
             return Scaffold(
               appBar: AppBar(
                 title: const Text(
-                  'Select Your Exercise',
+                  'Specific',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Palette.whiteColor,
@@ -72,20 +62,14 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: List.generate(
-                            workoutList.length,
+                            widget.partBodyList.length,
                             (index) {
-                              final workout = workoutList[index];
+                              final partbody = widget.partBodyList[index];
                               return Column(
                                 children: [
-                                  SelectExerciseWidget<WorkoutListModel>(
-                                    onTap: () {
-                                      selectWorkoutBloc.add(
-                                        SelectWorkoutClickWorkoutEvent(
-                                          workout: workout,
-                                        ),
-                                      );
-                                    },
-                                    model: workout,
+                                  SelectExerciseWidget<PartBodyModel>(
+                                    onTap: () {},
+                                    model: partbody,
                                   ),
                                   const SizedBox(
                                     height: 20,

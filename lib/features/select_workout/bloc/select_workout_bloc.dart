@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import '../data/exercise_data.dart';
@@ -16,6 +17,8 @@ part 'select_workout_state.dart';
 class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
   SelectWorkoutBloc() : super(SelectWorkoutInitial()) {
     on<SelectWorkoutInitialEvent>(selectWorkoutInitialEvent);
+    on<SelectSpecificInitialEvent>(selectSpecificInitialEvent);
+    on<SelectWorkoutClickWorkoutEvent>(selectWorkoutClickWorkoutEvent);
   }
 
   FutureOr<void> selectWorkoutInitialEvent(
@@ -45,5 +48,24 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
       i++;
     }
     emit(SelectWorkoutLoadedSuccessState(workoutList: workoutList));
+  }
+
+  FutureOr<void> selectSpecificInitialEvent(SelectSpecificInitialEvent event,
+      Emitter<SelectWorkoutState> emit) async {
+    emit(SelectSpecificLoadingState());
+    await Future.delayed(Duration(seconds: 1));
+    emit(SelectSpecificLoadedSuccessState(partList: event.partList));
+  }
+
+  FutureOr<void> selectWorkoutClickWorkoutEvent(
+      SelectWorkoutClickWorkoutEvent event,
+      Emitter<SelectWorkoutState> emit) async {
+    if (event.workout.havePart) {
+      emit(SelectWorkoutNavigateToSelectSpecificPageState(
+          partBodyList: event.workout.partBodyList!));
+    } else {
+      emit(SelectWorkoutNavigateToDetailExercisePageState());
+    }
+    await Future.delayed(Duration(seconds: 10));
   }
 }
