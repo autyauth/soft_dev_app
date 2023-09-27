@@ -24,7 +24,7 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
   FutureOr<void> selectWorkoutInitialEvent(
       SelectWorkoutInitialEvent event, Emitter<SelectWorkoutState> emit) async {
     emit(SelectWorkoutLoadingState());
-    await Future.delayed(Duration(seconds: 1));
+    //await Future.delayed(Duration(seconds: 1));
 
     List<WorkoutListModel> workoutList = [];
     int i = 0;
@@ -53,8 +53,8 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
 
   FutureOr<void> selectSpecificInitialEvent(SelectSpecificInitialEvent event,
       Emitter<SelectWorkoutState> emit) async {
-    emit(SelectSpecificLoadingState());
-    await Future.delayed(Duration(seconds: 1));
+    //emit(SelectSpecificLoadingState());
+    //await Future.delayed(Duration(seconds: 1));
     emit(SelectSpecificLoadedSuccessState(partList: event.partList));
   }
 

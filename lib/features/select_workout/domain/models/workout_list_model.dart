@@ -13,6 +13,14 @@ class WorkoutListModel {
     //this.exerciseList,
   })  : exerciseList = [],
         partBodyList = [];
+  WorkoutListModel.withExerciseList({
+    required this.title,
+    required this.image,
+    required this.description,
+    required this.havePart,
+    required this.partList,
+    this.exerciseList,
+  });
   final String title;
   final String image;
   final String description;

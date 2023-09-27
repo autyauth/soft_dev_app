@@ -23,10 +23,10 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
   List<WorkoutListModel> workoutList = [];
   @override
   void initState() {
+    super.initState();
     selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
     selectWorkoutBloc.add(SelectWorkoutInitialEvent());
     //loadWorkout();
-    super.initState();
   }
 
   @override
@@ -43,11 +43,11 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
               partList: state.partBodyList,
             ),
           );
-          context.pushNamed(RouteConstants.specificPage).then(
-              (value) => selectWorkoutBloc.add(SelectWorkoutInitialEvent()));
+          context.pushNamed(RouteConstants.specificPage);
         }
       },
       builder: (context, state) {
+        print('Debugging message:' + state.toString());
         switch (state.runtimeType) {
           case SelectWorkoutLoadingState:
             return const Scaffold(

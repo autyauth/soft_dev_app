@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SelectWorkoutBloc>(
-            create: (context) => SelectWorkoutBloc())
+            create: (context) => SelectWorkoutBloc()),
       ],
       child: MaterialApp.router(
         title: 'Flutter Demo',

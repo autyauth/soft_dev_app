@@ -23,6 +23,7 @@ class _SelectSpecificPageState extends State<SelectSpecificPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('Debugging message:' + selectWorkoutBloc.state.toString());
     return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
       listenWhen: (previous, current) => current is SelectWorkoutActionState,
       buildWhen: (previous, current) => current is! SelectWorkoutActionState,

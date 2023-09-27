@@ -9,11 +9,19 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            context.pushNamed(RouteConstants.workout);
-          },
-          child: Text('go workout'),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                context.pushNamed(RouteConstants.workout);
+              },
+              child: Text('go workout'),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('click me'),
+            ),
+          ],
         ),
       ),
     );
