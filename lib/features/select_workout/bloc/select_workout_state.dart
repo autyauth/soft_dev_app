@@ -33,14 +33,9 @@ class SelectWorkoutNavigateToSelectSpecificPageState
 //SelectSpecific
 class SelectSpecificInitial extends SelectWorkoutState {}
 
-class SelectSpecificLoadingState extends SelectWorkoutState {}
+class SelectSpecificLoadingState extends SelectWorkoutActionState {}
 
 class SelectSpecificLoadedSuccessState extends SelectWorkoutState {
   final List<PartBodyModel> partList;
   SelectSpecificLoadedSuccessState({required this.partList});
-}
-
-class CreateWorkoutListState extends SelectWorkoutActionState {
-  final List<WorkoutListModel> workoutList;
-  CreateWorkoutListState({required this.workoutList});
 }

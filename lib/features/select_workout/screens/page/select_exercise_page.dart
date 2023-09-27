@@ -18,10 +18,12 @@ class SelectExercisePage extends StatefulWidget {
 }
 
 class _SelectExercisePageState extends State<SelectExercisePage> {
-  final SelectWorkoutBloc selectWorkoutBloc = SelectWorkoutBloc();
+  //final SelectWorkoutBloc selectWorkoutBloc = SelectWorkoutBloc();
+  late SelectWorkoutBloc selectWorkoutBloc;
   List<WorkoutListModel> workoutList = [];
   @override
   void initState() {
+    selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
     selectWorkoutBloc.add(SelectWorkoutInitialEvent());
     //loadWorkout();
     super.initState();
@@ -35,8 +37,14 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
       buildWhen: (previous, current) => current is! SelectWorkoutActionState,
       listener: (context, state) {
         if (state is SelectWorkoutNavigateToSelectSpecificPageState) {
-          context.pushNamed(RouteConstants.specificPage,
-              extra: state.partBodyList);
+          print(state.partBodyList.length);
+          selectWorkoutBloc.add(
+            SelectSpecificInitialEvent(
+              partList: state.partBodyList,
+            ),
+          );
+          context.pushNamed(RouteConstants.specificPage).then(
+              (value) => selectWorkoutBloc.add(SelectWorkoutInitialEvent()));
         }
       },
       builder: (context, state) {

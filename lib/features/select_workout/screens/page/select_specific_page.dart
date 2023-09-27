@@ -7,39 +7,38 @@ import '../../domain/models/part_body_model.dart';
 import '../widget/select_exercise_widget.dart';
 
 class SelectSpecificPage extends StatefulWidget {
-  const SelectSpecificPage({super.key, required this.partBodyList});
-  final List<PartBodyModel> partBodyList;
+  const SelectSpecificPage({super.key});
+
   @override
   State<SelectSpecificPage> createState() => _SelectSpecificPageState();
 }
 
 class _SelectSpecificPageState extends State<SelectSpecificPage> {
-  final SelectWorkoutBloc selectWorkoutBloc = SelectWorkoutBloc();
+  late SelectWorkoutBloc selectWorkoutBloc;
   @override
   void initState() {
     super.initState();
+    selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    for (PartBodyModel partBody in widget.partBodyList) {
-      print(partBody.title);
-    }
-
     return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
-      bloc: selectWorkoutBloc,
       listenWhen: (previous, current) => current is SelectWorkoutActionState,
       buildWhen: (previous, current) => current is! SelectWorkoutActionState,
       listener: (context, state) {},
       builder: (context, state) {
         switch (state.runtimeType) {
-          case SelectWorkoutLoadingState:
+          case SelectSpecificLoadingState:
             return const Scaffold(
               body: Center(
                 child: CircularProgressIndicator(),
               ),
             );
-          case SelectWorkoutLoadedSuccessState:
+          case SelectSpecificLoadedSuccessState:
+            final successState = state as SelectSpecificLoadedSuccessState;
+            // print(successState.partList.length);
+            //print(successState.partList[0].title);
             return Scaffold(
               appBar: AppBar(
                 title: const Text(
@@ -62,9 +61,9 @@ class _SelectSpecificPageState extends State<SelectSpecificPage> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: List.generate(
-                            widget.partBodyList.length,
+                            successState.partList.length,
                             (index) {
-                              final partbody = widget.partBodyList[index];
+                              final partbody = successState.partList[index];
                               return Column(
                                 children: [
                                   SelectExerciseWidget<PartBodyModel>(
@@ -85,13 +84,15 @@ class _SelectSpecificPageState extends State<SelectSpecificPage> {
                 ),
               ),
             );
-          case SelectWorkoutLoadedFailureState:
-            return const Scaffold(
-              body: Center(
-                child: Text('Error'),
-              ),
-            );
+          // case SelectWorkoutLoadedFailureState:
+          //   return const Scaffold(
+          //     body: Center(
+          //       child: Text('Error'),
+          //     ),
+          //   );
           default:
+            print('Debugging message: State is $state');
+
             return const Scaffold(
               body: Center(
                 child: Text('Error'),

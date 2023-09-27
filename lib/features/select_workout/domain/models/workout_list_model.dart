@@ -11,7 +11,8 @@ class WorkoutListModel {
     required this.havePart,
     required this.partList,
     //this.exerciseList,
-  });
+  })  : exerciseList = [],
+        partBodyList = [];
   final String title;
   final String image;
   final String description;
@@ -21,14 +22,15 @@ class WorkoutListModel {
   List<PartBodyModel>? partBodyList;
 
   void setExerciseList(List<ExerciseModel> exerciseList) {
-    this.exerciseList ??= [];
     for (ExerciseModel exercise in exerciseList) {
       this.exerciseList!.add(exercise);
     }
   }
 
   void setPartBodyList(List<PartBodyModel> partBodyList) {
-    this.partBodyList ??= [];
+    if (!(this.partBodyList!.length == 0)) {
+      return;
+    }
     for (PartBodyModel partBody in partBodyList) {
       if (partBody.workout == this.title) {
         this.partBodyList!.add(partBody);

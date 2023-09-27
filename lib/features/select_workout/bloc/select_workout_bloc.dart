@@ -35,8 +35,9 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
         workoutList[i].setExerciseList(temp);
       } else {
         // Set PartBodyList here
-        workoutList[i].setPartBodyList(all_part);
 
+        workoutList[i].setPartBodyList(all_part);
+        print(workoutList[i].partBodyList!.length);
         int y = 0;
         for (PartBodyModel partBody in workoutList[i].partBodyList!) {
           List<ExerciseModel> temp =
@@ -66,6 +67,6 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
     } else {
       emit(SelectWorkoutNavigateToDetailExercisePageState());
     }
-    await Future.delayed(Duration(seconds: 10));
+    //await Future.delayed(Duration(seconds: 10));
   }
 }
