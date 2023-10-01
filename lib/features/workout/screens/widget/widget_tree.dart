@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
 import 'package:soft_dev_app/features/workout/screens/page/profile_page.dart';
 import 'package:soft_dev_app/features/workout/screens/page/select_excercise_page.dart';
+import 'package:soft_dev_app/features/workout/screens/widget/cir_des.dart';
 
 class WidgetTree extends StatefulWidget {
   const WidgetTree({super.key});
@@ -20,41 +21,15 @@ class _WidgetTreeState extends State<WidgetTree> {
       body: pages[currentPage],
       bottomNavigationBar: NavigationBar(
         destinations: [
-          NavigationDestination(
-              icon: SizedBox(
-                height: 25,
-                child: Image.asset("assets/icons/dumble.png"),
-              ),
-              selectedIcon: Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Palette.whiteColor,),
-              ),
-              label: 'Workout'),
-          NavigationDestination(
-              icon: SizedBox(
-                height: 25,
-                child: Image.asset("assets/icons/shop.png"),
-              ),
-              label: 'Shop'),
-          NavigationDestination(
-              icon: SizedBox(
-                height: 25,
-                child: Image.asset("assets/icons/home.png"),
-              ),
-              label: 'Home'),
-          NavigationDestination(
-              icon: SizedBox(
-                height: 25,
-                child: Image.asset("assets/icons/medal.png"),
-              ),
-              label: 'Leader board'),
-          NavigationDestination(
-              icon: SizedBox(
-                height: 25,
-                child: Image.asset("assets/icons/person.png"),
-              ),
-              label: 'Profile'),
+          CircularIconNavigationDestination(
+            label: "Shop",
+            assetPath: "assets/icons/shop.png",
+            selectedIcon: Icons.access_alarm,
+          ),CircularIconNavigationDestination(
+            label: "Shop",
+            assetPath: "assets/icons/shop.png",
+            selectedIcon: Icons.access_alarm,
+          ),
         ],
         selectedIndex: currentPage,
         onDestinationSelected: (int value) {
@@ -63,6 +38,8 @@ class _WidgetTreeState extends State<WidgetTree> {
           });
         },
         backgroundColor: Palette.greyColor,
+        indicatorColor: Palette.whiteColor,
+        elevation: 10,
       ),
     );
   }
