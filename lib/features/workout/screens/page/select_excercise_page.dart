@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:soft_dev_app/features/home/workout/screens/widget/select_exercise_widget.dart';
-import 'package:soft_dev_app/features/home/workout/screens/widget/top_label_widget.dart';
+import 'package:soft_dev_app/features/workout/screens/widget/select_exercise_widget.dart';
+import 'package:soft_dev_app/features/workout/screens/widget/top_label_widget.dart';
 
 class SelectExercisePage extends StatelessWidget {
   const SelectExercisePage({super.key});
