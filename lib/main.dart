@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:soft_dev_app/core/theme/theme.dart';
-import 'package:soft_dev_app/features/home/workout/screens/page/select_excercise_page.dart';
+import 'core/theme/theme.dart';
+import 'features/workout/screens/page/select_excercise_page.dart';
 
 void main() {
   runApp(const MyApp());
