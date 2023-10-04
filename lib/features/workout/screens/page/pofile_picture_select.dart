@@ -30,7 +30,7 @@ class ProfilePictureSelect extends StatelessWidget {
             child: OutlinedText(
                 text: "Profile\nPicture",
                 textStyle: const TextStyle(
-                  fontSize: 50,
+                  fontSize: 38,
                   fontWeight: FontWeight.bold,
                   color: Palette.orangeCreamColor2,
                 ),

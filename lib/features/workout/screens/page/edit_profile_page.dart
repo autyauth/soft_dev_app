@@ -36,7 +36,7 @@ class EditProfilePage extends StatelessWidget {
             child: OutlinedText(
                 text: "edits",
                 textStyle: const TextStyle(
-                  fontSize: 50,
+                  fontSize: 38,
                   fontWeight: FontWeight.bold,
                   color: Palette.orangeCreamColor2,
                 ),

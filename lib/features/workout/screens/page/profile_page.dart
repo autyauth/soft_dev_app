@@ -26,7 +26,7 @@ class ProfilePage extends StatelessWidget {
             child: OutlinedText(
                 text: "Welcome",
                 textStyle: const TextStyle(
-                  fontSize: 50,
+                  fontSize: 45,
                   fontWeight: FontWeight.bold,
                   color: Palette.orangeColor,
                 ),
@@ -36,12 +36,12 @@ class ProfilePage extends StatelessWidget {
           
         
           Positioned(
-            top: 100,
+            top: 85,
             left: 16,
             child: OutlinedText(
                 text: "kerkkaiwan Supaseab",
                 textStyle: const TextStyle(
-                  fontSize: 32,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Palette.creamColor2,
                 ),

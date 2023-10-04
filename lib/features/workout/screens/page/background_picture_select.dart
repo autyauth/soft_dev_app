@@ -23,7 +23,7 @@ class BackgroundPictureSelect extends StatelessWidget {
           Positioned(
             top: screenHeight * 0.04,
             left: screenWidth * 0.1,
-            child:  ImgBackButton(),
+            child:  ImgBackButton(width: 80,),
           ),
           Positioned(
             top: screenHeight * 0.04,
