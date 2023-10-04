@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ImgBackButton extends StatelessWidget {
-  const ImgBackButton({super.key});
+  final double width;
+  ImgBackButton({Key? key, this.width = 50}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class ImgBackButton extends StatelessWidget {
       },
       child: Image.asset(
         'assets/ui/back.png',
-        width: 120,
+        width: width,
       ),
     );
   }
