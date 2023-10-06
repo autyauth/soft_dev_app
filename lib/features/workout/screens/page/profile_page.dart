@@ -33,8 +33,6 @@ class ProfilePage extends StatelessWidget {
                 outlineColor: Colors.black,
                 outlineWidth: 2.0),
           ),
-          
-        
           Positioned(
             top: 85,
             left: 16,
