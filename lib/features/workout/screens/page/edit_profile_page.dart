@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
 import 'package:soft_dev_app/features/workout/screens/page/background_picture_select.dart';
 import 'package:soft_dev_app/features/workout/screens/page/pofile_picture_select.dart';
@@ -11,12 +10,41 @@ class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
 
   @override
+  State<EditProfilePage> createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  @override
+  DateTime? birthDate;
+  void pickBirthDate() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(1900),
+            lastDate: DateTime.now())
+        .then((value) {
+      if (value != null) {
+        setState(() {
+          // Update birthDate with the selected date
+          birthDate = value;
+        });
+      }
+    });
+  }
+
+  _birthDate() {
+    if (birthDate == null) {
+      return "Pick your birth Date";
+    } else {
+      return birthDate.toString();
+    }
+  }
+
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-
     final double buttonwidth = 300;
-    
+
     return Scaffold(
       body: Stack(
         children: [
@@ -89,11 +117,32 @@ class EditProfilePage extends StatefulWidget {
                         ),
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: "Enter your birth date",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20))),
+                          child: GestureDetector(
+                            onTap: pickBirthDate,
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 55,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black45,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      _birthDate(),
+                                      style: TextStyle(
+                                          color: Colors.black45, fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                         Container(
