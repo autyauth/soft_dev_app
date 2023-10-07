@@ -15,12 +15,7 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   @override
-  String firstName ="Kerkss";
-  String lastName ="Kaiwan";
   DateTime? birthDate;
-  int height =127;
-  int weight =69;
-  String emial ="64010258@kimtl.ac.th";
   void pickBirthDate() {
     showDatePicker(
             context: context,
@@ -103,8 +98,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       children: [
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: firstName,
+                          child: TextField(
                             decoration: InputDecoration(
                               hintText: "Enter your First name",
                               border: OutlineInputBorder(
@@ -114,8 +108,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: lastName,
+                          child: TextField(
                             decoration: InputDecoration(
                                 hintText: "Enter your last name",
                                 border: OutlineInputBorder(
@@ -154,8 +147,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: height.toString(),
+                          child: TextField(
                             decoration: InputDecoration(
                                 hintText: "Enter your Height(cm)",
                                 border: OutlineInputBorder(
@@ -164,7 +156,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: TextFormField(initialValue: weight.toString(),
+                          child: TextField(
                             decoration: InputDecoration(
                                 hintText: "Enter your Weight(kg)",
                                 border: OutlineInputBorder(
@@ -173,8 +165,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: emial,
+                          child: TextField(
                             decoration: InputDecoration(
                                 hintText: "Enter your email",
                                 border: OutlineInputBorder(
@@ -220,7 +211,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     Palette.orangeColor,
                     Palette.orangeColor
                   ],
-                  buttonText: 'Save',
+                  buttonText: 'Background Picture',
                   onPress: () {
                     Navigator.push(
                       context,
