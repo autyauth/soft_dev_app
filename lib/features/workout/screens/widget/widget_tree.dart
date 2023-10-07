@@ -30,6 +30,7 @@ class _WidgetTreeState extends State<WidgetTree> {
             assetPath: "assets/icons/shop.png",
             selectedIcon: Icons.access_alarm,
           ),
+          
         ],
         selectedIndex: currentPage,
         onDestinationSelected: (int value) {
