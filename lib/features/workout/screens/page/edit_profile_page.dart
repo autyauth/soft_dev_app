@@ -18,11 +18,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
   DateTime? birthDate;
   void pickBirthDate() {
     showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1900),
-            lastDate: DateTime.now())
-        .then((value) {
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+      return Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: ColorScheme.light(
+            primary: Palette.orangeColor, 
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              primary: Colors.red, // button text color
+            ),
+          ),
+        ),
+        child: child!,
+      );
+    },
+
+    ).then((value) {
       if (value != null) {
         setState(() {
           // Update birthDate with the selected date
@@ -36,7 +52,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     if (birthDate == null) {
       return "Pick your birth Date";
     } else {
-      return birthDate.toString();
+      return "${birthDate?.day.toString()}/${birthDate?.month}/${birthDate?.year}";
     }
   }
 
