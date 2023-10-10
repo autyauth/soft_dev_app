@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/pallete.dart';
 import '../../../../routing/route_constants.dart';
 import '../../bloc/select_workout_bloc.dart';
-import '../../domain/models/workout_list_model.dart';
+import '../../domain/models/courses_model.dart';
 import '../widget/select_exercise_widget.dart';
 
 class SelectExercisePage extends StatefulWidget {
@@ -20,7 +20,7 @@ class SelectExercisePage extends StatefulWidget {
 class _SelectExercisePageState extends State<SelectExercisePage> {
   //final SelectWorkoutBloc selectWorkoutBloc = SelectWorkoutBloc();
   late SelectWorkoutBloc selectWorkoutBloc;
-  List<WorkoutListModel> workoutList = [];
+  List<CoursesModel> workoutList = [];
   @override
   void initState() {
     super.initState();
@@ -88,7 +88,7 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
                               final workout = workoutList[index];
                               return Column(
                                 children: [
-                                  SelectExerciseWidget<WorkoutListModel>(
+                                  SelectExerciseWidget<CoursesModel>(
                                     onTap: () {
                                       selectWorkoutBloc.add(
                                         SelectWorkoutClickWorkoutEvent(

@@ -1,32 +1,28 @@
-import '../domain/models/part_body_model.dart';
+import '../domain/models/sub_courses_model.dart';
 
-List<PartBodyModel> all_part = [
-  PartBodyModel.withWorkout(
+List<SubCoursesModel> all_part = [
+  SubCoursesModel.withCourse(
     title: 'Arm',
     image: 'assets/images/temp_exercise.jpg',
     description: 'description',
-    workout: 'Specific',
-    time: 600,
+    courseName: 'Specific',
   ),
-  PartBodyModel.withWorkout(
+  SubCoursesModel.withCourse(
     title: 'Shoulder',
     image: 'assets/images/temp_exercise.jpg',
     description: 'description',
-    workout: 'Specific',
-    time: 600,
+    courseName: 'Specific',
   ),
-  PartBodyModel.withWorkout(
+  SubCoursesModel.withCourse(
     title: 'Leg',
     image: 'assets/images/temp_exercise.jpg',
     description: 'description',
-    workout: 'Specific',
-    time: 600,
+    courseName: 'Specific',
   ),
-  PartBodyModel.withWorkout(
+  SubCoursesModel.withCourse(
     title: 'Chest',
     image: 'assets/images/temp_exercise.jpg',
     description: 'description',
-    workout: 'Specific',
-    time: 600,
+    courseName: 'Specific',
   ),
 ];

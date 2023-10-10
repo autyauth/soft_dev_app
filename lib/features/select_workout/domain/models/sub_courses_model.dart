@@ -2,28 +2,27 @@ import 'dart:math';
 
 import 'exercise_model.dart';
 
-class PartBodyModel {
-  PartBodyModel({
+class SubCoursesModel {
+  SubCoursesModel({
     required this.title,
     required this.image,
     required this.description,
-    required this.time,
+
     //required this.workout,
     //this.exerciseList,
   }) : exerciseList = [];
-  PartBodyModel.withWorkout(
+  SubCoursesModel.withCourse(
       {required this.title,
       required this.image,
       required this.description,
-      required this.time,
-      this.workout})
+      this.courseName})
       : exerciseList = [];
 
   final String title;
   final String image;
   final String description;
-  final int time;
-  String? workout;
+
+  String? courseName;
   List<ExerciseModel>? exerciseList;
 
   void setExerciseList(List<ExerciseModel> exerciseList) {

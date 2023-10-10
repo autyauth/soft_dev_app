@@ -1,19 +1,19 @@
-import '../domain/models/workout_list_model.dart';
+import '../domain/models/courses_model.dart';
 
-List<WorkoutListModel> listWorkout = [
-  WorkoutListModel.withExerciseList(
+List<CoursesModel> listWorkout = [
+  CoursesModel.withExerciseList(
     title: 'Full Body',
     image: 'assets/images/temp_exercise.jpg',
     description: 'description',
-    havePart: false,
-    partList: [],
+    haveSubCourse: false,
+    subCoursesNameList: [],
     exerciseList: [],
   ),
-  WorkoutListModel(
+  CoursesModel(
     title: 'Specific',
     image: 'assets/images/temp_exercise.jpg',
     description: 'description',
-    havePart: true,
-    partList: ['Arm', 'Shoulder', 'Leg', 'Chest'],
+    haveSubCourse: true,
+    subCoursesNameList: ['Arm', 'Shoulder', 'Leg', 'Chest'],
   ),
 ];

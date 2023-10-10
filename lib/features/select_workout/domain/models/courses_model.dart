@@ -1,33 +1,33 @@
 import 'dart:math';
 
 import 'exercise_model.dart';
-import 'part_body_model.dart';
+import 'sub_courses_model.dart';
 
-class WorkoutListModel {
-  WorkoutListModel({
+class CoursesModel {
+  CoursesModel({
     required this.title,
     required this.image,
     required this.description,
-    required this.havePart,
-    required this.partList,
+    required this.haveSubCourse,
+    required this.subCoursesNameList,
     //this.exerciseList,
   })  : exerciseList = [],
-        partBodyList = [];
-  WorkoutListModel.withExerciseList({
+        subCouresList = [];
+  CoursesModel.withExerciseList({
     required this.title,
     required this.image,
     required this.description,
-    required this.havePart,
-    required this.partList,
+    required this.haveSubCourse,
+    required this.subCoursesNameList,
     this.exerciseList,
   });
   final String title;
   final String image;
   final String description;
-  final bool havePart;
-  final List<String> partList;
+  final bool haveSubCourse;
+  final List<String> subCoursesNameList;
   List<ExerciseModel>? exerciseList;
-  List<PartBodyModel>? partBodyList;
+  List<SubCoursesModel>? subCouresList;
 
   void setExerciseList(List<ExerciseModel> exerciseList) {
     for (ExerciseModel exercise in exerciseList) {
@@ -35,13 +35,13 @@ class WorkoutListModel {
     }
   }
 
-  void setPartBodyList(List<PartBodyModel> partBodyList) {
-    if (!(this.partBodyList!.length == 0)) {
+  void setPartBodyList(List<SubCoursesModel> partBodyList) {
+    if (!(this.subCouresList!.length == 0)) {
       return;
     }
-    for (PartBodyModel partBody in partBodyList) {
-      if (partBody.workout == this.title) {
-        this.partBodyList!.add(partBody);
+    for (SubCoursesModel partBody in partBodyList) {
+      if (partBody.courseName == this.title) {
+        this.subCouresList!.add(partBody);
       }
     }
   }

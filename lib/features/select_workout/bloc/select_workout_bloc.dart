@@ -7,9 +7,9 @@ import 'package:meta/meta.dart';
 import '../data/exercise_data.dart';
 import '../data/list_of_part.dart';
 import '../data/list_of_workout.dart';
+import '../domain/models/courses_model.dart';
 import '../domain/models/exercise_model.dart';
-import '../domain/models/part_body_model.dart';
-import '../domain/models/workout_list_model.dart';
+import '../domain/models/sub_courses_model.dart';
 
 part 'select_workout_event.dart';
 part 'select_workout_state.dart';
@@ -28,23 +28,23 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
     emit(SelectWorkoutLoadingState());
     //await Future.delayed(Duration(seconds: 1));
 
-    List<WorkoutListModel> workoutList = [];
+    List<CoursesModel> workoutList = [];
     int i = 0;
-    for (WorkoutListModel workout in listWorkout) {
+    for (CoursesModel workout in listWorkout) {
       workoutList.add(workout);
-      if (!workout.havePart) {
+      if (!workout.haveSubCourse) {
         List<ExerciseModel> temp = workout.getRandomExercises(exerciseList, 2);
         workoutList[i].setExerciseList(temp);
       } else {
         // Set PartBodyList here
 
         workoutList[i].setPartBodyList(all_part);
-        print(workoutList[i].partBodyList!.length);
+        print(workoutList[i].subCouresList!.length);
         int y = 0;
-        for (PartBodyModel partBody in workoutList[i].partBodyList!) {
+        for (SubCoursesModel partBody in workoutList[i].subCouresList!) {
           List<ExerciseModel> temp =
               partBody.getRandomExercises(exerciseList, 2);
-          workoutList[i].partBodyList![y].setExerciseList(temp);
+          workoutList[i].subCouresList![y].setExerciseList(temp);
           y++;
         }
       }
@@ -63,9 +63,9 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
   FutureOr<void> selectWorkoutClickWorkoutEvent(
       SelectWorkoutClickWorkoutEvent event,
       Emitter<SelectWorkoutState> emit) async {
-    if (event.workout.havePart) {
+    if (event.workout.haveSubCourse) {
       emit(SelectWorkoutNavigateToSelectSpecificPageState(
-          partBodyList: event.workout.partBodyList!));
+          partBodyList: event.workout.subCouresList!));
     } else {
       emit(SelectWorkoutNavigateToDetailExercisePageState());
     }

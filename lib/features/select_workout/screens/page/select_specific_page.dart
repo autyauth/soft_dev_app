@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../routing/route_constants.dart';
 import '../../bloc/select_workout_bloc.dart';
-import '../../domain/models/part_body_model.dart';
+import '../../domain/models/sub_courses_model.dart';
 import '../widget/select_exercise_widget.dart';
 
 class SelectSpecificPage extends StatefulWidget {
@@ -80,7 +80,7 @@ class _SelectSpecificPageState extends State<SelectSpecificPage> {
                               final partbody = successState.partList[index];
                               return Column(
                                 children: [
-                                  SelectExerciseWidget<PartBodyModel>(
+                                  SelectExerciseWidget<SubCoursesModel>(
                                     onTap: () {
                                       selectWorkoutBloc.add(
                                           SelectSpecificClickPartEvent(

@@ -7,18 +7,18 @@ abstract class SelectWorkoutEvent {}
 class SelectWorkoutInitialEvent extends SelectWorkoutEvent {}
 
 class SelectWorkoutClickWorkoutEvent extends SelectWorkoutEvent {
-  final WorkoutListModel workout;
+  final CoursesModel workout;
   SelectWorkoutClickWorkoutEvent({required this.workout});
 }
 
 //SelectSpecific
 class SelectSpecificInitialEvent extends SelectWorkoutEvent {
-  final List<PartBodyModel> partList;
+  final List<SubCoursesModel> partList;
   SelectSpecificInitialEvent({required this.partList});
 }
 
 class SelectSpecificClickPartEvent extends SelectWorkoutEvent {
-  final PartBodyModel part;
+  final SubCoursesModel part;
   SelectSpecificClickPartEvent({required this.part});
 }
 

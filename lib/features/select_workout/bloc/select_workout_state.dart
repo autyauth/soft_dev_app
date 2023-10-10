@@ -13,7 +13,7 @@ class SelectWorkoutLoadingState extends SelectWorkoutState {}
 class SelectWorkoutLoadedSuccessState extends SelectWorkoutState {
   // ดึงข้อมูล database exercise , part body, workout list มาใช้งาน
   // ตอนนี้ใช้ data ไปก่อน
-  final List<WorkoutListModel> workoutList;
+  final List<CoursesModel> workoutList;
   SelectWorkoutLoadedSuccessState({required this.workoutList});
 }
 
@@ -24,7 +24,7 @@ class SelectWorkoutNavigateToDetailExercisePageState
 
 class SelectWorkoutNavigateToSelectSpecificPageState
     extends SelectWorkoutActionState {
-  final List<PartBodyModel> partBodyList;
+  final List<SubCoursesModel> partBodyList;
   SelectWorkoutNavigateToSelectSpecificPageState({required this.partBodyList});
 }
 
@@ -36,7 +36,7 @@ class SelectSpecificInitial extends SelectWorkoutState {}
 class SelectSpecificLoadingState extends SelectWorkoutState {}
 
 class SelectSpecificLoadedSuccessState extends SelectWorkoutActionState {
-  final List<PartBodyModel> partList;
+  final List<SubCoursesModel> partList;
   SelectSpecificLoadedSuccessState({required this.partList});
 }
 
