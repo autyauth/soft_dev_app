@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soft_dev_app/core/theme/pallete.dart';
 import 'package:soft_dev_app/features/workout/screens/page/profile_page.dart';
 import 'package:soft_dev_app/features/workout/screens/page/select_excercise_page.dart';
 
@@ -12,7 +13,7 @@ class AnimatedNavbar extends StatefulWidget {
 class _AnimatedNavbarState extends State<AnimatedNavbar>
     with TickerProviderStateMixin {
   double horizontalPadding = 50.0;
-  double horizontalMargin = 20.0;
+  double horizontalMargin = 0.0;
   late double position;
   int noOfIcons = 3;
   int selected = 0;
@@ -74,7 +75,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
         children: [
           Positioned.fill(child: pages[selected]),
           Positioned(
-            bottom: horizontalMargin,
+            bottom: 10,
             left: horizontalMargin,
             child: AnimatedBuilder(
                 animation: controller,
@@ -111,8 +112,8 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
                                         (2 * horizontalMargin) -
                                         (2 * horizontalPadding)) /
                                     noOfIcons,
-                                padding: const EdgeInsets.only(
-                                    bottom: 17.5, top: 22.5),
+                                padding:
+                                    const EdgeInsets.only(bottom: 0, top: 40),
                                 alignment: selected == icons.indexOf(icon)
                                     ? Alignment.topCenter
                                     : Alignment.bottomCenter,
@@ -128,12 +129,12 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
                                           ? Image.asset(
                                               icon,
                                               width: 30.0,
-                                              color: Colors.white,
+                                              color: Palette.backgroundColor,
                                               key: ValueKey('yellow$icon'),
                                             )
                                           : Image.asset(icon,
                                               width: 30.0,
-                                              color: Colors.white,
+                                              color: Palette.backgroundColor,
                                               key: ValueKey('white$icon')),
                                     ),
                                   ),
@@ -159,15 +160,31 @@ class AppbarPainter extends CustomPainter {
   AppbarPainter(this.x);
 
   double height = 80.0;
-  double start = 40.0;
-  double end = 120.0;
+  double start = 60.0;
+  double end = 140.0;
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Colors.orange
+    var paint1 = Paint()
+      ..color = Palette.greyColor
+      ..style = PaintingStyle.fill;
+    var paint2 = Paint()
+      ..color = Palette.whiteColor
+      ..style = PaintingStyle.fill;
+    var paint3 = Paint()
+      ..color = Palette.backgroundColor
       ..style = PaintingStyle.fill;
     var path = Path();
+    var path2 = Path();
+    path2.moveTo(0.0, start);
+
+    path2.lineTo((x) < 20.0 ? 20.0 : x, start);
+    path2.lineTo(size.width, start);
+    path2.lineTo(size.width, end);
+    path2.lineTo(0, end);
+    path2.lineTo(0.0, start);
+    path2.close();
+    canvas.drawPath(path2, paint3);
     path.moveTo(0.0, start);
 
     path.lineTo((x) < 20.0 ? 20.0 : x, start);
@@ -180,20 +197,16 @@ class AppbarPainter extends CustomPainter {
         (140.0 + x) > (size.width - 20.0) ? (size.width - 20.0) : 140.0 + x,
         start);
 
-    path.lineTo(size.width - 20.0, start);
+    path.lineTo(size.width, start);
 
-    path.quadraticBezierTo(size.width, start, size.width, start + 25.0);
-    path.lineTo(size.width, end - 25.0);
-    path.quadraticBezierTo(size.width, end, size.width - 25.0, end);
-    path.lineTo(25.0, end);
-    path.quadraticBezierTo(0.0, end, 0.0, end - 25.0);
-    path.lineTo(0.0, start + 25.0);
-    path.quadraticBezierTo(0.0, start, 20.0, start);
+    path.lineTo(size.width, end);
+    path.lineTo(0, end);
+    path.lineTo(0.0, start);
     path.close();
 
-    canvas.drawPath(path, paint);
+    canvas.drawPath(path, paint1);
 
-    canvas.drawCircle(Offset(70.0 + x, 50.0), 35.0, paint);
+    canvas.drawCircle(Offset(70.0 + x, 70.0), 35.0, paint2);
   }
 
   @override
