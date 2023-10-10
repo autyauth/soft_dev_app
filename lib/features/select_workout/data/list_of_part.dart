@@ -1,28 +1,28 @@
 import '../domain/models/sub_courses_model.dart';
 
 List<SubCoursesModel> all_part = [
-  SubCoursesModel.withCourse(
+  SubCoursesModel(
     title: 'Arm',
     image: 'assets/images/temp_exercise.jpg',
     description: 'description',
-    courseName: 'Specific',
+    courseName: ['Specific'],
   ),
-  SubCoursesModel.withCourse(
+  SubCoursesModel(
     title: 'Shoulder',
     image: 'assets/images/temp_exercise.jpg',
     description: 'description',
-    courseName: 'Specific',
+    courseName: ['Specific'],
   ),
-  SubCoursesModel.withCourse(
+  SubCoursesModel(
     title: 'Leg',
     image: 'assets/images/temp_exercise.jpg',
     description: 'description',
-    courseName: 'Specific',
+    courseName: ['Specific'],
   ),
-  SubCoursesModel.withCourse(
+  SubCoursesModel(
     title: 'Chest',
     image: 'assets/images/temp_exercise.jpg',
     description: 'description',
-    courseName: 'Specific',
+    courseName: ['Specific'],
   ),
 ];

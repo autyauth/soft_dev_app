@@ -8,7 +8,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Arm',
+    part: ['Arm'],
   ),
   ExerciseModel(
     title: 'แขน2',
@@ -17,7 +17,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Arm',
+    part: ['Arm'],
   ),
   ExerciseModel(
     title: 'แขน3',
@@ -26,7 +26,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Arm',
+    part: ['Arm'],
   ),
   ExerciseModel(
     title: 'ขา',
@@ -35,7 +35,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Leg',
+    part: ['Leg'],
   ),
   ExerciseModel(
     title: 'ขา2',
@@ -44,7 +44,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Leg',
+    part: ['Leg'],
   ),
   ExerciseModel(
     title: 'ขา3',
@@ -53,7 +53,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Leg',
+    part: ['Leg'],
   ),
   ExerciseModel(
     title: 'ไหล่',
@@ -62,7 +62,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Shoulder',
+    part: ['Shoulder'],
   ),
   ExerciseModel(
     title: 'ไหล่2',
@@ -71,7 +71,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Shoulder',
+    part: ['Shoulder'],
   ),
   ExerciseModel(
     title: 'ไหล่3',
@@ -80,7 +80,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Shoulder',
+    part: ['Shoulder'],
   ),
   ExerciseModel(
     title: 'อก',
@@ -89,7 +89,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Chest',
+    part: ['Chest'],
   ),
   ExerciseModel(
     title: 'อก2',
@@ -98,7 +98,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Chest',
+    part: ['Chest'],
   ),
   ExerciseModel(
     title: 'อก3',
@@ -107,7 +107,7 @@ List<ExerciseModel> exerciseList = [
     time: 30,
     amout: 0,
     level: 0,
-    part: 'Chest',
+    part: ['Chest'],
   ),
 ];
 

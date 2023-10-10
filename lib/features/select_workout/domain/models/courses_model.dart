@@ -40,7 +40,7 @@ class CoursesModel {
       return;
     }
     for (SubCoursesModel partBody in partBodyList) {
-      if (partBody.courseName == this.title) {
+      if (partBody.courseName[0] == this.title) {
         this.subCouresList!.add(partBody);
       }
     }
@@ -57,7 +57,7 @@ class CoursesModel {
 
     // วนลูปผ่านรายการออกกำลังกายเพื่อแยกตาม "part"
     for (final exercise in shuffledExercises) {
-      final part = exercise.part;
+      final part = exercise.part[0];
 
       if (!partCounts.containsKey(part)) {
         partCounts[part] = 0;

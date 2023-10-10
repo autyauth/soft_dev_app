@@ -14,5 +14,5 @@ class ExerciseModel {
   int amout;
   int time;
   int level;
-  String part;
+  List<String> part;
 }
