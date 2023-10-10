@@ -39,3 +39,19 @@ class SelectSpecificLoadedSuccessState extends SelectWorkoutActionState {
   final List<PartBodyModel> partList;
   SelectSpecificLoadedSuccessState({required this.partList});
 }
+
+class SelectSpecificNavigateToDetailWorkoutPageState
+    extends SelectWorkoutActionState {
+  final List<ExerciseModel> exerciseList;
+  SelectSpecificNavigateToDetailWorkoutPageState({required this.exerciseList});
+}
+//Detail
+
+class DetailExerciseInitial extends SelectWorkoutState {}
+
+class DetailExerciseLoadingState extends SelectWorkoutState {}
+
+class DetailExerciseLoadedSuccessState extends SelectWorkoutActionState {
+  final List<ExerciseModel> exerciseList;
+  DetailExerciseLoadedSuccessState({required this.exerciseList});
+}

@@ -26,6 +26,7 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
     super.initState();
     selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
     selectWorkoutBloc.add(SelectWorkoutInitialEvent());
+    print(selectWorkoutBloc.state.toString());
     //loadWorkout();
   }
 
@@ -44,10 +45,12 @@ class _SelectExercisePageState extends State<SelectExercisePage> {
             ),
           );
           context.pushNamed(RouteConstants.specificPage);
+          //print(selectWorkoutBloc.state.toString());
         }
       },
       builder: (context, state) {
-        print('Debugging message:' + state.toString());
+        //print('Debugging message:' + state.toString());
+
         switch (state.runtimeType) {
           case SelectWorkoutLoadingState:
             return const Scaffold(

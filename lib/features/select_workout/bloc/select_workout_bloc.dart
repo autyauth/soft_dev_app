@@ -19,6 +19,8 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
     on<SelectWorkoutInitialEvent>(selectWorkoutInitialEvent);
     on<SelectSpecificInitialEvent>(selectSpecificInitialEvent);
     on<SelectWorkoutClickWorkoutEvent>(selectWorkoutClickWorkoutEvent);
+    on<SelectSpecificClickPartEvent>(selectSpecificClickPartEvent);
+    on<DetailExerciseInitialEvent>(selectDetailExerciseInitialEvent);
   }
 
   FutureOr<void> selectWorkoutInitialEvent(
@@ -68,5 +70,16 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
       emit(SelectWorkoutNavigateToDetailExercisePageState());
     }
     //await Future.delayed(Duration(seconds: 10));
+  }
+
+  FutureOr<void> selectSpecificClickPartEvent(
+      SelectSpecificClickPartEvent event, Emitter<SelectWorkoutState> emit) {
+    emit(SelectSpecificNavigateToDetailWorkoutPageState(
+        exerciseList: event.part.exerciseList!));
+  }
+
+  FutureOr<void> selectDetailExerciseInitialEvent(
+      DetailExerciseInitialEvent event, Emitter<SelectWorkoutState> emit) {
+    emit(DetailExerciseLoadedSuccessState(exerciseList: event.exerciseList));
   }
 }

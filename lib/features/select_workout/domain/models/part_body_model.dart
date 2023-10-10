@@ -7,6 +7,7 @@ class PartBodyModel {
     required this.title,
     required this.image,
     required this.description,
+    required this.time,
     //required this.workout,
     //this.exerciseList,
   }) : exerciseList = [];
@@ -14,12 +15,14 @@ class PartBodyModel {
       {required this.title,
       required this.image,
       required this.description,
+      required this.time,
       this.workout})
       : exerciseList = [];
 
   final String title;
   final String image;
   final String description;
+  final int time;
   String? workout;
   List<ExerciseModel>? exerciseList;
 

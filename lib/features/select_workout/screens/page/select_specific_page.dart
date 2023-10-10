@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/theme.dart';
+import '../../../../routing/route_constants.dart';
 import '../../bloc/select_workout_bloc.dart';
 import '../../domain/models/part_body_model.dart';
 import '../widget/select_exercise_widget.dart';
@@ -23,11 +25,18 @@ class _SelectSpecificPageState extends State<SelectSpecificPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('Debugging message:' + selectWorkoutBloc.state.toString());
     return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
+      bloc: selectWorkoutBloc,
       listenWhen: (previous, current) => current is SelectWorkoutActionState,
       buildWhen: (previous, current) => current is! SelectWorkoutActionState,
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is SelectSpecificNavigateToDetailWorkoutPageState) {
+          selectWorkoutBloc.add(
+            DetailExerciseInitialEvent(exerciseList: state.exerciseList),
+          );
+          context.pushNamed(RouteConstants.detailWorkout);
+        }
+      },
       builder: (context, state) {
         switch (state.runtimeType) {
           case SelectSpecificLoadingState:
@@ -42,6 +51,10 @@ class _SelectSpecificPageState extends State<SelectSpecificPage> {
             //print(successState.partList[0].title);
             return Scaffold(
               appBar: AppBar(
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
                 title: const Text(
                   'Specific',
                   textAlign: TextAlign.center,
@@ -68,7 +81,11 @@ class _SelectSpecificPageState extends State<SelectSpecificPage> {
                               return Column(
                                 children: [
                                   SelectExerciseWidget<PartBodyModel>(
-                                    onTap: () {},
+                                    onTap: () {
+                                      selectWorkoutBloc.add(
+                                          SelectSpecificClickPartEvent(
+                                              part: partbody));
+                                    },
                                     model: partbody,
                                   ),
                                   const SizedBox(

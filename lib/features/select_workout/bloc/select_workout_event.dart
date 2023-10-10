@@ -17,7 +17,13 @@ class SelectSpecificInitialEvent extends SelectWorkoutEvent {
   SelectSpecificInitialEvent({required this.partList});
 }
 
-class SelectWorkoutClickCreateWorkoutListEvent extends SelectWorkoutEvent {
-  final List<WorkoutListModel> workoutList;
-  SelectWorkoutClickCreateWorkoutListEvent({required this.workoutList});
+class SelectSpecificClickPartEvent extends SelectWorkoutEvent {
+  final PartBodyModel part;
+  SelectSpecificClickPartEvent({required this.part});
+}
+
+//Detail
+class DetailExerciseInitialEvent extends SelectWorkoutEvent {
+  final List<ExerciseModel> exerciseList;
+  DetailExerciseInitialEvent({required this.exerciseList});
 }
