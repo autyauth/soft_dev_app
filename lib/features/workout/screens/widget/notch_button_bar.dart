@@ -13,6 +13,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
   double horizontalMargin = 20.0;
   late double position;
   int noOfIcons = 3;
+  int selected = 0;
 
   List<String> icons = [
     'assets/icons/home.png',
@@ -27,7 +28,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
   void initState() {
     super.initState();
     controller = AnimationController(
-        vsync: this, duration: const Duration(microseconds: 375));
+        vsync: this, duration: const Duration(milliseconds: 375));
   }
 
   @override
@@ -62,7 +63,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
       position = getEndPostion(index);
       controller.dispose();
       controller = AnimationController(
-          vsync: this, duration: const Duration(microseconds: 375));
+          vsync: this, duration: const Duration(milliseconds: 375));
     });
   }
 
@@ -95,6 +96,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
                             return GestureDetector(
                               onTap: () {
                                 setState(() {
+                                  selected = icons.indexOf(icon);
                                   animateDrop(icons.indexOf(icon));
                                 });
                               },
@@ -109,16 +111,31 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
                                         (2 * horizontalPadding)) /
                                     noOfIcons,
                                 padding: const EdgeInsets.only(
-                                    top: 17.5, bottom: 22.5),
-                                alignment: Alignment.bottomCenter,
+                                    bottom: 17.5, top: 22.5),
+                                alignment: selected == icons.indexOf(icon)
+                                    ? Alignment.topCenter
+                                    : Alignment.bottomCenter,
                                 child: SizedBox(
                                   height: 35.0,
                                   width: 35.0,
                                   child: Center(
-                                    child: Image.asset(
-                                      icon,
-                                      width: 30.0,
-                                      color: Colors.white,
+                                    child: AnimatedSwitcher(
+                                      duration:
+                                          const Duration(milliseconds: 375),
+                                      switchInCurve: Curves.easeOut,
+                                      child: selected == icons.indexOf(icon)
+                                          ? Image.asset(
+                                              icon,
+                                              width: 30.0,
+                                              color: Colors.white,
+                                              key: ValueKey('yellow$icon'),
+                                            )
+                                          : Image.asset(
+                                              icon,
+                                              width: 30.0,
+                                              color: Colors.white,
+                                              key: ValueKey('white$icon')
+                                            ),
                                     ),
                                   ),
                                 ),
