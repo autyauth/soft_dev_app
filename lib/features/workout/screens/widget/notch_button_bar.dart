@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:soft_dev_app/features/workout/screens/page/profile_page.dart';
+import 'package:soft_dev_app/features/workout/screens/page/select_excercise_page.dart';
 
 class AnimatedNavbar extends StatefulWidget {
   const AnimatedNavbar({super.key});
@@ -14,6 +16,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
   late double position;
   int noOfIcons = 3;
   int selected = 0;
+  List<Widget> pages = const [SelectExercisePage(), ProfilePage()];
 
   List<String> icons = [
     'assets/icons/home.png',
@@ -37,9 +40,6 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
         CurvedAnimation(parent: controller, curve: Curves.easeOutBack));
     position = getEndPostion(0);
 
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      controller.forward();
-    });
     super.didChangeDependencies();
   }
 
@@ -72,6 +72,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
     return Scaffold(
       body: Stack(
         children: [
+          Positioned.fill(child: pages[selected]),
           Positioned(
             bottom: horizontalMargin,
             left: horizontalMargin,
@@ -130,12 +131,10 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
                                               color: Colors.white,
                                               key: ValueKey('yellow$icon'),
                                             )
-                                          : Image.asset(
-                                              icon,
+                                          : Image.asset(icon,
                                               width: 30.0,
                                               color: Colors.white,
-                                              key: ValueKey('white$icon')
-                                            ),
+                                              key: ValueKey('white$icon')),
                                     ),
                                   ),
                                 ),
