@@ -13,9 +13,22 @@ class EditProfilePage extends StatefulWidget {
   State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
+//const
+const List<String> sex = <String>[
+  'Male',
+  'Female',
+];
+
 class _EditProfilePageState extends State<EditProfilePage> {
   @override
   DateTime? birthDate;
+  String _sex = sex.first;
+  String firstName = "KKK";
+  String lastName = "SASA";
+  double height = 169.0;
+  double weight = 72.0;
+  String email = "68090251@kmitl.ac.th";
+
   void pickBirthDate() {
     showDatePicker(
       context: context,
@@ -23,21 +36,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
       builder: (context, child) {
-      return Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: ColorScheme.light(
-            primary: Palette.orangeColor, 
-          ),
-          textButtonTheme: TextButtonThemeData(
-            style: TextButton.styleFrom(
-              primary: Colors.red, // button text color
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Palette.orangeColor,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red, // button text color
+              ),
             ),
           ),
-        ),
-        child: child!,
-      );
-    },
-
+          child: child!,
+        );
+      },
     ).then((value) {
       if (value != null) {
         setState(() {
@@ -114,7 +126,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       children: [
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: TextField(
+                          child: TextFormField(
+                            controller: TextEditingController(text: firstName),
                             decoration: InputDecoration(
                               hintText: "Enter your First name",
                               border: OutlineInputBorder(
@@ -124,7 +137,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: TextField(
+                          child: TextFormField(
+                            controller: TextEditingController(text: lastName),
                             decoration: InputDecoration(
                                 hintText: "Enter your last name",
                                 border: OutlineInputBorder(
@@ -152,7 +166,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       _birthDate(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.black45, fontSize: 16),
                                     ),
                                   ),
@@ -162,8 +176,45 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ),
                         ),
                         Container(
+                          //Sex
+                          padding: EdgeInsets.all(4),
+                          margin: EdgeInsets.only(left: 8, right: 8),
+                          width: screenWidth * 0.83,
+                          height: 55,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black45),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: DropdownButton<String>(
+                            padding: EdgeInsets.only(left: 8),
+                            underline: Container(
+                              height: 0,
+                            ),
+                            value: _sex,
+                            iconSize: 0.0,
+                            style: const TextStyle(
+                                color: Colors.black45, fontSize: 16),
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                _sex = value!;
+                              });
+                            },
+                            items: sex
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        Container(
                           padding: EdgeInsets.all(8),
-                          child: TextField(
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            controller:
+                                TextEditingController(text: height.toString()),
                             decoration: InputDecoration(
                                 hintText: "Enter your Height(cm)",
                                 border: OutlineInputBorder(
@@ -172,7 +223,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: TextField(
+                          child: TextFormField(
+                            controller:
+                                TextEditingController(text: weight.toString()),
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                                 hintText: "Enter your Weight(kg)",
                                 border: OutlineInputBorder(
@@ -182,6 +236,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         Container(
                           padding: EdgeInsets.all(8),
                           child: TextField(
+                            keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                                 hintText: "Enter your email",
                                 border: OutlineInputBorder(
@@ -195,8 +250,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
             ),
           ),
+          //ปุ่ม ดำเนินการ
           Positioned(
-            top: screenHeight * 0.8,
+            top: screenHeight * 0.85,
             left: screenWidth * 0.5 - buttonwidth / 2,
             child: Column(
               children: [
@@ -227,15 +283,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     Palette.orangeColor,
                     Palette.orangeColor
                   ],
-                  buttonText: 'Background Picture',
-                  onPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BackgroundPictureSelect(),
-                      ),
-                    );
-                  },
+                  buttonText: 'Save',
+                  onPress: () {},
                 )
               ],
             ),
