@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/models/courses_model.dart';
-import '../../domain/models/sub_courses_model.dart';
-
 class SelectExerciseWidget<T> extends StatelessWidget {
   const SelectExerciseWidget(
       {super.key, required this.onTap, required this.model});
@@ -16,9 +13,10 @@ class SelectExerciseWidget<T> extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(model is CoursesModel
-                  ? (model as CoursesModel).image
-                  : (model as SubCoursesModel).image),
+              // image: AssetImage(model is CoursesModel
+              //     ? (model as CoursesModel).image
+              //     : (model as SubCoursesModel).image),
+              image: AssetImage(''),
               fit: BoxFit.cover),
           borderRadius: BorderRadius.circular(20),
         ),
@@ -29,9 +27,7 @@ class SelectExerciseWidget<T> extends StatelessWidget {
         child: Align(
           alignment: Alignment.topLeft,
           child: Text(
-            model is CoursesModel
-                ? (model as CoursesModel).title
-                : (model as SubCoursesModel).title,
+            "",
             style: TextStyle(
               color: Colors.white,
               fontSize: 35,

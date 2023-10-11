@@ -1,123 +1,123 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/theme.dart';
-import '../../../../routing/route_constants.dart';
-import '../../bloc/select_workout_bloc.dart';
-import '../../domain/models/sub_courses_model.dart';
-import '../widget/select_exercise_widget.dart';
+// import '../../../../core/theme/theme.dart';
+// import '../../../../routing/route_constants.dart';
+// import '../../bloc/select_workout_bloc.dart';
+// import '../../domain/models/sub_courses_model.dart';
+// import '../widget/select_exercise_widget.dart';
 
-class SelectSpecificPage extends StatefulWidget {
-  const SelectSpecificPage({super.key});
+// class SelectSpecificPage extends StatefulWidget {
+//   const SelectSpecificPage({super.key});
 
-  @override
-  State<SelectSpecificPage> createState() => _SelectSpecificPageState();
-}
+//   @override
+//   State<SelectSpecificPage> createState() => _SelectSpecificPageState();
+// }
 
-class _SelectSpecificPageState extends State<SelectSpecificPage> {
-  late SelectWorkoutBloc selectWorkoutBloc;
-  @override
-  void initState() {
-    super.initState();
-    selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
-  }
+// class _SelectSpecificPageState extends State<SelectSpecificPage> {
+//   late SelectWorkoutBloc selectWorkoutBloc;
+//   @override
+//   void initState() {
+//     super.initState();
+//     selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
-      bloc: selectWorkoutBloc,
-      listenWhen: (previous, current) => current is SelectWorkoutActionState,
-      buildWhen: (previous, current) => current is! SelectWorkoutActionState,
-      listener: (context, state) {
-        if (state is SelectSpecificNavigateToDetailWorkoutPageState) {
-          selectWorkoutBloc.add(
-            DetailExerciseInitialEvent(exerciseList: state.exerciseList),
-          );
-          context.pushNamed(RouteConstants.detailWorkout);
-        }
-      },
-      builder: (context, state) {
-        switch (state.runtimeType) {
-          case SelectSpecificLoadingState:
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          case SelectSpecificLoadedSuccessState:
-            final successState = state as SelectSpecificLoadedSuccessState;
-            // print(successState.partList.length);
-            //print(successState.partList[0].title);
-            return Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                title: const Text(
-                  'Specific',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Palette.whiteColor,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                centerTitle: true,
-                backgroundColor: Palette.greyColor,
-              ),
-              backgroundColor: Colors.black,
-              body: SafeArea(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: List.generate(
-                            successState.partList.length,
-                            (index) {
-                              final partbody = successState.partList[index];
-                              return Column(
-                                children: [
-                                  SelectExerciseWidget<SubCoursesModel>(
-                                    onTap: () {
-                                      selectWorkoutBloc.add(
-                                          SelectSpecificClickPartEvent(
-                                              part: partbody));
-                                    },
-                                    model: partbody,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  )
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          // case SelectWorkoutLoadedFailureState:
-          //   return const Scaffold(
-          //     body: Center(
-          //       child: Text('Error'),
-          //     ),
-          //   );
-          default:
-            print('Debugging message: State is $state');
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
+//       bloc: selectWorkoutBloc,
+//       listenWhen: (previous, current) => current is SelectWorkoutActionState,
+//       buildWhen: (previous, current) => current is! SelectWorkoutActionState,
+//       listener: (context, state) {
+//         if (state is SelectSpecificNavigateToDetailWorkoutPageState) {
+//           selectWorkoutBloc.add(
+//             DetailExerciseInitialEvent(exerciseList: state.exerciseList),
+//           );
+//           context.pushNamed(RouteConstants.detailWorkout);
+//         }
+//       },
+//       builder: (context, state) {
+//         switch (state.runtimeType) {
+//           case SelectSpecificLoadingState:
+//             return const Scaffold(
+//               body: Center(
+//                 child: CircularProgressIndicator(),
+//               ),
+//             );
+//           case SelectSpecificLoadedSuccessState:
+//             final successState = state as SelectSpecificLoadedSuccessState;
+//             // print(successState.partList.length);
+//             //print(successState.partList[0].title);
+//             return Scaffold(
+//               appBar: AppBar(
+//                 leading: IconButton(
+//                   icon: const Icon(Icons.arrow_back, color: Colors.white),
+//                   onPressed: () => Navigator.of(context).pop(),
+//                 ),
+//                 title: const Text(
+//                   'Specific',
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(
+//                     color: Palette.whiteColor,
+//                     fontSize: 30,
+//                     fontWeight: FontWeight.w500,
+//                   ),
+//                 ),
+//                 centerTitle: true,
+//                 backgroundColor: Palette.greyColor,
+//               ),
+//               backgroundColor: Colors.black,
+//               body: SafeArea(
+//                 child: Column(
+//                   children: [
+//                     Expanded(
+//                       child: SingleChildScrollView(
+//                         child: Column(
+//                           children: List.generate(
+//                             successState.partList.length,
+//                             (index) {
+//                               final partbody = successState.partList[index];
+//                               return Column(
+//                                 children: [
+//                                   SelectExerciseWidget<SubCoursesModel>(
+//                                     onTap: () {
+//                                       selectWorkoutBloc.add(
+//                                           SelectSpecificClickPartEvent(
+//                                               part: partbody));
+//                                     },
+//                                     model: partbody,
+//                                   ),
+//                                   const SizedBox(
+//                                     height: 20,
+//                                   )
+//                                 ],
+//                               );
+//                             },
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             );
+//           // case SelectWorkoutLoadedFailureState:
+//           //   return const Scaffold(
+//           //     body: Center(
+//           //       child: Text('Error'),
+//           //     ),
+//           //   );
+//           default:
+//             print('Debugging message: State is $state');
 
-            return const Scaffold(
-              body: Center(
-                child: Text('Error'),
-              ),
-            );
-        }
-      },
-    );
-  }
-}
+//             return const Scaffold(
+//               body: Center(
+//                 child: Text('Error'),
+//               ),
+//             );
+//         }
+//       },
+//     );
+//   }
+// }
