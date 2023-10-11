@@ -8,6 +8,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Stack(
         children: [
@@ -20,7 +22,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
-           Positioned(
+          Positioned(
             top: 25,
             left: 16,
             child: OutlinedText(
@@ -46,24 +48,26 @@ class ProfilePage extends StatelessWidget {
                 outlineColor: Colors.black,
                 outlineWidth: 2.0),
           ),
-          
+
           Positioned(
             top: 30,
             right: 16,
             child: IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditProfilePage(),
-                    ),
-                  );
-                },
-                icon: SizedBox(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProfilePage(),
+                  ),
+                );
+              },
+              icon: SizedBox(
                 height: 50,
                 child: Image.asset("assets/icons/setting.png"),
-              ),),
+              ),
+            ),
           ),
+                 
         ],
       ),
     );

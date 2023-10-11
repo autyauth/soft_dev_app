@@ -27,19 +27,22 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
 
   late AnimationController controller;
   late Animation<double> animation;
-
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 375));
+        vsync: this, duration: const Duration(milliseconds: 0));
   }
 
   @override
   void didChangeDependencies() {
-    animation = Tween(begin: getEndPostion(0), end: getEndPostion(2)).animate(
+    animation = Tween(begin: getEndPostion(selected), end: getEndPostion(selected)).animate(
         CurvedAnimation(parent: controller, curve: Curves.easeOutBack));
     position = getEndPostion(0);
+    Future.delayed(const Duration(microseconds: 0), () {
+      
+      controller.forward();
+    });
 
     super.didChangeDependencies();
   }

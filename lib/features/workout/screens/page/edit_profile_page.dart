@@ -20,13 +20,41 @@ const List<String> sex = <String>[
 ];
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  TextEditingController firstNameInit = TextEditingController();
+  TextEditingController lastNameInit = TextEditingController();
+  TextEditingController heightInit = TextEditingController();
+  TextEditingController weightInit = TextEditingController();
+  TextEditingController emailInit = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    firstNameInit.text = "KKK";
+    lastNameInit.text = "SASA";
+    heightInit.text = 169.toString();
+    weightInit.text = 72.toString();
+    emailInit.text = "68090251@kmitl.ac.th";
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+        firstNameInit.dispose();
+    lastNameInit.dispose();
+    heightInit.dispose();
+    weightInit.dispose();
+    emailInit.dispose();
+    super.dispose();
+  }
+
   @override
   DateTime? birthDate;
   String _sex = sex.first;
   String firstName = "KKK";
   String lastName = "SASA";
-  double height = 169.0;
-  double weight = 72.0;
+  int height = 169;
+  int weight = 72;
   String email = "68090251@kmitl.ac.th";
 
   void pickBirthDate() {
@@ -127,7 +155,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         Container(
                           padding: EdgeInsets.all(8),
                           child: TextFormField(
-                            controller: TextEditingController(text: firstName),
+                            controller: firstNameInit,
                             decoration: InputDecoration(
                               hintText: "Enter your First name",
                               border: OutlineInputBorder(
@@ -138,7 +166,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         Container(
                           padding: EdgeInsets.all(8),
                           child: TextFormField(
-                            controller: TextEditingController(text: lastName),
+                            controller: lastNameInit,
                             decoration: InputDecoration(
                                 hintText: "Enter your last name",
                                 border: OutlineInputBorder(
@@ -214,7 +242,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           child: TextFormField(
                             keyboardType: TextInputType.number,
                             controller:
-                                TextEditingController(text: height.toString()),
+                                heightInit,
                             decoration: InputDecoration(
                                 hintText: "Enter your Height(cm)",
                                 border: OutlineInputBorder(
@@ -225,7 +253,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           padding: EdgeInsets.all(8),
                           child: TextFormField(
                             controller:
-                                TextEditingController(text: weight.toString()),
+                                weightInit,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                                 hintText: "Enter your Weight(kg)",
@@ -235,8 +263,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         Container(
                           padding: EdgeInsets.all(8),
-                          child: TextField(
+                          child: TextFormField(
+                            controller: emailInit,
                             keyboardType: TextInputType.emailAddress,
+                            onSaved: (text) {
+                              text != null ? email = text : email = "";
+                            },
                             decoration: InputDecoration(
                                 hintText: "Enter your email",
                                 border: OutlineInputBorder(
