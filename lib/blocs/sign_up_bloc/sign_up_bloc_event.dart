@@ -12,4 +12,5 @@ class SignUpRequired extends SignUpEvent{
 	final String password;
 
 	const SignUpRequired(this.user, this.password);
+
 }

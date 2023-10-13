@@ -39,7 +39,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
 					height: MediaQuery.of(context).size.height,
 					child: Stack(
 						children: [
-							Align(
+							Align( //วงกลมลอยเอามาทับพื้นหลัง
 								alignment: const AlignmentDirectional(20, -1.2),
 								child: Container(
 									height: MediaQuery.of(context).size.width,
@@ -50,7 +50,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
 									),
 								),
 							),
-							Align(
+							Align( //วงกลมลอยเอามาทับพื้นหลัง
 								alignment: const AlignmentDirectional(-2.7, -1.2),
 								child: Container(
 									height: MediaQuery.of(context).size.width / 1.3,
@@ -61,7 +61,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
 									),
 								),
 							),
-							Align(
+							Align( //วงกลมลอยเอามาทับพื้นหลัง
 								alignment: const AlignmentDirectional(2.7, -1.2),
 								child: Container(
 									height: MediaQuery.of(context).size.width / 1.3,
@@ -72,14 +72,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
 									),
 								),
 							),
+              //ตัวฟิวเตอร์ที่เป็นแผ่นมาวางทับให้เบลอได้
 							BackdropFilter(
 								filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100.0),
 								child: Container(),
 							),
+
 							Align(
 								alignment: Alignment.bottomCenter,
 								child: SizedBox(
-									height: MediaQuery.of(context).size.height / 1.8,
+									height: MediaQuery.of(context).size.height / 1.2,
 									child: Column(
 										children: [
 											Padding(

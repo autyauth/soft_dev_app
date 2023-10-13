@@ -39,11 +39,12 @@ class FirebaseUserRepo implements UserRepository {
     try {
       UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(
 				email: myUser.email, 
-				password: password
+				password: password,
 			);
 
-			myUser = myUser.copyWith(
-				userId: user.user!.uid
+			myUser = myUser.copyWith( //เพิ่นตรงนี้ไปเพิ่มใน bloc ด้วย
+				userId: user.user!.uid,
+  
 			);
 
 			return myUser;

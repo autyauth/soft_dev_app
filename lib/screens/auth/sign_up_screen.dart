@@ -17,7 +17,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 	final passwordController = TextEditingController();
   final emailController = TextEditingController();
 	final nameController = TextEditingController();
+  final heightController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
 	IconData iconPassword = CupertinoIcons.eye_fill;
 	bool obscurePassword = true;
 	bool signUpRequired = false;
@@ -225,6 +228,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
 											}
 										),
 									),
+                  const SizedBox(height: 10),
+                  SizedBox(
+										width: MediaQuery.of(context).size.width * 0.9,
+										child: MyTextField(
+											controller: heightController,
+											hintText: 'Height',
+											obscureText: false,
+											keyboardType: TextInputType.number,
+											prefixIcon: const Icon(CupertinoIcons.arrow_up_down),
+											validator: (val) {
+												if(val!.isEmpty) {
+													return 'Please fill in this field';													
+												} else if(val.length > 30) {
+													return 'Height too long';
+												}
+												return null;
+											}
+										),
+									),
+                  //ถ้าเพิ่มวิดเจ็ตระวังมัน overflow
 									SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 									!signUpRequired
 										? SizedBox(
@@ -233,9 +256,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 													onPressed: () {
 														if (_formKey.currentState!.validate()) {
 															MyUser myUser = MyUser.empty;
-															myUser = myUser.copyWith(
+															myUser = myUser.copyWith( //เพิ่มลง data ได้
 																email: emailController.text,
-																name: nameController.text,
+                                name: nameController.text,
+                                height: heightController.text,
 															);
 															setState(() {
 																context.read<SignUpBloc>().add(
