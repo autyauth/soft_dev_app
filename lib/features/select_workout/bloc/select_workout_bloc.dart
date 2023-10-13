@@ -1,3 +1,71 @@
+import 'dart:async';
+
+import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
+
+import '../domain/models/courses_model.dart';
+import '../domain/services/exercise_service.dart';
+
+part 'select_workout_event.dart';
+part 'select_workout_state.dart';
+
+class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
+  SelectWorkoutBloc() : super(SelectWorkoutInitial()) {
+    on<SelectWorkoutInitialEvent>(selectWorkoutInitialEvent);
+    on<SelectWorkoutClickCourseTypeEvent>(selectWorkoutClickCourseTypeEvent);
+    on<SelectCourseInitialEvent>(selectCourseInitialEvent);
+    on<SelectWorkoutClickFullBodyEvent>(selectClickFullBodyEvent);
+  }
+
+//SelectWorkout
+  FutureOr<void> selectWorkoutInitialEvent(
+      SelectWorkoutInitialEvent event, Emitter<SelectWorkoutState> emit) async {
+    emit(SelectWorkoutLoadingState());
+    try {
+      final courseStream = await ExerciseService().getCourseList().first;
+      List<CoursesModel> courses = [];
+
+      // courseStream.listen((List<CoursesModel> snapshot) {
+      //   courses = snapshot;
+      // });
+      await Future.delayed(const Duration(seconds: 1));
+
+      // Access the first course in the list (you can iterate through the list as needed)
+      emit(SelectWorkoutLoadedSuccessState(courses: courseStream));
+
+      // Add more logic or state transitions as needed based on the results.
+    } catch (error) {
+      print(error);
+      // Handle any errors that might occur during the process.
+    }
+  }
+
+  FutureOr<void> selectWorkoutClickCourseTypeEvent(
+      SelectWorkoutClickCourseTypeEvent event,
+      Emitter<SelectWorkoutState> emit) {
+    List<CoursesModel> courses = [];
+    event.courses[event.courseType.name]!.forEach((element) {
+      courses.add(element);
+    });
+    emit(SelectWorkoutNavigateToCoursePageState(
+        courses: courses, courseTypeName: event.courseType.name));
+  }
+
+  //Course
+
+  FutureOr<void> selectCourseInitialEvent(
+      SelectCourseInitialEvent event, Emitter<SelectWorkoutState> emit) async {
+    emit(SelectCourseLoadingState());
+    emit(SelectCourseLoadedState(
+        courses: event.courses, courseTypeName: event.courseTypeName));
+  }
+
+  FutureOr<void> selectClickFullBodyEvent(SelectWorkoutClickFullBodyEvent event,
+      Emitter<SelectWorkoutState> emit) {}
+}
+
+
 // import 'dart:async';
 
 // import 'package:bloc/bloc.dart';

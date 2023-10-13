@@ -1,3 +1,55 @@
+part of 'select_workout_bloc.dart';
+
+@immutable
+abstract class SelectWorkoutState {}
+
+abstract class SelectWorkoutActionState extends SelectWorkoutState {}
+
+abstract class SelectCoursesState extends SelectWorkoutState {}
+
+abstract class SelectCoursesActionState extends SelectCoursesState {}
+
+//SelectWorkout
+class SelectWorkoutInitial extends SelectWorkoutState {}
+
+class SelectWorkoutLoadingState extends SelectWorkoutState {}
+
+class SelectWorkoutLoadedSuccessState extends SelectWorkoutState {
+  List<CoursesModel> courses;
+  SelectWorkoutLoadedSuccessState({required this.courses});
+}
+
+class SelectWorkoutLoadedFailureState extends SelectWorkoutState {}
+
+class SelectWorkoutNavigateToCoursePageState extends SelectWorkoutActionState {
+  final List<CoursesModel> courses;
+  final String courseTypeName;
+  SelectWorkoutNavigateToCoursePageState(
+      {required this.courses, required this.courseTypeName});
+}
+
+class SelectWorkoutNavigateToExercisePageState
+    extends SelectWorkoutActionState {
+  SelectWorkoutNavigateToExercisePageState();
+}
+
+//Course
+class SelectCourseInitial extends SelectCoursesState {
+  final List<CoursesModel> courses;
+  final String courseTypeName;
+  SelectCourseInitial({required this.courses, required this.courseTypeName});
+}
+
+class SelectCourseLoadingState extends SelectCoursesState {}
+
+class SelectCourseLoadedState extends SelectCoursesState {
+  final List<CoursesModel> courses;
+  final String courseTypeName;
+  SelectCourseLoadedState(
+      {required this.courses, required this.courseTypeName});
+}
+//exercisePage
+
 // part of 'select_workout_bloc.dart';
 
 // @immutable

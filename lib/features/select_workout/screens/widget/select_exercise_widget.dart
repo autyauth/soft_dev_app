@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soft_dev_app/features/select_workout/domain/models/courses_model.dart';
 
 class SelectExerciseWidget<T> extends StatelessWidget {
   const SelectExerciseWidget(
@@ -16,19 +17,23 @@ class SelectExerciseWidget<T> extends StatelessWidget {
               // image: AssetImage(model is CoursesModel
               //     ? (model as CoursesModel).image
               //     : (model as SubCoursesModel).image),
-              image: AssetImage(''),
+              image: NetworkImage(model is CourseType
+                  ? (model as CourseType).image
+                  : (model as CoursesModel).image),
               fit: BoxFit.cover),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
         ),
-        margin: const EdgeInsets.all(20),
+        margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(20),
         width: double.infinity,
         height: 140,
         child: Align(
           alignment: Alignment.topLeft,
           child: Text(
-            "",
-            style: TextStyle(
+            model is CourseType
+                ? (model as CourseType).name
+                : (model as CoursesModel).name,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 35,
               fontWeight: FontWeight.w500,

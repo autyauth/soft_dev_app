@@ -17,7 +17,7 @@ class _WorkOutHomePageState extends State<WorkOutHomePage> {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            context.pushNamed(RouteConstants.selectExercise);
+            context.pushNamed(RouteConstants.courseTypeRoute);
           },
           child: Text('go select exercise'),
         ),

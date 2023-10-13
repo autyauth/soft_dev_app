@@ -1,3 +1,31 @@
+part of 'select_workout_bloc.dart';
+
+@immutable
+abstract class SelectWorkoutEvent {}
+
+//SelectWorkout
+class SelectWorkoutInitialEvent extends SelectWorkoutEvent {}
+
+class SelectWorkoutClickCourseTypeEvent extends SelectWorkoutEvent {
+  final CourseType courseType;
+  final Map<String, List<CoursesModel>> courses;
+  SelectWorkoutClickCourseTypeEvent(
+      {required this.courseType, required this.courses});
+}
+
+class SelectWorkoutClickFullBodyEvent extends SelectWorkoutEvent {
+  final int userLevel;
+  SelectWorkoutClickFullBodyEvent({required this.userLevel});
+}
+
+//Course
+class SelectCourseInitialEvent extends SelectWorkoutEvent {
+  final List<CoursesModel> courses;
+  final String courseTypeName;
+  SelectCourseInitialEvent(
+      {required this.courses, required this.courseTypeName});
+}
+
 // part of 'select_workout_bloc.dart';
 
 // @immutable

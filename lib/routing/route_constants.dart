@@ -3,8 +3,8 @@ class RouteConstants {
   static String workout = 'workout';
   static String detailExercise = 'detailExercise';
   static String detailWorkout = 'detailWorkout';
-  static String specificPage = 'select-page';
+  static String coursesRoute = 'courses';
   static String fullbodyExercise = 'fullbodyExercise';
   static String customExercise = 'customExercise';
-  static String selectExercise = 'select-exercise';
+  static String courseTypeRoute = 'course-type';
 }
