@@ -5,7 +5,6 @@ import 'package:user_repository/user_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -14,9 +13,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-	final passwordController = TextEditingController();
+  final passwordController = TextEditingController();
   final emailController = TextEditingController();
-	final nameController = TextEditingController();
+  final nameController = TextEditingController();
   final heightController = TextEditingController();
   final weightController = TextEditingController();
   final ageController = TextEditingController();
@@ -24,15 +23,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-	IconData iconPassword = CupertinoIcons.eye_fill;
-	bool obscurePassword = true;
-	bool signUpRequired = false;
+  IconData iconPassword = CupertinoIcons.eye_fill;
+  bool obscurePassword = true;
+  bool signUpRequired = false;
 
-	bool containsUpperCase = false;
-	bool containsLowerCase = false;
-	bool containsNumber = false;
-	bool containsSpecialChar = false;
-	bool contains8Length = false;
+  bool containsUpperCase = false;
+  bool containsLowerCase = false;
+  bool containsNumber = false;
+  bool containsSpecialChar = false;
+  bool contains8Length = false;
 
   bool isMale = false;
   bool isFemale = false;
@@ -40,346 +39,366 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpBloc, SignUpState>(
-			listener: (context, state) {
-				if(state is SignUpSuccess) {
-					setState(() {
-					  signUpRequired = false;
-					});
-					// Navigator.pop(context);
-				} else if(state is SignUpProcess) {
-					setState(() {
-					  signUpRequired = true;
-					});
-				}  else if(state is SignUpFailure) {
-					return;
-				} 
-			},
-      child: SingleChildScrollView( //เพิ่ม
+      listener: (context, state) {
+        if (state is SignUpSuccess) {
+          setState(() {
+            signUpRequired = false;
+          });
+          // Navigator.pop(context);
+        } else if (state is SignUpProcess) {
+          setState(() {
+            signUpRequired = true;
+          });
+        } else if (state is SignUpFailure) {
+          return;
+        }
+      },
+      child: SingleChildScrollView(
+        //เพิ่ม
         child: Form(
-              key: _formKey,
-              child: Center(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: MyTextField(
-                        controller: emailController,
-                        hintText: 'Email',
-                        obscureText: false,
-                        keyboardType: TextInputType.emailAddress,
-                        prefixIcon: const Icon(CupertinoIcons.mail_solid),
-                        validator: (val) {
-                          if(val!.isEmpty) {
-                            return 'Please fill in this field';													
-                          } else if(!RegExp(r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$').hasMatch(val)) {
-                            return 'Please enter a valid email';
-                          }
-                          return null;
-                        }
-                      ),
+          key: _formKey,
+          child: Center(
+            child: Column(
+              children: [
+                const SizedBox(height: 25),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    'E-mail',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
                     ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: MyTextField(
-                        controller: passwordController,
-                        hintText: 'Password',
-                        obscureText: obscurePassword,
-                        keyboardType: TextInputType.visiblePassword,
-                        prefixIcon: const Icon(CupertinoIcons.lock_fill),
-                        onChanged: (val) {
-                          if(val!.contains(RegExp(r'[A-Z]'))) {
-                            setState(() {
-                              containsUpperCase = true;
-                            });
-                          } else {
-                            setState(() {
-                              containsUpperCase = false;
-                            });
-                          }
-                          if(val.contains(RegExp(r'[a-z]'))) {
-                            setState(() {
-                              containsLowerCase = true;
-                            });
-                          } else {
-                            setState(() {
-                              containsLowerCase = false;
-                            });
-                          }
-                          if(val.contains(RegExp(r'[0-9]'))) {
-                            setState(() {
-                              containsNumber = true;
-                            });
-                          } else {
-                            setState(() {
-                              containsNumber = false;
-                            });
-                          }
-                          if(val.contains(RegExp(r'^(?=.*?[!@#$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^])'))) {
-                            setState(() {
-                              containsSpecialChar = true;
-                            });
-                          } else {
-                            setState(() {
-                              containsSpecialChar = false;
-                            });
-                          }
-                          if(val.length >= 8) {
-                            setState(() {
-                              contains8Length = true;
-                            });
-                          } else {
-                            setState(() {
-                              contains8Length = false;
-                            });
-                          }
-                          return null;
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: MyTextField(
+                      controller: emailController,
+                      hintText: 'Enter your email',
+                      obscureText: false,
+                      keyboardType: TextInputType.emailAddress,
+                      prefixIcon: const Icon(CupertinoIcons.mail_solid),
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return 'Please Fill in This Field';
+                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$')
+                            .hasMatch(val)) {
+                          return 'Please Enter a Valid Email';
+                        }
+                        return null;
+                      }),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    'Password',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: MyTextField(
+                      controller: passwordController,
+                      hintText: 'Enter your password',
+                      obscureText: obscurePassword,
+                      keyboardType: TextInputType.visiblePassword,
+                      prefixIcon: const Icon(CupertinoIcons.lock_fill),
+                      onChanged: (val) {
+                        if (val!.contains(RegExp(r'[A-Z]'))) {
+                          setState(() {
+                            containsUpperCase = true;
+                          });
+                        } else {
+                          setState(() {
+                            containsUpperCase = false;
+                          });
+                        }
+                        if (val.contains(RegExp(r'[a-z]'))) {
+                          setState(() {
+                            containsLowerCase = true;
+                          });
+                        } else {
+                          setState(() {
+                            containsLowerCase = false;
+                          });
+                        }
+                        if (val.contains(RegExp(r'[0-9]'))) {
+                          setState(() {
+                            containsNumber = true;
+                          });
+                        } else {
+                          setState(() {
+                            containsNumber = false;
+                          });
+                        }
+                        if (val.contains(RegExp(
+                            r'^(?=.*?[!@#$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^])'))) {
+                          setState(() {
+                            containsSpecialChar = true;
+                          });
+                        } else {
+                          setState(() {
+                            containsSpecialChar = false;
+                          });
+                        }
+                        if (val.length >= 8) {
+                          setState(() {
+                            contains8Length = true;
+                          });
+                        } else {
+                          setState(() {
+                            contains8Length = false;
+                          });
+                        }
+                        return null;
+                      },
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            obscurePassword = !obscurePassword;
+                            if (obscurePassword) {
+                              iconPassword = CupertinoIcons.eye_fill;
+                            } else {
+                              iconPassword = CupertinoIcons.eye_slash_fill;
+                            }
+                          });
                         },
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              obscurePassword = !obscurePassword;
-                              if(obscurePassword) {
-                                iconPassword = CupertinoIcons.eye_fill;
-                              } else {
-                                iconPassword = CupertinoIcons.eye_slash_fill;
-                              }
-                            });
-                          },
-                          icon: Icon(iconPassword),
-                        ),
-                        validator: (val) {
-                          if(val!.isEmpty) {
-                            return 'Please fill in this field';			
-                          } else if(!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$').hasMatch(val)) {
-                            return 'Please enter a valid password';
-                          }
-                          return null;
-                        }
+                        icon: Icon(iconPassword),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return 'Please Fill in This Field';
+                        } else if (!RegExp(
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$')
+                            .hasMatch(val)) {
+                          return 'Please Enter a Valid Password';
+                        }
+                        return null;
+                      }),
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "⚈  1 uppercase",
-                              style: TextStyle(
-                                color: containsUpperCase
+                        Text(
+                          "⚈  1 Uppercase",
+                          style: TextStyle(
+                              color: containsUpperCase
                                   ? Colors.green
-                                  : Theme.of(context).colorScheme.onBackground
-                              ),
-                            ),
-                            Text(
-                              "⚈  1 lowercase",
-                              style: TextStyle(
-                                color: containsLowerCase
-                                  ? Colors.green
-                                  : Theme.of(context).colorScheme.onBackground
-                              ),
-                            ),
-                            Text(
-                              "⚈  1 number",
-                              style: TextStyle(
-                                color: containsNumber
-                                  ? Colors.green
-                                  : Theme.of(context).colorScheme.onBackground
-                              ),
-                            ),
-                          ],
+                                  : Colors.black),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "⚈  1 special character",
-                              style: TextStyle(
-                                color: containsSpecialChar
+                        Text(
+                          "⚈  1 Lowercase",
+                          style: TextStyle(
+                              color: containsLowerCase
                                   ? Colors.green
-                                  : Theme.of(context).colorScheme.onBackground
-                              ),
-                            ),
-                            Text(
-                              "⚈  8 minimum character",
-                              style: TextStyle(
-                                color: contains8Length
-                                  ? Colors.green
-                                  : Theme.of(context).colorScheme.onBackground
-                              ),
-                            ),
-                          ],
+                                  : Colors.black),
+                        ),
+                        Text(
+                          "⚈  1 Number",
+                          style: TextStyle(
+                              color:
+                                  containsNumber ? Colors.green : Colors.black),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: MyTextField(
-                        controller: nameController,
-                        hintText: 'Name',
-                        obscureText: false,
-                        keyboardType: TextInputType.name,
-                        prefixIcon: const Icon(CupertinoIcons.person_fill),
-                        validator: (val) {
-                          if(val!.isEmpty) {
-                            return 'Please fill in this field';													
-                          } else if(val.length > 30) {
-                            return 'Name too long';
-                          }
-                          return null;
-                        }
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "⚈  1 Special Character",
+                          style: TextStyle(
+                              color: containsSpecialChar
+                                  ? Colors.green
+                                  : Colors.black),
+                        ),
+                        Text(
+                          "⚈  8 Minimum Character",
+                          style: TextStyle(
+                              color: contains8Length
+                                  ? Colors.green
+                                  : Colors.black),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: MyTextField(
-                        controller: ageController,
-                        hintText: 'Age',
-                        obscureText: false,
-                        keyboardType: TextInputType.number,
-                        prefixIcon: const Icon(CupertinoIcons.timer_fill),
-                        validator: (val) {
-                          if(val!.isEmpty) {
-                            return 'Please fill in this field';													
-                          } else if(val.length > 10) {
-                            return 'Age too long';
-                          }
-                          return null;
-                        }
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                // Checkbox for gender
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Checkbox(
-                      value: isMale,
-                      onChanged: (value) {
-                        setState(() {
-                          isMale = value ?? false;
-                          isFemale = !isMale;
-                          genderController.text = isMale ? 'Male' : '';
-                        });
-                      },
-                    ),
-                    Text('Male'),
-                    Checkbox(
-                      value: isFemale,
-                      onChanged: (value) {
-                        setState(() {
-                          isFemale = value ?? false;
-                          isMale = !isFemale;
-                          genderController.text = isFemale ? 'Female' : '';
-                        });
-                      },
-                    ),
-                    Text('Female'),
                   ],
                 ),
-                
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: MyTextField(
-                        controller: heightController,
-                        hintText: 'Height',
-                        obscureText: false,
-                        keyboardType: TextInputType.number,
-                        prefixIcon: const Icon(CupertinoIcons.arrow_up_down),
-                        validator: (val) {
-                          if(val!.isEmpty) {
-                            return 'Please fill in this field';													
-                          } else if(val.length > 30) {
-                            return 'Height too long';
-                          }
-                          return null;
-                        }
-                      ),
+                const SizedBox(height: 15),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    'Username',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
                     ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: MyTextField(
-                        controller: weightController,
-                        hintText: 'Weight',
-                        obscureText: false,
-                        keyboardType: TextInputType.number,
-                        prefixIcon: const Icon(CupertinoIcons.arrow_up_bin_fill),
-                        validator: (val) {
-                          if(val!.isEmpty) {
-                            return 'Please fill in this field';													
-                          } else if(val.length > 10) {
-                            return 'Weight too long';
-                          }
-                          return null;
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: MyTextField(
+                      controller: nameController,
+                      hintText: 'Enter your name',
+                      obscureText: false,
+                      keyboardType: TextInputType.name,
+                      prefixIcon: const Icon(CupertinoIcons.person_fill),
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return 'Please Fill in This Field';
+                        } else if (val.length > 30) {
+                          return 'Username too long';
                         }
-                      ),
+                        return null;
+                      }),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    'Age',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
                     ),
-                    //ถ้าเพิ่มวิดเจ็ตระวังมัน overflow
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                    !signUpRequired
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: TextButton(
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: MyTextField(
+                      controller: ageController,
+                      hintText: 'Enter your age',
+                      obscureText: false,
+                      keyboardType: TextInputType.number,
+                      prefixIcon: const Icon(CupertinoIcons.timer_fill),
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return 'Please Fill in This Field';
+                        } else if (val.length > 10) {
+                          return 'Age too much';
+                        }
+                        return null;
+                      }),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    'Height',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: MyTextField(
+                      controller: heightController,
+                      hintText: 'Enter your height',
+                      obscureText: false,
+                      keyboardType: TextInputType.number,
+                      prefixIcon: const Icon(CupertinoIcons.arrow_up_down),
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return 'Please Fill in This Field';
+                        } else if (val.length > 30) {
+                          return 'Height too long';
+                        }
+                        return null;
+                      }),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    'Weight',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: MyTextField(
+                      controller: weightController,
+                      hintText: 'Enter your weight',
+                      obscureText: false,
+                      keyboardType: TextInputType.number,
+                      prefixIcon: const Icon(CupertinoIcons.arrow_up_bin_fill),
+                      validator: (val) {
+                        if (val!.isEmpty) {
+                          return 'Please Fill in This Field';
+                        } else if (val.length > 10) {
+                          return 'Weight too much';
+                        }
+                        return null;
+                      }),
+                ),
+                //ถ้าเพิ่มวิดเจ็ตระวังมัน overflow
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                !signUpRequired
+                    ? SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: TextButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 MyUser myUser = MyUser.empty;
-                                myUser = myUser.copyWith( //เพิ่มลง data ได้
+                                myUser = myUser.copyWith(
+                                  //เพิ่มลง data ได้
                                   email: emailController.text,
                                   name: nameController.text,
                                   height: heightController.text,
                                   weight: weightController.text,
                                   age: ageController.text,
-                                  gender: genderController.text,
-
                                 );
                                 setState(() {
-                                  context.read<SignUpBloc>().add(
-                                    SignUpRequired(
-                                      myUser,
-                                      passwordController.text
-                                    )
-                                  );
-                                });																			
+                                  context.read<SignUpBloc>().add(SignUpRequired(
+                                      myUser, passwordController.text));
+                                });
                               }
                             },
                             style: TextButton.styleFrom(
-                              elevation: 3.0,
-                              backgroundColor: Theme.of(context).colorScheme.primary,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(60)
-                              )
-                            ),
+                                elevation: 3.0,
+                                backgroundColor:
+                                    Color.fromARGB(255, 186, 55, 71),
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(60))),
                             child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 5),
                               child: Text(
                                 'Sign Up',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600
-                                ),
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
                               ),
-                            )
-                            
-                          ),
-                          
-                        )
-                      : const CircularProgressIndicator(),
-                      const SizedBox(height: 20),
-                  ],
-                ),
-              ),
+                            )),
+                      )
+                    : const CircularProgressIndicator(),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
+        ),
       ),
     );
   }

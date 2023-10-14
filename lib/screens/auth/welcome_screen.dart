@@ -16,129 +16,173 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateMixin {
-	late TabController tabController;
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with TickerProviderStateMixin {
+  late TabController tabController;
 
-	@override
+  @override
   void initState() {
-    tabController = TabController(
-			initialIndex: 0,
-			length: 2, 
-			vsync: this
-		);
+    tabController = TabController(initialIndex: 0, length: 2, vsync: this);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-			backgroundColor: Theme.of(context).colorScheme.background,
-			body: SingleChildScrollView(
-				child: SizedBox(
-					height: MediaQuery.of(context).size.height,
-					child: Stack(
-						children: [
-							Align( //วงกลมลอยเอามาทับพื้นหลัง
-								alignment: const AlignmentDirectional(20, -1.2),
-								child: Container(
-									height: MediaQuery.of(context).size.width,
-									width: MediaQuery.of(context).size.width,
-									decoration: BoxDecoration(
-										shape: BoxShape.circle,
-										color: Theme.of(context).colorScheme.tertiary
-									),
-								),
-							),
-							Align( //วงกลมลอยเอามาทับพื้นหลัง
-								alignment: const AlignmentDirectional(-2.7, -1.2),
-								child: Container(
-									height: MediaQuery.of(context).size.width / 1.3,
-									width: MediaQuery.of(context).size.width / 1.3,
-									decoration: BoxDecoration(
-										shape: BoxShape.circle,
-										color: Theme.of(context).colorScheme.secondary
-									),
-								),
-							),
-							Align( //วงกลมลอยเอามาทับพื้นหลัง
-								alignment: const AlignmentDirectional(2.7, -1.2),
-								child: Container(
-									height: MediaQuery.of(context).size.width / 1.3,
-									width: MediaQuery.of(context).size.width / 1.3,
-									decoration: BoxDecoration(
-										shape: BoxShape.circle,
-										color: Theme.of(context).colorScheme.primary
-									),
-								),
-							),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Align(
+                //วงกลมลอยเอามาทับพื้นหลัง
+                alignment: const AlignmentDirectional(20, -1.5),
+                child: Container(
+                  height: MediaQuery.of(context).size.width,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 215, 80, 37)),
+                ),
+              ),
+              Align(
+                //วงกลมลอยเอามาทับพื้นหลัง
+                alignment: const AlignmentDirectional(-2.7, -1.2),
+                child: Container(
+                  height: MediaQuery.of(context).size.width / 1.3,
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 215, 80, 37)),
+                ),
+              ),
+              Align(
+                //วงกลมลอยเอามาทับพื้นหลัง
+                alignment: const AlignmentDirectional(2.7, -1.2),
+                child: Container(
+                  height: MediaQuery.of(context).size.width / 1.3,
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 215, 80, 37)),
+                ),
+              ),
               //ตัวฟิวเตอร์ที่เป็นแผ่นมาวางทับให้เบลอได้
-							BackdropFilter(
-								filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100.0),
-								child: Container(),
-							),
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 65.0, sigmaY: 65.0),
+                child: Container(),
+              ),
 
-							Align(
-								alignment: Alignment.bottomCenter,
-								child: SizedBox(
-									height: MediaQuery.of(context).size.height / 1.6,
-									child: Column(
-										children: [
-											Padding(
-												padding: const EdgeInsets.symmetric(horizontal: 50.0),
-												child: TabBar(
-													controller: tabController,
-													unselectedLabelColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
-													labelColor: Theme.of(context).colorScheme.onBackground,
-													tabs: const [
-														Padding(
-															padding: EdgeInsets.all(12.0),
-															child: Text(
-																'Sign In',
-																style: TextStyle(
-																	fontSize: 18,
-																),
-															),
-														),
-														Padding(
-															padding: EdgeInsets.all(12.0),
-															child: Text(
-																'Sign Up',
-																style: TextStyle(
-																	fontSize: 18,
-																),
-															),
-														),
-													],
-												),
-											),
-											Expanded(
-												child: TabBarView(
-													controller: tabController,
-													children: [
-														BlocProvider<SignInBloc>(
-															create: (context) => SignInBloc(
-																userRepository: context.read<AuthenticationBloc>().userRepository
-															),
-															child: const SignInScreen(),
-														),
-														BlocProvider<SignUpBloc>(
-															create: (context) => SignUpBloc(
-																userRepository: context.read<AuthenticationBloc>().userRepository
-															),
-															child: const SignUpScreen(),
-														),
-													],
-												)
-											)
-										],
-									),
-								),
-							)
-						],
-					),
-				),
-			),
-		);
+              Stack(
+                children: [
+                  // Background image with opacity
+                  Opacity(
+                    opacity: 0.1, // Adjust the opacity as needed
+                    child: Image.asset(
+                      'assets/images/LoginBack.png', // Replace with your image path
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      height: 460.0, // Set the desired height
+                      child: AppBar(
+                        title: RichText(
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Hello.\n',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'Welcome Back!',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      ),
+                    ),
+                  ),
+
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height / 1.6,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 50.0),
+                            child: TabBar(
+                              controller: tabController,
+                              unselectedLabelColor: Colors.black,
+                              labelColor: Colors.black,
+                              tabs: const [
+                                Padding(
+                                  padding: EdgeInsets.all(13.0),
+                                  child: Text(
+                                    'Sign In',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(13.0),
+                                  child: Text(
+                                    'Sign Up',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                              child: TabBarView(
+                            controller: tabController,
+                            children: [
+                              BlocProvider<SignInBloc>(
+                                create: (context) => SignInBloc(
+                                    userRepository: context
+                                        .read<AuthenticationBloc>()
+                                        .userRepository),
+                                child: const SignInScreen(),
+                              ),
+                              BlocProvider<SignUpBloc>(
+                                create: (context) => SignUpBloc(
+                                    userRepository: context
+                                        .read<AuthenticationBloc>()
+                                        .userRepository),
+                                child: const SignUpScreen(),
+                              ),
+                            ],
+                          ))
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
