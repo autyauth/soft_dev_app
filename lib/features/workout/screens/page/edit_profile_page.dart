@@ -63,6 +63,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   UserProfile? userProfile;
+  UserProfile? updatedUserProfile;
 
   @override
   void initState() {
@@ -245,7 +246,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     child: Text(
                                       _birthDate(),
                                       style: const TextStyle(
-                                          color: Colors.black45, fontSize: 16),
+                                          color: Colors.black, fontSize: 16),
                                     ),
                                   ),
                                 ),
@@ -271,7 +272,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             value: _sex,
                             iconSize: 0.0,
                             style: const TextStyle(
-                                color: Colors.black45, fontSize: 16),
+                                color: Colors.black, fontSize: 16),
                             onChanged: (String? value) {
                               // This is called when the user selects an item.
                               setState(() {
@@ -383,8 +384,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Positioned(
               top: screenHeight * 0.04,
               left: screenWidth * 0.1,
-              child: ImgBackButton(),
-            ),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Image.asset(
+                  'assets/ui/back.png',
+                  width: 100,
+                ),
+              ),
+            )
           ],
         ),
       ),

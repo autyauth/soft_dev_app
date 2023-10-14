@@ -17,7 +17,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
   late double position;
   int noOfIcons = 3;
   int selected = 0;
-  List<Widget> pages = const [SelectExercisePage(), ProfilePage()];
+  List<Widget> pages =  [SelectExercisePage(), ProfilePage()];
 
   List<String> icons = [
     'assets/icons/home.png',

@@ -5,8 +5,15 @@ import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
 import 'package:soft_dev_app/features/workout/screens/page/edit_profile_page.dart';
 import 'package:soft_dev_app/features/workout/screens/widget/outline_text.dart';
 
-class ProfilePage extends StatelessWidget {
-    Future<UserProfile?> fetchUserProfileData() async {
+class ProfilePage extends StatefulWidget {
+  ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  Future<UserProfile?> fetchUserProfileData() async {
     try {
       DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
           .instance
@@ -27,11 +34,32 @@ class ProfilePage extends StatelessWidget {
     }
   }
 
-  
-  String name ="";
+  void initState() {
+    super.initState();
+    //fetch โดย เรียก function ข้างบนมาใส่ profile
+    fetchUserProfileData().then((profile) {
+      if (profile != null) {
+        setState(() {
+          userProfile = profile;
+          //ใช้ controller เพราะ initvalue ใช้ได้ครั้งเดียวแล้ว data โหลดไม่ทันเลย กลายเป็น empty string
+
+          name = '${userProfile?.firstName} ${userProfile?.lastName}';
+          imageURL = userProfile?.imageUrl ?? "";
+        });
+      }
+    });
+  }
+
+  UserProfile? userProfile;
+
+  String name = "";
+
   String imageURL = "";
+
+  // _name() {
   @override
   Widget build(BuildContext context) {
+    print(imageURL);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -39,7 +67,7 @@ class ProfilePage extends StatelessWidget {
         children: [
           // Background image
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/profile_background1.png'),
                 fit: BoxFit.cover,
@@ -63,7 +91,7 @@ class ProfilePage extends StatelessWidget {
             top: 85,
             left: 16,
             child: OutlinedText(
-                text: "kerkkaiwan Supaseab",
+                text: name,
                 textStyle: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -79,11 +107,24 @@ class ProfilePage extends StatelessWidget {
             child: IconButton(
               onPressed: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditProfilePage(),
-                  ),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditProfilePage())).then((value) {
+                  setState(() {
+                    fetchUserProfileData().then((profile) {
+                      if (profile != null) {
+                        setState(() {
+                          userProfile = profile;
+                          //ใช้ controller เพราะ initvalue ใช้ได้ครั้งเดียวแล้ว data โหลดไม่ทันเลย กลายเป็น empty string
+
+                          name =
+                              '${userProfile?.firstName} ${userProfile?.lastName}';
+                          imageURL = userProfile?.imageUrl ?? "";
+                        });
+                      }
+                    });
+                  });
+                });
               },
               icon: SizedBox(
                 height: 50,
@@ -91,7 +132,6 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
-                 
         ],
       ),
     );
