@@ -29,7 +29,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -41,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 child: Container(
                   height: MediaQuery.of(context).size.width,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Color.fromARGB(255, 215, 80, 37)),
                 ),
@@ -52,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 child: Container(
                   height: MediaQuery.of(context).size.width / 1.3,
                   width: MediaQuery.of(context).size.width / 1.3,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Color.fromARGB(255, 215, 80, 37)),
                 ),
@@ -63,7 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 child: Container(
                   height: MediaQuery.of(context).size.width / 1.3,
                   width: MediaQuery.of(context).size.width / 1.3,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Color.fromARGB(255, 215, 80, 37)),
                 ),
@@ -91,7 +91,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       height: 460.0, // Set the desired height
                       child: AppBar(
                         title: RichText(
-                          text: TextSpan(
+                          text: const TextSpan(
                             children: <TextSpan>[
                               TextSpan(
                                 text: 'Hello.\n',

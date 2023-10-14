@@ -49,7 +49,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Text(
+              child: const Text(
                 'E-mail',
                 style: TextStyle(
                   fontSize: 18,
@@ -79,7 +79,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Text(
+              child: const Text(
                 'Password',
                 style: TextStyle(
                   fontSize: 18,
@@ -134,7 +134,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         },
                         style: TextButton.styleFrom(
                             elevation: 3.0,
-                            backgroundColor: Color.fromARGB(255, 186, 55, 71),
+                            backgroundColor: const Color.fromARGB(255, 186, 55, 71),
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(60))),

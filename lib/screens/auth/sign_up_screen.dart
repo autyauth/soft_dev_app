@@ -35,6 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool isMale = false;
   bool isFemale = false;
+  bool isOther = false;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
+                  child: const Text(
                     'E-mail',
                     style: TextStyle(
                       fontSize: 18,
@@ -94,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
+                  child: const Text(
                     'Password',
                     style: TextStyle(
                       fontSize: 18,
@@ -238,7 +239,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
+                  child: const Text(
                     'Username',
                     style: TextStyle(
                       fontSize: 18,
@@ -267,7 +268,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
+                  child: const Text(
                     'Age',
                     style: TextStyle(
                       fontSize: 18,
@@ -292,11 +293,59 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       }),
                 ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: isMale,
+                      onChanged: (value) {
+                        setState(() {
+                          isMale = value ?? false;
+                          isFemale = false;
+                          isOther = false;
+                          genderController.text = isMale ? 'Male' : '';
+                        });
+                      },
+                    ),
+                    Text('Male'),
+                    Checkbox(
+                      value: isFemale,
+                      onChanged: (value) {
+                        setState(() {
+                          isMale = false;
+                          isFemale = value ?? false;
+                          isOther = false;
+                          genderController.text = isFemale ? 'Female' : '';
+                        });
+                      },
+                    ),
+                    Text('Female'),
+                    Checkbox(
+                      value: isOther,
+                      onChanged: (value) {
+                        setState(() {
+                          isMale = false;
+                          isFemale = false;
+                          isOther = value ?? false;
+                          genderController.text = isOther ? 'Other' : '';
+                        });
+                      },
+                    ),
+                    Text('Other'),
+                  ],
+                ),
+                 if (!(isMale || isFemale || isOther))
+                  const Text(
+                    'Please select a gender',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  
                 const SizedBox(height: 15),
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
+                  child: const Text(
                     'Height',
                     style: TextStyle(
                       fontSize: 18,
@@ -325,7 +374,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
+                  child: const Text(
                     'Weight',
                     style: TextStyle(
                       fontSize: 18,
@@ -357,7 +406,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: TextButton(
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate() && (isMale || isFemale || isOther)) 
+                              {
                                 MyUser myUser = MyUser.empty;
                                 myUser = myUser.copyWith(
                                   //เพิ่มลง data ได้
@@ -366,6 +416,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   height: heightController.text,
                                   weight: weightController.text,
                                   age: ageController.text,
+                                  gender: genderController.text,
                                 );
                                 setState(() {
                                   context.read<SignUpBloc>().add(SignUpRequired(
@@ -376,7 +427,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             style: TextButton.styleFrom(
                                 elevation: 3.0,
                                 backgroundColor:
-                                    Color.fromARGB(255, 186, 55, 71),
+                                    const Color.fromARGB(255, 186, 55, 71),
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(60))),
