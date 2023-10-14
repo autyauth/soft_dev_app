@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
-import 'package:soft_dev_app/features/workout/screens/page/background_picture_select.dart';
 import 'package:soft_dev_app/features/workout/screens/page/pofile_picture_select.dart';
 import 'package:soft_dev_app/features/workout/screens/widget/back_btn.dart';
 import 'package:soft_dev_app/features/workout/screens/widget/gradient_button.dart';
@@ -20,19 +20,50 @@ const List<String> sex = <String>[
 ];
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  final formKey = GlobalKey<FormState>();
+
   TextEditingController firstNameInit = TextEditingController();
   TextEditingController lastNameInit = TextEditingController();
   TextEditingController heightInit = TextEditingController();
   TextEditingController weightInit = TextEditingController();
   TextEditingController emailInit = TextEditingController();
 
+  Future<void> fetchUserProfileData() async {
+
+    try {
+      DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
+          .instance
+          .collection('userProfile')
+          .doc('/cXZMVx6sIaGJnK7FgSIO')
+          .get();
+
+      if (userDoc.exists) {
+        if (userDoc.exists) {
+          Map<String, dynamic> userData = userDoc.data()!;
+          setState(() {
+            // Update the state variables with the retrieved data
+            firstNameInit.text = userData['firstName'];
+            lastNameInit.text = userData['lastName'];
+            birthDate = userData['birthDate'].toDate();
+            _sex = userData['gender'];
+            heightInit.text = userData['height'].toString();
+            weightInit.text = userData['weight'].toString();
+            // Set other form fields accordingly
+          });
+        }
+      } else {
+        print('User document does not exist.');
+      }
+    } catch (e) {
+      print('Error fetching user profile data: $e');
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    firstNameInit.text = "KKK";
-    lastNameInit.text = "SASA";
-    heightInit.text = 169.toString();
-    weightInit.text = 72.toString();
+    fetchUserProfileData();
+
     emailInit.text = "68090251@kmitl.ac.th";
     super.initState();
   }
@@ -40,7 +71,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void dispose() {
     // TODO: implement dispose
-        firstNameInit.dispose();
+    firstNameInit.dispose();
     lastNameInit.dispose();
     heightInit.dispose();
     weightInit.dispose();
@@ -50,7 +81,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   DateTime? birthDate;
-  String _sex = sex.first;
+  String? _sex  ;
   String firstName = "KKK";
   String lastName = "SASA";
   int height = 169;
@@ -102,231 +133,233 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final double buttonwidth = 300;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/profile_background1.png'),
-                fit: BoxFit.cover,
+      body: Form(
+        key: formKey,
+        child: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/profile_background1.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Positioned(
-            top: screenHeight * 0.04,
-            right: screenWidth * 0.1,
-            child: OutlinedText(
-                text: "edits",
-                textStyle: const TextStyle(
-                  fontSize: 38,
-                  fontWeight: FontWeight.bold,
-                  color: Palette.orangeCreamColor2,
-                ),
-                outlineColor: Colors.black,
-                outlineWidth: 2.0),
-          ),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              // Close the keyboard when tapping outside text fields
-              FocusScope.of(context).unfocus();
-            },
-            child: SingleChildScrollView(
-              child: Flexible(
-                child: Align(
-                  //edit form
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        left: screenWidth * 0.085,
-                        right: screenWidth * 0.085,
-                        top: screenHeight * 0.15,
-                        bottom: screenHeight * 0.25),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Palette.orangeColor,
-                        width: 2.0,
+            Positioned(
+              top: screenHeight * 0.04,
+              right: screenWidth * 0.1,
+              child: OutlinedText(
+                  text: "edits",
+                  textStyle: const TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.bold,
+                    color: Palette.orangeCreamColor2,
+                  ),
+                  outlineColor: Colors.black,
+                  outlineWidth: 2.0),
+            ),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                // Close the keyboard when tapping outside text fields
+                FocusScope.of(context).unfocus();
+              },
+              child: SingleChildScrollView(
+                child: Flexible(
+                  child: Align(
+                    //edit form
+                    alignment: Alignment.center,
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: screenWidth * 0.085,
+                          right: screenWidth * 0.085,
+                          top: screenHeight * 0.15,
+                          bottom: screenHeight * 0.25),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Palette.orangeColor,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          child: TextFormField(
-                            controller: firstNameInit,
-                            decoration: InputDecoration(
-                              hintText: "Enter your First name",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20)),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            child: TextFormField(
+                              controller: firstNameInit,
+                              decoration: InputDecoration(
+                                hintText: "Enter your First name",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          child: TextFormField(
-                            controller: lastNameInit,
-                            decoration: InputDecoration(
-                                hintText: "Enter your last name",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20))),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            child: TextFormField(
+                              controller: lastNameInit,
+                              decoration: InputDecoration(
+                                  hintText: "Enter your last name",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          child: GestureDetector(
-                            onTap: pickBirthDate,
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: 55,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black45,
-                                    width: 1.0,
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            child: GestureDetector(
+                              onTap: pickBirthDate,
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 55,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black45,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      _birthDate(),
-                                      style: const TextStyle(
-                                          color: Colors.black45, fontSize: 16),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        _birthDate(),
+                                        style: const TextStyle(
+                                            color: Colors.black45,
+                                            fontSize: 16),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          //Sex
-                          padding: EdgeInsets.all(4),
-                          margin: EdgeInsets.only(left: 8, right: 8),
-                          width: screenWidth * 0.83,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black45),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: DropdownButton<String>(
-                            padding: EdgeInsets.only(left: 8),
-                            underline: Container(
-                              height: 0,
+                          Container(
+                            //gender
+                            padding: EdgeInsets.all(4),
+                            margin: EdgeInsets.all(8),
+                            width: screenWidth * 0.83,
+                            height: 55,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black45),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            value: _sex,
-                            iconSize: 0.0,
-                            style: const TextStyle(
-                                color: Colors.black45, fontSize: 16),
-                            onChanged: (String? value) {
-                              // This is called when the user selects an item.
-                              setState(() {
-                                _sex = value!;
-                              });
-                            },
-                            items: sex
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
+                            child: DropdownButton<String>(
+                              padding: EdgeInsets.only(left: 8),
+                              underline: Container(
+                                height: 0,
+                              ),
+                              value: _sex,
+                              iconSize: 0.0,
+                              style: const TextStyle(
+                                  color: Colors.black45, fontSize: 16),
+                              onChanged: (String? value) {
+                                // This is called when the user selects an item.
+                                setState(() {
+                                  _sex = value!;
+                                });
+                              },
+                              items: sex.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            controller:
-                                heightInit,
-                            decoration: InputDecoration(
-                                hintText: "Enter your Height(cm)",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20))),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              controller: heightInit,
+                              decoration: InputDecoration(
+                                  hintText: "Enter your Height(cm)",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          child: TextFormField(
-                            controller:
-                                weightInit,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                hintText: "Enter your Weight(kg)",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20))),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            child: TextFormField(
+                              controller: weightInit,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                  hintText: "Enter your Weight(kg)",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          child: TextFormField(
-                            controller: emailInit,
-                            keyboardType: TextInputType.emailAddress,
-                            onSaved: (text) {
-                              text != null ? email = text : email = "";
-                            },
-                            decoration: InputDecoration(
-                                hintText: "Enter your email",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20))),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            child: TextFormField(
+                              controller: emailInit,
+                              keyboardType: TextInputType.emailAddress,
+                              onSaved: (text) {
+                                text != null ? email = text : email = "";
+                              },
+                              decoration: InputDecoration(
+                                  hintText: "Enter your email",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          //ปุ่ม ดำเนินการ
-          Positioned(
-            top: screenHeight * 0.85,
-            left: screenWidth * 0.5 - buttonwidth / 2,
-            child: Column(
-              children: [
-                GradientButton(
-                  height: 44,
-                  width: buttonwidth,
-                  colorsArray: const [
-                    Palette.orangeCreamColor2,
-                    Palette.orangeColor,
-                    Palette.orangeColor
-                  ],
-                  buttonText: 'Profile Picture  Select',
-                  onPress: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfilePictureSelect(),
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(height: 10),
-                GradientButton(
-                  height: 44,
-                  width: buttonwidth,
-                  colorsArray: const [
-                    Palette.orangeCreamColor2,
-                    Palette.orangeColor,
-                    Palette.orangeColor
-                  ],
-                  buttonText: 'Save',
-                  onPress: () {},
-                )
-              ],
+            //ปุ่ม ดำเนินการ
+            Positioned(
+              top: screenHeight * 0.85,
+              left: screenWidth * 0.5 - buttonwidth / 2,
+              child: Column(
+                children: [
+                  GradientButton(
+                    height: 44,
+                    width: buttonwidth,
+                    colorsArray: const [
+                      Palette.orangeCreamColor2,
+                      Palette.orangeColor,
+                      Palette.orangeColor
+                    ],
+                    buttonText: 'Profile Picture  Select',
+                    onPress: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePictureSelect(),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  GradientButton(
+                    height: 44,
+                    width: buttonwidth,
+                    colorsArray: const [
+                      Palette.orangeCreamColor2,
+                      Palette.orangeColor,
+                      Palette.orangeColor
+                    ],
+                    buttonText: 'Save',
+                    onPress: () {},
+                  )
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            top: screenHeight * 0.04,
-            left: screenWidth * 0.1,
-            child: ImgBackButton(),
-          ),
-        ],
+            Positioned(
+              top: screenHeight * 0.04,
+              left: screenWidth * 0.1,
+              child: ImgBackButton(),
+            ),
+          ],
+        ),
       ),
     );
   }
