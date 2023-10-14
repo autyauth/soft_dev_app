@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
 import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
 import 'package:soft_dev_app/features/workout/screens/page/pofile_picture_select.dart';
@@ -105,7 +106,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   int height = 0;
   int weight = 0;
   String email = "null";
-
+     final requiredValidator = RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ');  
   void pickBirthDate() {
     showDatePicker(
       context: context,
@@ -206,6 +207,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           padding: EdgeInsets.all(8),
                           child: TextFormField(
                             controller: firstNameInit,
+                            validator: requiredValidator,
+
                             decoration: InputDecoration(
                               hintText: "Enter your First name",
                               border: OutlineInputBorder(
@@ -218,6 +221,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           padding: EdgeInsets.all(8),
                           child: TextFormField(
                             controller: lastNameInit,
+                            validator: requiredValidator,
                             decoration: InputDecoration(
                                 hintText: "Enter your last name",
                                 border: OutlineInputBorder(
@@ -365,16 +369,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ],
                     buttonText: 'Save',
                     onPress: () {
-                      userProfile?.firstName = firstNameInit.text;
-                      userProfile?.lastName = lastNameInit.text;
-                      userProfile?.height = int.parse(heightInit.text);
-                      userProfile?.weight = int.parse(weightInit.text);
-                      userProfile?.email = emailInit.text;
-                      userProfile?.birthDate = birthDate;
-                      userProfile?.gender = _sex;
+                      if (formKey.currentState!.validate()) {
+                        userProfile?.firstName = firstNameInit.text;
+                        userProfile?.lastName = lastNameInit.text;
+                        userProfile?.height = int.parse(heightInit.text);
+                        userProfile?.weight = int.parse(weightInit.text);
+                        userProfile?.email = emailInit.text;
+                        userProfile?.birthDate = birthDate;
+                        userProfile?.gender = _sex;
 
-                      if (userProfile != null) {
-                        updateUserProfile(userProfile!);
+                        if (userProfile != null) {
+                          updateUserProfile(userProfile!);
+                        }
                       }
                     },
                   )
