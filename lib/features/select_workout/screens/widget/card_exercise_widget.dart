@@ -53,7 +53,7 @@ class CardExerciseWidget<T> extends StatelessWidget {
                   //alignment: Alignment.center,
                   height: 100,
                   width: 100,
-                  child: Lottie.asset(
+                  child: Lottie.network(
                     (((model as ExerciseModel).media)?[0] as ExerciseMedia)
                         .animation,
                     fit: BoxFit.contain,

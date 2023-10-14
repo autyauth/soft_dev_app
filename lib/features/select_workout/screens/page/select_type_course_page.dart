@@ -41,6 +41,10 @@ class _SelectTypeCourseState extends State<SelectTypeCourse> {
           return true;
         } else if (current is SelectCoursesActionState) {
           return true;
+        } else if (current is CreatePageActionState) {
+          return true;
+        } else if (current is CreatePageState) {
+          return true;
         } else {
           return false;
         }
@@ -50,6 +54,10 @@ class _SelectTypeCourseState extends State<SelectTypeCourse> {
         if (current is SelectCoursesState) {
           return false;
         } else if (current is SelectCoursesActionState) {
+          return false;
+        } else if (current is CreatePageActionState) {
+          return false;
+        } else if (current is CreatePageState) {
           return false;
         } else if (current is! SelectWorkoutActionState) {
           return true;
@@ -142,13 +150,17 @@ class _SelectTypeCourseState extends State<SelectTypeCourse> {
                               },
                             ),
                           ),
-                          SelectExerciseWidget<CourseType>(
-                              onTap: () {},
-                              model: CourseType(
-                                name: 'Custom',
-                                image:
-                                    'https://firebasestorage.googleapis.com/v0/b/soft-dev-project-23172.appspot.com/o/courseImage%2Ftemp_exercise.jpg?alt=media&token=f02eb63b-dbff-4cb8-888a-d1091dc8ac3d&_gl=1*zhwzn6*_ga*MjAxNzM0OTc5NS4xNjk2NDk0ODA3*_ga_CW55HF8NVT*MTY5NzI3NTA0MC4yNC4xLjE2OTcyNzUyNzkuNDAuMC4w',
-                              )),
+                          // SelectExerciseWidget<CourseType>(
+                          //   onTap: () {
+                          //     selectWorkoutBloc
+                          //         .add(SelectWorkoutClickCustomEvent());
+                          //   },
+                          //   model: CourseType(
+                          //     name: 'Custom',
+                          //     image:
+                          //         'https://firebasestorage.googleapis.com/v0/b/soft-dev-project-23172.appspot.com/o/courseImage%2Ftemp_exercise.jpg?alt=media&token=f02eb63b-dbff-4cb8-888a-d1091dc8ac3d&_gl=1*zhwzn6*_ga*MjAxNzM0OTc5NS4xNjk2NDk0ODA3*_ga_CW55HF8NVT*MTY5NzI3NTA0MC4yNC4xLjE2OTcyNzUyNzkuNDAuMC4w',
+                          //   ),
+                          // ),
                         ]),
                       ),
                     ),

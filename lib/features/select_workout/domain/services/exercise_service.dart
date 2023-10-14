@@ -24,12 +24,36 @@ class ExerciseService {
     // Assuming your Firestore collection is named 'courses'.
     return FirebaseFirestore.instance
         .collection('course')
+        .where('isGlobal', isEqualTo: true)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) {
         return CoursesModel.fromJson(doc.data());
       }).toList();
     });
+  }
+
+  Stream<List<CoursesModel>> getCourseCustom() {
+    // Assuming your Firestore collection is named 'courses'.
+    return FirebaseFirestore.instance
+        .collection('course')
+        .where('isGlobal', isEqualTo: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) {
+            return CoursesModel.fromJson(doc.data());
+          })
+          .where((course) => course.type.any((type) => type.name == "Custom"))
+          .toList();
+    });
+  }
+
+  Stream<List<ExerciseModel>> getExerciseList() {
+    return FirebaseFirestore.instance.collection('exercise').snapshots().map(
+        (snapshot) => snapshot.docs
+            .map((doc) => ExerciseModel.fromJson(doc.data()))
+            .toList());
   }
 
   Stream<List<ExerciseModel>> getExerciseByDocIdList(List<String> docIdList) {
@@ -39,6 +63,17 @@ class ExerciseService {
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => ExerciseModel.fromJson(doc.data()))
+            .toList());
+  }
+
+  Stream<List<ExerciseMedia>> getExerciseMediaByDocIdList(
+      List<String> docIdList) {
+    return FirebaseFirestore.instance
+        .collection('exerciseMedia')
+        .where(FieldPath.documentId, whereIn: docIdList)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => ExerciseMedia.fromJson(doc.data()))
             .toList());
   }
 
@@ -61,7 +96,21 @@ class ExerciseService {
         .collection('exercise')
         .where('level', isEqualTo: level)
         .where('priority', isEqualTo: priority)
-        .orderBy('level', descending: false)
+        .orderBy('priority', descending: false)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return ExerciseModel.fromJson(doc.data());
+      }).toList();
+    });
+  }
+
+  Stream<List<ExerciseModel>> getExerciseListByUserLevelAndPriorityAndPartFocus(
+      int priority, String partFocus) {
+    return FirebaseFirestore.instance
+        .collection('exercise')
+        .where('priority', isEqualTo: priority)
+        .where('partFocus', arrayContains: partFocus)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) {
@@ -80,5 +129,21 @@ class ExerciseService {
         return ExerciseMedia.fromJson(doc.data());
       }).toList();
     });
+  }
+
+  Future<String> addCourseByusername(CoursesModel course) async {
+    try {
+      course.setisGlobalIsFalse();
+      late String docId;
+      await _firestore
+          .collection('course')
+          .add(course.toJson())
+          .then((DocumentReference doc) {
+        docId = doc.id;
+      });
+      return docId;
+    } catch (e) {
+      return 'fail';
+    }
   }
 }

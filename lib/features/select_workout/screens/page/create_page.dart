@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:soft_dev_app/features/select_workout/domain/models/exercise_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:soft_dev_app/features/select_workout/bloc/select_workout_bloc.dart';
 import 'package:soft_dev_app/features/select_workout/screens/widget/card_exercise_widget.dart';
 
 import '../../../../core/theme/theme.dart';
@@ -14,8 +15,10 @@ class CreatePage extends StatefulWidget {
 class _CreatePageState extends State<CreatePage> {
   late ScrollController _scrollController;
   bool _isScrolled = false;
+  late SelectWorkoutBloc selectWorkoutBloc;
   @override
   void initState() {
+    selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.offset > 70 && !_isScrolled) {
@@ -33,96 +36,103 @@ class _CreatePageState extends State<CreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: <Widget>[
-            SliverAppBar(
-              pinned: true,
-              expandedHeight: 160,
-              backgroundColor: Palette.whiteColor,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(
-                  'assets/images/temp_exercise.jpg',
-                  fit: BoxFit.cover,
+    return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
+      bloc: selectWorkoutBloc,
+      listenWhen: (previous, current) {
+        if (current is CreatePageActionState) {
+          return true;
+        }
+        if (current is CreatePageState) {
+          return false;
+        }
+        return true;
+      },
+      buildWhen: (previous, current) {
+        if (current is CreatePageState) {
+          return true;
+        }
+        return false;
+      },
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        switch (state.runtimeType) {
+          case CreatePageLoading:
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          case CreatePageInitial:
+            final successState = state as CreatePageInitial;
+            return Scaffold(
+              body: SafeArea(
+                child: CustomScrollView(
+                  controller: _scrollController,
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      pinned: true,
+                      expandedHeight: 160,
+                      backgroundColor: Palette.whiteColor,
+                      flexibleSpace: FlexibleSpaceBar(
+                        background: Image.asset(
+                          'assets/images/temp_exercise.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      title: Text(
+                        _isScrolled ? successState.course.name : '',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      leading: AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          color: _isScrolled ? Colors.black : Colors.white,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                    ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          final exercise = successState.exerciseList[index];
+
+                          return CardExerciseWidget(
+                              onTap: () {}, model: exercise);
+                        },
+                        childCount: state.exerciseList.length,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              title: Text(
-                _isScrolled ? 'ท่าวิดพื้น' : '',
-                style: TextStyle(color: Colors.black),
-              ),
-              leading: AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  color: _isScrolled ? Colors.black : Colors.white,
-                  onPressed: () => Navigator.of(context).pop(),
+              bottomNavigationBar: Padding(
+                padding: EdgeInsets.all(15),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Palette.orangeColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15))),
+                  child: Text(
+                    'สร้าง',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  onPressed: () {},
                 ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  final exercise = [
-                    ExerciseModel(
-                      name: 'ท่าวิดพื้น',
-                      description: '',
-                      mediaDocId: [],
-                      amout: 0,
-                      time: 100,
-                      level: 0,
-                      partFocus: [],
-                      priority: 0,
-                    ),
-                    ExerciseModel(
-                      name: 'ท่าวิดพื้น2',
-                      description: '',
-                      mediaDocId: [],
-                      amout: 20,
-                      time: 0,
-                      level: 0,
-                      partFocus: [],
-                      priority: 0,
-                    ),
-                  ];
-                  exercise[0].setMedia([
-                    ExerciseMedia(
-                        image: '',
-                        video: '',
-                        animation: 'assets/images/ChestStretch_lottie.json')
-                  ]);
-                  exercise[1].setMedia([
-                    ExerciseMedia(
-                        image: '',
-                        video: '',
-                        animation: 'assets/images/Lunge_1.mp4.lottie.json')
-                  ]);
-
-                  ExerciseModel exerciseModel = exercise[index];
-
-                  return CardExerciseWidget(onTap: () {}, model: exerciseModel);
-                },
-                childCount: 2,
+            );
+          default:
+            return const Scaffold(
+              body: Center(
+                child: Text('Error'),
               ),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(15),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              backgroundColor: Palette.orangeColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15))),
-          child: Text(
-            'เริ่ม',
-            style: TextStyle(fontSize: 25),
-          ),
-          onPressed: () {},
-        ),
-      ),
+            );
+        }
+      },
     );
   }
 }

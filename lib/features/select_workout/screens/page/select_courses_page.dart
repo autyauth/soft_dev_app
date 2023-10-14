@@ -30,10 +30,21 @@ class _SelectCoursesPageState extends State<SelectCoursesPage> {
       listenWhen: (previous, current) {
         if (current is SelectCoursesActionState) {
           return true;
+        } else if (current is CreatePageActionState) {
+          return true;
+        } else if (current is CreatePageState) {
+          return true;
         }
-        return false;
+        return true;
       },
       buildWhen: (previous, current) {
+        if (current is SelectCoursesActionState) {
+          return false;
+        } else if (current is CreatePageActionState) {
+          return false;
+        } else if (current is CreatePageState) {
+          return false;
+        }
         if (current is SelectCoursesState) {
           return true;
         }
