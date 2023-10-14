@@ -134,7 +134,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               tabs: const [
                                 Padding(
                                   padding: EdgeInsets.all(13.0),
-                                  child: Text(
+                                  child: Text(  
                                     'Sign In',
                                     style: TextStyle(
                                       fontSize: 18,

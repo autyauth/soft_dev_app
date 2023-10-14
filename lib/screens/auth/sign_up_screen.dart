@@ -293,7 +293,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       }),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: const Text(
+                    'Gender',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -337,7 +348,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                  if (!(isMale || isFemale || isOther))
                   const Text(
-                    'Please select a gender',
+                    'Please Select a Gender',
                     style: TextStyle(color: Colors.red),
                   ),
                   
