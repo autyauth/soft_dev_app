@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+//model
 class UserProfile {
-  final String firstName;
-  final String lastName;
-  final DateTime? birthDate;
-  final String? gender;
-  final int height;
-  final int weight;
-  final String email;
-  final String? imageUrl;
-  final int level;
-  final int point;
+  //อย่าใช้ final เพราะจะเขียน data ไม่ได้ ยกเว้นแค่จะดึงมาดูอย่างเดียวค่อยใช้
+   String firstName;
+   String lastName;
+   DateTime? birthDate;
+   String? gender;
+   int height;
+   int weight;
+   String email;
+   String? imageUrl;
+   int level;
+   int point;
+   String username;
   UserProfile({
     required this.firstName,
     required this.lastName,
@@ -22,8 +24,9 @@ class UserProfile {
     required this.height,
     required this.weight,
     required this.email,
+    required this.username
   });
-
+//mapping model and data in database
   factory UserProfile.fromMap(Map<String, dynamic> map) {
     return UserProfile(
       firstName: map['firstName'] ?? '',
@@ -38,6 +41,19 @@ class UserProfile {
       height: map['height'] ?? 0,
       weight: map['weight'] ?? 0,
       email: map['email'] ?? '',
+      username: map['username']?? '',
     );
+  }
+  //map dataใน Userprofile ไปใส่ใน database
+    Map<String, dynamic> toMap() {
+    return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'height': height,
+      'weight': weight,
+      'email': email,
+      'birthDate': birthDate,
+      'gender': gender,
+    };
   }
 }

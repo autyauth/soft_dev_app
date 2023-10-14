@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
+import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
 import 'package:soft_dev_app/features/workout/screens/page/pofile_picture_select.dart';
 import 'package:soft_dev_app/features/workout/screens/widget/back_btn.dart';
 import 'package:soft_dev_app/features/workout/screens/widget/gradient_button.dart';
@@ -21,15 +22,14 @@ const List<String> sex = <String>[
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final formKey = GlobalKey<FormState>();
-
+//ไว้ใช้ init ค่าทีมีอยู่ ตอนเริ่ม
   TextEditingController firstNameInit = TextEditingController();
   TextEditingController lastNameInit = TextEditingController();
   TextEditingController heightInit = TextEditingController();
   TextEditingController weightInit = TextEditingController();
   TextEditingController emailInit = TextEditingController();
-
-  Future<void> fetchUserProfileData() async {
-
+//ดึง data ใน database มาใส่ userdoc
+  Future<UserProfile?> fetchUserProfileData() async {
     try {
       DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
           .instance
@@ -38,55 +38,72 @@ class _EditProfilePageState extends State<EditProfilePage> {
           .get();
 
       if (userDoc.exists) {
-        if (userDoc.exists) {
-          Map<String, dynamic> userData = userDoc.data()!;
-          setState(() {
-            // Update the state variables with the retrieved data
-            firstNameInit.text = userData['firstName'];
-            lastNameInit.text = userData['lastName'];
-            birthDate = userData['birthDate'].toDate();
-            _sex = userData['gender'];
-            heightInit.text = userData['height'].toString();
-            weightInit.text = userData['weight'].toString();
-            // Set other form fields accordingly
-          });
-        }
+        Map<String, dynamic> userData = userDoc.data()!;
+        return UserProfile.fromMap(userData);
       } else {
         print('User document does not exist.');
+        return null;
       }
     } catch (e) {
       print('Error fetching user profile data: $e');
+      return null;
     }
   }
 
+  Future<void> updateUserProfile(UserProfile userProfile) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('userProfile')
+          .doc('/cXZMVx6sIaGJnK7FgSIO') // Use the correct document ID
+          .update(userProfile.toMap());
+      print('User profile updated successfully');
+    } catch (e) {
+      print('Error updating user profile: $e');
+    }
+  }
+
+  UserProfile? userProfile;
+
   @override
   void initState() {
-    // TODO: implement initState
-    fetchUserProfileData();
-
-    emailInit.text = "68090251@kmitl.ac.th";
     super.initState();
+    //fetch โดย เรียก function ข้างบนมาใส่ profile
+    fetchUserProfileData().then((profile) {
+      if (profile != null) {
+        setState(() {
+          userProfile = profile;
+          //ใช้ controller เพราะ initvalue ใช้ได้ครั้งเดียวแล้ว data โหลดไม่ทันเลย กลายเป็น empty string
+          firstNameInit.text = userProfile?.firstName ?? '';
+          lastNameInit.text = userProfile?.lastName ?? '';
+          heightInit.text = userProfile?.height.toString() ?? '0';
+          weightInit.text = userProfile?.weight.toString() ?? '0';
+          emailInit.text = userProfile?.email ?? '';
+          birthDate = userProfile?.birthDate;
+          _sex = userProfile?.gender ?? '';
+        });
+      }
+    });
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    firstNameInit.dispose();
-    lastNameInit.dispose();
-    heightInit.dispose();
-    weightInit.dispose();
-    emailInit.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   firstNameInit.dispose();
+  //   lastNameInit.dispose();
+  //   heightInit.dispose();
+  //   weightInit.dispose();
+  //   emailInit.dispose();
+  //   super.dispose();
+  // }
 
   @override
   DateTime? birthDate;
-  String? _sex  ;
-  String firstName = "KKK";
-  String lastName = "SASA";
-  int height = 169;
-  int weight = 72;
-  String email = "68090251@kmitl.ac.th";
+  String? _sex;
+  String firstName = "";
+  String lastName = "";
+  int height = 0;
+  int weight = 0;
+  String email = "null";
 
   void pickBirthDate() {
     showDatePicker(
@@ -165,150 +182,148 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 FocusScope.of(context).unfocus();
               },
               child: SingleChildScrollView(
-                child: Flexible(
-                  child: Align(
-                    //edit form
-                    alignment: Alignment.center,
-                    child: Container(
-                      margin: EdgeInsets.only(
-                          left: screenWidth * 0.085,
-                          right: screenWidth * 0.085,
-                          top: screenHeight * 0.15,
-                          bottom: screenHeight * 0.25),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Palette.orangeColor,
-                          width: 2.0,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
+                child: Align(
+                  //edit form
+                  alignment: Alignment.center,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: screenWidth * 0.085,
+                        right: screenWidth * 0.085,
+                        top: screenHeight * 0.15,
+                        bottom: screenHeight * 0.25),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: Palette.orangeColor,
+                        width: 2.0,
                       ),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            child: TextFormField(
-                              controller: firstNameInit,
-                              decoration: InputDecoration(
-                                hintText: "Enter your First name",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          child: TextFormField(
+                            controller: firstNameInit,
+                            decoration: InputDecoration(
+                              hintText: "Enter your First name",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            child: TextFormField(
-                              controller: lastNameInit,
-                              decoration: InputDecoration(
-                                  hintText: "Enter your last name",
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                            ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          child: TextFormField(
+                            controller: lastNameInit,
+                            decoration: InputDecoration(
+                                hintText: "Enter your last name",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20))),
                           ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            child: GestureDetector(
-                              onTap: pickBirthDate,
-                              child: SizedBox(
-                                width: double.infinity,
-                                height: 55,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.black45,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(20),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          child: GestureDetector(
+                            onTap: pickBirthDate,
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 55,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black45,
+                                    width: 1.0,
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        _birthDate(),
-                                        style: const TextStyle(
-                                            color: Colors.black45,
-                                            fontSize: 16),
-                                      ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      _birthDate(),
+                                      style: const TextStyle(
+                                          color: Colors.black45, fontSize: 16),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          Container(
-                            //gender
-                            padding: EdgeInsets.all(4),
-                            margin: EdgeInsets.all(8),
-                            width: screenWidth * 0.83,
-                            height: 55,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black45),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: DropdownButton<String>(
-                              padding: EdgeInsets.only(left: 8),
-                              underline: Container(
-                                height: 0,
-                              ),
-                              value: _sex,
-                              iconSize: 0.0,
-                              style: const TextStyle(
-                                  color: Colors.black45, fontSize: 16),
-                              onChanged: (String? value) {
-                                // This is called when the user selects an item.
-                                setState(() {
-                                  _sex = value!;
-                                });
-                              },
-                              items: sex.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
+                        ),
+                        Container(
+                          //gender
+                          padding: EdgeInsets.all(4),
+                          margin: EdgeInsets.all(8),
+                          width: screenWidth * 0.83,
+                          height: 55,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black45),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              controller: heightInit,
-                              decoration: InputDecoration(
-                                  hintText: "Enter your Height(cm)",
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20))),
+                          child: DropdownButton<String>(
+                            padding: EdgeInsets.only(left: 8),
+                            underline: Container(
+                              height: 0,
                             ),
+                            value: _sex,
+                            iconSize: 0.0,
+                            style: const TextStyle(
+                                color: Colors.black45, fontSize: 16),
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                _sex = value!;
+                              });
+                            },
+                            items: sex
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
                           ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            child: TextFormField(
-                              controller: weightInit,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                  hintText: "Enter your Weight(kg)",
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                            ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            controller: heightInit,
+                            decoration: InputDecoration(
+                                hintText: "Enter your Height(cm)",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20))),
                           ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            child: TextFormField(
-                              controller: emailInit,
-                              keyboardType: TextInputType.emailAddress,
-                              onSaved: (text) {
-                                text != null ? email = text : email = "";
-                              },
-                              decoration: InputDecoration(
-                                  hintText: "Enter your email",
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                            ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          child: TextFormField(
+                            controller: weightInit,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                hintText: "Enter your Weight(kg)",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20))),
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          child: TextFormField(
+                            controller: emailInit,
+                            keyboardType: TextInputType.emailAddress,
+                            onSaved: (text) {
+                              text != null ? email = text : email = "";
+                            },
+                            decoration: InputDecoration(
+                                hintText: "Enter your email",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -348,7 +363,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       Palette.orangeColor
                     ],
                     buttonText: 'Save',
-                    onPress: () {},
+                    onPress: () {
+                      userProfile?.firstName = firstNameInit.text;
+                      userProfile?.lastName = lastNameInit.text;
+                      userProfile?.height = int.parse(heightInit.text);
+                      userProfile?.weight = int.parse(weightInit.text);
+                      userProfile?.email = emailInit.text;
+                      userProfile?.birthDate = birthDate;
+                      userProfile?.gender = _sex;
+
+                      if (userProfile != null) {
+                        updateUserProfile(userProfile!);
+                      }
+                    },
                   )
                 ],
               ),

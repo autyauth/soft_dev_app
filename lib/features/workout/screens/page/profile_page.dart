@@ -1,11 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
+import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
 import 'package:soft_dev_app/features/workout/screens/page/edit_profile_page.dart';
 import 'package:soft_dev_app/features/workout/screens/widget/outline_text.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+    Future<UserProfile?> fetchUserProfileData() async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
+          .instance
+          .collection('userProfile')
+          .doc('/cXZMVx6sIaGJnK7FgSIO')
+          .get();
 
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data()!;
+        return UserProfile.fromMap(userData);
+      } else {
+        print('User document does not exist.');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching user profile data: $e');
+      return null;
+    }
+  }
+
+  
+  String name ="";
+  String imageURL = "";
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
