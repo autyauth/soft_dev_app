@@ -34,6 +34,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 	bool containsSpecialChar = false;
 	bool contains8Length = false;
 
+  bool isMale = false;
+  bool isFemale = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpBloc, SignUpState>(
@@ -252,6 +255,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                // Checkbox for gender
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: isMale,
+                      onChanged: (value) {
+                        setState(() {
+                          isMale = value ?? false;
+                          isFemale = !isMale;
+                          genderController.text = isMale ? 'Male' : '';
+                        });
+                      },
+                    ),
+                    Text('Male'),
+                    Checkbox(
+                      value: isFemale,
+                      onChanged: (value) {
+                        setState(() {
+                          isFemale = value ?? false;
+                          isMale = !isFemale;
+                          genderController.text = isFemale ? 'Female' : '';
+                        });
+                      },
+                    ),
+                    Text('Female'),
+                  ],
+                ),
+                
+                    const SizedBox(height: 10),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: MyTextField(
@@ -304,6 +337,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   height: heightController.text,
                                   weight: weightController.text,
                                   age: ageController.text,
+                                  gender: genderController.text,
 
                                 );
                                 setState(() {
