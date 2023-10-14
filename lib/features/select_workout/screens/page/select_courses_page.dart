@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:soft_dev_app/features/select_workout/domain/models/courses_model.dart';
+import 'package:soft_dev_app/routing/route_constants.dart';
 
 import '../../../../core/theme/theme.dart';
 import '../../bloc/select_workout_bloc.dart';
@@ -25,9 +27,29 @@ class _SelectCoursesPageState extends State<SelectCoursesPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
       bloc: selectWorkoutBloc,
-      listenWhen: (previous, current) => current is SelectCoursesActionState,
-      buildWhen: (previous, current) => current is SelectCoursesState,
-      listener: (context, state) {},
+      listenWhen: (previous, current) {
+        if (current is SelectCoursesActionState) {
+          return true;
+        }
+        return false;
+      },
+      buildWhen: (previous, current) {
+        if (current is SelectCoursesState) {
+          return true;
+        }
+        return false;
+      },
+      listener: (context, state) {
+        if (state is SelectCourseNavigateToCreatePageState) {
+          selectWorkoutBloc.add(
+            CreatePageInitialEvent(
+              course: state.course,
+              exerciseList: state.exerciseList,
+            ),
+          );
+          context.pushNamed(RouteConstants.createCoursePage);
+        }
+      },
       builder: (context, state) {
         print(state);
         switch (state.runtimeType) {
@@ -76,7 +98,11 @@ class _SelectCoursesPageState extends State<SelectCoursesPage> {
                                 children: [
                                   SelectExerciseWidget<CoursesModel>(
                                     model: course,
-                                    onTap: () {},
+                                    onTap: () {
+                                      selectWorkoutBloc.add(
+                                          SelectCourseClickCourseEvent(
+                                              course: course));
+                                    },
                                   ),
                                 ],
                               );

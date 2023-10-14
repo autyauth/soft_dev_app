@@ -18,12 +18,30 @@ class SelectWorkoutClickFullBodyEvent extends SelectWorkoutEvent {
   SelectWorkoutClickFullBodyEvent({required this.userLevel});
 }
 
+class SelectWorkoutClickCustomEvent extends SelectWorkoutEvent {
+  final int userLevel;
+  SelectWorkoutClickCustomEvent({required this.userLevel});
+}
+
 //Course
 class SelectCourseInitialEvent extends SelectWorkoutEvent {
   final List<CoursesModel> courses;
   final String courseTypeName;
   SelectCourseInitialEvent(
       {required this.courses, required this.courseTypeName});
+}
+
+class SelectCourseClickCourseEvent extends SelectWorkoutEvent {
+  CoursesModel course;
+  SelectCourseClickCourseEvent({required this.course});
+}
+
+//CreatePage
+
+class CreatePageInitialEvent extends SelectWorkoutEvent {
+  final CoursesModel course;
+  final List<ExerciseModel> exerciseList;
+  CreatePageInitialEvent({required this.course, required this.exerciseList});
 }
 
 // part of 'select_workout_bloc.dart';

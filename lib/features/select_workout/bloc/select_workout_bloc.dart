@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:soft_dev_app/features/select_workout/domain/models/exercise_model.dart';
 
 import '../domain/models/courses_model.dart';
 import '../domain/services/exercise_service.dart';
@@ -15,7 +16,8 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
     on<SelectWorkoutInitialEvent>(selectWorkoutInitialEvent);
     on<SelectWorkoutClickCourseTypeEvent>(selectWorkoutClickCourseTypeEvent);
     on<SelectCourseInitialEvent>(selectCourseInitialEvent);
-    on<SelectWorkoutClickFullBodyEvent>(selectClickFullBodyEvent);
+    on<SelectCourseClickCourseEvent>(selectCourseClickCourseEvent);
+    // on<SelectWorkoutClickFullBodyEvent>(selectClickFullBodyEvent);
   }
 
 //SelectWorkout
@@ -61,8 +63,25 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
         courses: event.courses, courseTypeName: event.courseTypeName));
   }
 
-  FutureOr<void> selectClickFullBodyEvent(SelectWorkoutClickFullBodyEvent event,
-      Emitter<SelectWorkoutState> emit) {}
+  // FutureOr<void> selectClickFullBodyEvent(SelectWorkoutClickFullBodyEvent event,
+  //     Emitter<SelectWorkoutState> emit) async {
+  //   List<ExerciseModel> exerciseList = [];
+  //   var exerciseStream = await ExerciseService()
+  //       .getExerciseListByUserLevelAndPriority(event.userLevel, 0);
+  // }
+
+  FutureOr<void> selectCourseClickCourseEvent(
+      SelectCourseClickCourseEvent event,
+      Emitter<SelectWorkoutState> emit) async {
+    final List<ExerciseModel> exerciseList = await ExerciseService()
+        .getExerciseByDocIdList(event.course.exerciseDocId)
+        .first;
+    for (var i in exerciseList) {
+      print(i.name);
+    }
+    emit(SelectCourseNavigateToCreatePageState(
+        course: event.course, exerciseList: exerciseList));
+  }
 }
 
 

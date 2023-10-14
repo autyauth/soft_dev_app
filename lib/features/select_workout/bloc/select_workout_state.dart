@@ -9,6 +9,10 @@ abstract class SelectCoursesState extends SelectWorkoutState {}
 
 abstract class SelectCoursesActionState extends SelectCoursesState {}
 
+abstract class CreatePageState extends SelectWorkoutState {}
+
+abstract class CreatePageActionState extends CreatePageState {}
+
 //SelectWorkout
 class SelectWorkoutInitial extends SelectWorkoutState {}
 
@@ -28,11 +32,6 @@ class SelectWorkoutNavigateToCoursePageState extends SelectWorkoutActionState {
       {required this.courses, required this.courseTypeName});
 }
 
-class SelectWorkoutNavigateToExercisePageState
-    extends SelectWorkoutActionState {
-  SelectWorkoutNavigateToExercisePageState();
-}
-
 //Course
 class SelectCourseInitial extends SelectCoursesState {
   final List<CoursesModel> courses;
@@ -48,6 +47,21 @@ class SelectCourseLoadedState extends SelectCoursesState {
   SelectCourseLoadedState(
       {required this.courses, required this.courseTypeName});
 }
+
+class SelectCourseNavigateToCreatePageState extends SelectCoursesActionState {
+  final CoursesModel course;
+  final List<ExerciseModel> exerciseList;
+  SelectCourseNavigateToCreatePageState(
+      {required this.course, required this.exerciseList});
+}
+//createPage
+
+class CreatePageInitial extends CreatePageState {
+  final CoursesModel course;
+  final List<ExerciseModel> exerciseList;
+  CreatePageInitial({required this.course, required this.exerciseList});
+}
+
 //exercisePage
 
 // part of 'select_workout_bloc.dart';

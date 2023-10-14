@@ -7,4 +7,5 @@ class RouteConstants {
   static String fullbodyExercise = 'fullbodyExercise';
   static String customExercise = 'customExercise';
   static String courseTypeRoute = 'course-type';
+  static String createCoursePage = 'createCoursePage';
 }
