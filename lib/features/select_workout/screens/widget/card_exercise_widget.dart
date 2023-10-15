@@ -11,12 +11,9 @@ class CardExerciseWidget<T> extends StatelessWidget {
   String timeOrAmout(int time, int amout) {
     String result = "";
     if (time != 0) {
-      result = ((time / 60).floor()).toString() +
-          ":" +
-          (time % 60).toString() +
-          " นาที";
+      result = "${(time / 60).floor()}:${time % 60} นาที";
     } else {
-      result = "x" + amout.toString() + " ครั้ง";
+      result = "x$amout ครั้ง";
     }
     return result;
   }
@@ -27,11 +24,11 @@ class CardExerciseWidget<T> extends StatelessWidget {
       onTap: () {},
       child: Container(
         alignment: Alignment.center,
-        margin: EdgeInsets.only(top: 20, bottom: 10),
-        decoration: BoxDecoration(
+        margin: const EdgeInsets.only(top: 20, bottom: 10),
+        decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: const Color.fromARGB(255, 228, 226, 226),
+              color: Color.fromARGB(255, 228, 226, 226),
               width: 2.0,
             ),
           ),
@@ -44,12 +41,12 @@ class CardExerciseWidget<T> extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Container(
+                const SizedBox(
                   // height: 100,
                   width: 60,
                   child: Icon(Icons.unfold_more_double),
                 ),
-                Container(
+                SizedBox(
                   //alignment: Alignment.center,
                   height: 100,
                   width: 100,
@@ -67,7 +64,7 @@ class CardExerciseWidget<T> extends StatelessWidget {
                       Text(
                         (model as ExerciseModel).name,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
@@ -76,7 +73,7 @@ class CardExerciseWidget<T> extends StatelessWidget {
                       Text(
                         timeOrAmout((model as ExerciseModel).time,
                             (model as ExerciseModel).amout),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black54),
@@ -90,6 +87,5 @@ class CardExerciseWidget<T> extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

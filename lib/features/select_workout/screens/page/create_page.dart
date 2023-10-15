@@ -91,7 +91,7 @@ class _CreatePageState extends State<CreatePage> {
                         style: TextStyle(color: Colors.black),
                       ),
                       leading: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         child: IconButton(
                           icon: const Icon(Icons.arrow_back),
                           color: _isScrolled ? Colors.black : Colors.white,
@@ -116,13 +116,13 @@ class _CreatePageState extends State<CreatePage> {
                 ),
               ),
               bottomNavigationBar: Padding(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Palette.orangeColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15))),
-                  child: Text(
+                  child: const Text(
                     'สร้าง',
                     style: TextStyle(fontSize: 25),
                   ),

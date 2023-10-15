@@ -29,7 +29,7 @@ class SelectCourseInitialEvent extends SelectWorkoutEvent {
 }
 
 class SelectCourseClickCourseEvent extends SelectWorkoutEvent {
-  CoursesModel course;
+  final CoursesModel course;
   SelectCourseClickCourseEvent({required this.course});
 }
 

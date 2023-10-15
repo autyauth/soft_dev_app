@@ -41,7 +41,7 @@ class CoursesModel {
         'level': level,
       };
   void setisGlobalIsFalse() {
-    this.isGlobal = false;
+    isGlobal = false;
   }
 
   void setCourseId(List<String> exerciseDocId) {

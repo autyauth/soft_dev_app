@@ -115,7 +115,7 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
       newExercise.addAll(doTemp);
       newExercise.addAll(coolDownTemp);
 
-      final newCourse = event.course;
+      //final newCourse = event.course;
 
       emit(SelectCourseNavigateToCreatePageState(
           course: event.course, exerciseList: newExercise));
