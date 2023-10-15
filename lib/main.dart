@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import 'package:flutter/material.dart';
-import 'core/theme/theme.dart';
-import 'features/workout/screens/page/select_excercise_page.dart';
-=======
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:soft_dev_app/features/select_workout/bloc/select_workout_bloc.dart';
->>>>>>> origin/select_exercise
-
 // import 'core/theme/theme.dart';
 // import 'routing/route.dart';
 
