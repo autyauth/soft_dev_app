@@ -138,7 +138,7 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
   }
   Future _pickImageFromGallery() async{
     final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-
+    if (pickedImage == null)return;
     setState(() {
       _pickedImage = File(pickedImage!.path); 
     });
