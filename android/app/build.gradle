@@ -2,6 +2,7 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.gms.google-services'
 }
 
 def localProperties = new Properties()
@@ -66,4 +67,13 @@ flutter {
     source '../..'
 }
 
+<<<<<<< HEAD
 dependencies {implementation 'androidx.multidex:multidex:2.0.1'}
+=======
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.android.support:multidex:2.0.1'
+
+}
+>>>>>>> origin/navandprofile
