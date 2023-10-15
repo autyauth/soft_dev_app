@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCoeel7eWtEY-HS9Gjs3w6woSUu53pUiY4',
-    appId: '1:849281117501:web:46d73d97a30cf53d80a954',
-    messagingSenderId: '849281117501',
-    projectId: 'softdev01-30a84',
-    authDomain: 'softdev01-30a84.firebaseapp.com',
-    storageBucket: 'softdev01-30a84.appspot.com',
-    measurementId: 'G-H0NZDFHJ6C',
+    apiKey: 'AIzaSyAk7axwNm4S2DOvbC53k1tYEWqztOxpSGQ',
+    appId: '1:581296192560:web:5b3383931d6ec903a241f5',
+    messagingSenderId: '581296192560',
+    projectId: 'soft-dev-project-23172',
+    authDomain: 'soft-dev-project-23172.firebaseapp.com',
+    storageBucket: 'soft-dev-project-23172.appspot.com',
+    measurementId: 'G-4NPCPECPEQ',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBaEmJ7tNCvUCLqXIdEpppmypvOfikMkeE',
-    appId: '1:849281117501:android:1222778f02aea27f80a954',
-    messagingSenderId: '849281117501',
-    projectId: 'softdev01-30a84',
-    storageBucket: 'softdev01-30a84.appspot.com',
+    apiKey: 'AIzaSyCJZ0gqrIaiX9BhBJvJM5GtaUPExcRxhNQ',
+    appId: '1:581296192560:android:8d66a3c789d420a9a241f5',
+    messagingSenderId: '581296192560',
+    projectId: 'soft-dev-project-23172',
+    storageBucket: 'soft-dev-project-23172.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCJGuohK-EZSc1u4EkVSTOg2-6KRzpaWjo',
-    appId: '1:849281117501:ios:68f79e7d2fefcf2e80a954',
-    messagingSenderId: '849281117501',
-    projectId: 'softdev01-30a84',
-    storageBucket: 'softdev01-30a84.appspot.com',
+    apiKey: 'AIzaSyDtJCqQd5g1fqwcSQ7SxUDm1OPKwVoqCUg',
+    appId: '1:581296192560:ios:aacd7475c61e0d0ea241f5',
+    messagingSenderId: '581296192560',
+    projectId: 'soft-dev-project-23172',
+    storageBucket: 'soft-dev-project-23172.appspot.com',
     iosBundleId: 'com.example.softDevApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCJGuohK-EZSc1u4EkVSTOg2-6KRzpaWjo',
-    appId: '1:849281117501:ios:f142d6b3a6e1690280a954',
-    messagingSenderId: '849281117501',
-    projectId: 'softdev01-30a84',
-    storageBucket: 'softdev01-30a84.appspot.com',
+    apiKey: 'AIzaSyDtJCqQd5g1fqwcSQ7SxUDm1OPKwVoqCUg',
+    appId: '1:581296192560:ios:5c9c8a794985e79ba241f5',
+    messagingSenderId: '581296192560',
+    projectId: 'soft-dev-project-23172',
+    storageBucket: 'soft-dev-project-23172.appspot.com',
     iosBundleId: 'com.example.softDevApp.RunnerTests',
   );
 }

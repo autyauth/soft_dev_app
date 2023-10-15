@@ -5,9 +5,15 @@ class MyUserEntity extends Equatable {
 	final String email;
 	final String name;
   final String gender;
-  final String weight;
-  final String height;
-  final String age;
+  final int weight;
+  final int height;
+  final int age;
+  final String firstName;
+  final String lastName;
+  final String imageUrl;
+  final int point;
+  final int level;
+  final DateTime? birthDate;
 
 	const MyUserEntity({
 		required this.userId,
@@ -16,18 +22,30 @@ class MyUserEntity extends Equatable {
     required this.gender, 
     required this.weight, 
     required this.height, 
-    required this.age
+    required this.age, 
+    required this.firstName, 
+    required this.lastName, 
+    required this.imageUrl, 
+    required this.point, 
+    required this.level, 
+    this.birthDate,
 	});
 
 	Map<String, Object?> toDocument() {
 		return {
 			'userId': userId,
 			'email': email,
-			'name': name,
+			'username': name,
       'gender': gender, 
       'weight': weight, 
       'height': height, 
       'age': age,
+      'firstName': firstName,
+      'lastName': lastName,
+      'imageUrl': imageUrl,
+      'point': point,
+      'level': level,
+      'birthDate': birthDate?.millisecondsSinceEpoch,
 		};
 	}
 
@@ -35,12 +53,18 @@ class MyUserEntity extends Equatable {
 		return MyUserEntity(
 			userId: doc['userId'], 
 			email: doc['email'], 
-			name: doc['name'], 
+			name: doc['username'], 
       gender: doc['gender'], 
       weight: doc['weight'], 
       height: doc['height'], 
-      age: doc['age'],
-//
+      age: doc['age'] ?? 0, 
+      firstName: doc['firstName'],
+      lastName: doc['lastName'], 
+      imageUrl: doc['imageUrl'], 
+      point: doc['point'] ?? 0,
+      level: doc['level'] ?? 0,
+      birthDate: doc['birthDate'] != null ? DateTime.fromMillisecondsSinceEpoch(doc['birthDate']) : null,
+
 		);
 	}
 

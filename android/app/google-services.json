@@ -1,13 +1,32 @@
 {
   "project_info": {
-    "project_number": "849281117501",
-    "project_id": "softdev01-30a84",
-    "storage_bucket": "softdev01-30a84.appspot.com"
+    "project_number": "581296192560",
+    "project_id": "soft-dev-project-23172",
+    "storage_bucket": "soft-dev-project-23172.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:849281117501:android:1222778f02aea27f80a954",
+        "mobilesdk_app_id": "1:581296192560:android:3966ff3c96cf8c10a241f5",
+        "android_client_info": {
+          "package_name": "com.example.fit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJZ0gqrIaiX9BhBJvJM5GtaUPExcRxhNQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581296192560:android:8d66a3c789d420a9a241f5",
         "android_client_info": {
           "package_name": "com.example.soft_dev_app"
         }
@@ -15,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBaEmJ7tNCvUCLqXIdEpppmypvOfikMkeE"
+          "current_key": "AIzaSyCJZ0gqrIaiX9BhBJvJM5GtaUPExcRxhNQ"
         }
       ],
       "services": {
