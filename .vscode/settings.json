@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": [
+        "lib/features/workout/screens/page",
+        "lib/features/workout/domain/models"
+    ]
+}
