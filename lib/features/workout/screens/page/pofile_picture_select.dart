@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:soft_dev_app/core/theme/theme.dart';
 import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
-import 'package:soft_dev_app/features/workout/screens/widget/back_btn.dart';
-import 'package:soft_dev_app/features/workout/screens/widget/gradient_button.dart';
-import 'package:soft_dev_app/features/workout/screens/widget/outline_text.dart';
+
+import '../../../select_workout/screens/widget/back_btn.dart';
+import '../../../select_workout/screens/widget/gradient_button.dart';
+import '../../../select_workout/screens/widget/outline_text.dart';
 
 class ProfilePictureSelect extends StatefulWidget {
   @override
@@ -161,7 +162,7 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
     });
   }
 
-   Future<void> _uploadImageToStorage(File imageFile) async {
+  Future<void> _uploadImageToStorage(File imageFile) async {
     final storageRef = _storage.ref().child(
         'userImage/ProfilePicture.png'); // Change the storage path as needed
 

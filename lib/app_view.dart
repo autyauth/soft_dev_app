@@ -42,10 +42,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soft_dev_app/blocs/authentication_bloc/authentication_bloc_bloc.dart';
-import 'package:soft_dev_app/features/select_workout/screens/page/workout_home_page.dart';
 import 'package:soft_dev_app/screens/auth/welcome_screen.dart';
 
 import 'features/select_workout/bloc/select_workout_bloc.dart';
+import 'features/select_workout/screens/widget/notch_button_bar.dart';
 import 'routing/route.dart';
 
 class MyApp extends StatelessWidget {
@@ -78,7 +78,7 @@ class MyAppView extends StatelessWidget {
         home: BlocBuilder<AuthenticationBloc, AuthenticationBlocState>(
             builder: (context, state) {
           if (state.status == AuthenticationBlocStatus.authenticated) {
-            return const WorkOutHomePage();
+            return const AnimatedNavbar();
           } else {
             return const WelcomeScreen();
           }

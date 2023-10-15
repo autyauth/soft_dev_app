@@ -49,6 +49,7 @@ dependencies:
   user_repository:
     path: packages/user_repository
   lottie: ^2.6.0
+  firebase_storage: ^11.2.8
 
 dev_dependencies:
   flutter_test:

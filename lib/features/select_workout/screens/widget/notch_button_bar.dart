@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
+import 'package:soft_dev_app/features/select_workout/screens/page/workout_home_page.dart';
 import 'package:soft_dev_app/features/workout/screens/page/profile_page.dart';
-import 'package:soft_dev_app/features/workout/screens/page/select_excercise_page.dart';
 
 class AnimatedNavbar extends StatefulWidget {
   const AnimatedNavbar({super.key});
@@ -17,7 +17,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
   late double position;
   int noOfIcons = 3;
   int selected = 0;
-  List<Widget> pages =  [SelectExercisePage(), ProfilePage()];
+  List<Widget> pages = [WorkOutHomePage(), ProfilePage()];
 
   List<String> icons = [
     'assets/icons/home.png',
@@ -36,11 +36,12 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
 
   @override
   void didChangeDependencies() {
-    animation = Tween(begin: getEndPostion(selected), end: getEndPostion(selected)).animate(
-        CurvedAnimation(parent: controller, curve: Curves.easeOutBack));
+    animation =
+        Tween(begin: getEndPostion(selected), end: getEndPostion(selected))
+            .animate(
+                CurvedAnimation(parent: controller, curve: Curves.easeOutBack));
     position = getEndPostion(0);
     Future.delayed(const Duration(microseconds: 0), () {
-      
       controller.forward();
     });
 

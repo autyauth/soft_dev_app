@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:soft_dev_app/features/select_workout/domain/models/exercise_model.dart';
 
-class CardExerciseWidget<T> extends StatelessWidget {
+class CardExerciseWidget<T> extends StatefulWidget {
   const CardExerciseWidget(
       {super.key, required this.onTap, required this.model});
   final Function onTap;
   final T model;
 
+  @override
+  State<CardExerciseWidget<T>> createState() => _CardExerciseWidgetState<T>();
+}
+
+class _CardExerciseWidgetState<T> extends State<CardExerciseWidget<T>> {
   String timeOrAmout(int time, int amout) {
     String result = "";
     if (time != 0) {
@@ -51,7 +56,8 @@ class CardExerciseWidget<T> extends StatelessWidget {
                   height: 100,
                   width: 100,
                   child: Lottie.network(
-                    (((model as ExerciseModel).media)?[0] as ExerciseMedia)
+                    (((widget.model as ExerciseModel).media)?[0]
+                            as ExerciseMedia)
                         .animation,
                     fit: BoxFit.contain,
                   ),
@@ -62,7 +68,7 @@ class CardExerciseWidget<T> extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        (model as ExerciseModel).name,
+                        (widget.model as ExerciseModel).name,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
@@ -71,8 +77,8 @@ class CardExerciseWidget<T> extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        timeOrAmout((model as ExerciseModel).time,
-                            (model as ExerciseModel).amout),
+                        timeOrAmout((widget.model as ExerciseModel).time,
+                            (widget.model as ExerciseModel).amout),
                         style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

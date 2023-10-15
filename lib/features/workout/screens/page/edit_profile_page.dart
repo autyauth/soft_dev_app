@@ -4,9 +4,9 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
 import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
 import 'package:soft_dev_app/features/workout/screens/page/pofile_picture_select.dart';
-import 'package:soft_dev_app/features/workout/screens/widget/back_btn.dart';
-import 'package:soft_dev_app/features/workout/screens/widget/gradient_button.dart';
-import 'package:soft_dev_app/features/workout/screens/widget/outline_text.dart';
+
+import '../../../select_workout/screens/widget/gradient_button.dart';
+import '../../../select_workout/screens/widget/outline_text.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -107,19 +107,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
   int weight = 0;
   String email = "null";
 
-
-
   final requiredValidator =
       RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ');
-final emailValidator = MultiValidator([  
-    EmailValidator(errorText: 'กรุฯากรอกรูปแบบemail ให้ถูกต้อง'),  RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ'),
- ]); 
-final numberValidator = MultiValidator([  
-    RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ'), PatternValidator(r'^[0-9]*$', errorText: 'กรุณากรอกแต่ตัวเลขด้วยครับ'),
- ]); 
-
-
-
+  final emailValidator = MultiValidator([
+    EmailValidator(errorText: 'กรุฯากรอกรูปแบบemail ให้ถูกต้อง'),
+    RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ'),
+  ]);
+  final numberValidator = MultiValidator([
+    RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ'),
+    PatternValidator(r'^[0-9]*$', errorText: 'กรุณากรอกแต่ตัวเลขด้วยครับ'),
+  ]);
 
   void pickBirthDate() {
     showDatePicker(

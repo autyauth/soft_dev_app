@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
 import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
 import 'package:soft_dev_app/features/workout/screens/page/edit_profile_page.dart';
-import 'package:soft_dev_app/features/workout/screens/widget/outline_text.dart';
+
+import '../../../select_workout/screens/widget/outline_text.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({super.key});

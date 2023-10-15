@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/theme.dart';
-import 'package:soft_dev_app/features/workout/screens/widget/back_btn.dart';
-import 'package:soft_dev_app/features/workout/screens/widget/outline_text.dart';
+
+import '../../../select_workout/screens/widget/back_btn.dart';
+import '../../../select_workout/screens/widget/outline_text.dart';
 
 class BackgroundPictureSelect extends StatefulWidget {
   @override
@@ -10,18 +11,18 @@ class BackgroundPictureSelect extends StatefulWidget {
 }
 
 class _BackgroundPictureSelectState extends State<BackgroundPictureSelect> {
-   int count = 0;
+  int count = 0;
 
-    void increase() {
-      setState(() {
-              count += 1;
-      });
-    }
+  void increase() {
+    setState(() {
+      count += 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-   
 
     return Scaffold(
       body: Stack(
