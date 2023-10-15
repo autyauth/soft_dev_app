@@ -21,6 +21,7 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
     on<SelectCourseClickCourseEvent>(selectCourseClickCourseEvent);
     on<CreatePageInitialEvent>(createPageInitialEvent);
     // on<SelectWorkoutClickFullBodyEvent>(selectClickFullBodyEvent);
+    on<CreatePageClickCreateEvent>(createPageClickCreateEvent);
   }
 
 //SelectWorkout
@@ -63,16 +64,15 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
     emit(SelectWorkoutNavigateToCoursePageState(
         courses: courses, courseTypeName: "Custom"));
   }
-}
 
 //Course
 
-FutureOr<void> selectCourseInitialEvent(
-    SelectCourseInitialEvent event, Emitter<SelectWorkoutState> emit) async {
-  emit(SelectCourseLoadingState());
-  emit(SelectCourseLoadedState(
-      courses: event.courses, courseTypeName: event.courseTypeName));
-}
+  FutureOr<void> selectCourseInitialEvent(
+      SelectCourseInitialEvent event, Emitter<SelectWorkoutState> emit) async {
+    emit(SelectCourseLoadingState());
+    emit(SelectCourseLoadedState(
+        courses: event.courses, courseTypeName: event.courseTypeName));
+  }
 
 // FutureOr<void> selectClickFullBodyEvent(SelectWorkoutClickFullBodyEvent event,
 //     Emitter<SelectWorkoutState> emit) async {
@@ -81,65 +81,108 @@ FutureOr<void> selectCourseInitialEvent(
 //       .getExerciseListByUserLevelAndPriority(event.userLevel, 0);
 // }
 
-FutureOr<void> selectCourseClickCourseEvent(SelectCourseClickCourseEvent event,
-    Emitter<SelectWorkoutState> emit) async {
-  if (event.course.type[0].name == "Custom") {
-    print('okey');
-    List<ExerciseModel> exerciseWarmUp = await ExerciseService()
-        .getExerciseListByUserLevelAndPriorityAndPartFocus(0, event.course.name)
-        .first;
-    List<ExerciseModel> exerciseDo = await ExerciseService()
-        .getExerciseListByUserLevelAndPriorityAndPartFocus(1, event.course.name)
-        .first;
-    List<ExerciseModel> exerciseCoolDown = await ExerciseService()
-        .getExerciseListByUserLevelAndPriorityAndPartFocus(2, event.course.name)
-        .first;
-    List<ExerciseModel> warmUpTemp = List.from(exerciseWarmUp);
-    warmUpTemp.shuffle();
-    warmUpTemp = warmUpTemp.take(2).toList();
+  FutureOr<void> selectCourseClickCourseEvent(
+      SelectCourseClickCourseEvent event,
+      Emitter<SelectWorkoutState> emit) async {
+    if (event.course.type[0].name == "Custom") {
+      print('okey');
+      List<ExerciseModel> exerciseWarmUp = await ExerciseService()
+          .getExerciseListByUserLevelAndPriorityAndPartFocus(
+              0, event.course.name)
+          .first;
+      List<ExerciseModel> exerciseDo = await ExerciseService()
+          .getExerciseListByUserLevelAndPriorityAndPartFocus(
+              1, event.course.name)
+          .first;
+      List<ExerciseModel> exerciseCoolDown = await ExerciseService()
+          .getExerciseListByUserLevelAndPriorityAndPartFocus(
+              2, event.course.name)
+          .first;
+      List<ExerciseModel> warmUpTemp = List.from(exerciseWarmUp);
+      warmUpTemp.shuffle();
+      warmUpTemp = warmUpTemp.take(2).toList();
 
-    List<ExerciseModel> doTemp = List.from(exerciseDo);
-    doTemp.shuffle();
-    doTemp = doTemp.take(5).toList();
+      List<ExerciseModel> doTemp = List.from(exerciseDo);
+      doTemp.shuffle();
+      doTemp = doTemp.take(5).toList();
 
-    List<ExerciseModel> coolDownTemp = List.from(exerciseCoolDown);
-    coolDownTemp.shuffle();
-    coolDownTemp = coolDownTemp.take(2).toList();
+      List<ExerciseModel> coolDownTemp = List.from(exerciseCoolDown);
+      coolDownTemp.shuffle();
+      coolDownTemp = coolDownTemp.take(2).toList();
 
-    List<ExerciseModel> newExercise = [];
-    newExercise.addAll(warmUpTemp);
-    newExercise.addAll(doTemp);
-    newExercise.addAll(coolDownTemp);
+      List<ExerciseModel> newExercise = [];
+      newExercise.addAll(warmUpTemp);
+      newExercise.addAll(doTemp);
+      newExercise.addAll(coolDownTemp);
 
-    emit(SelectCourseNavigateToCreatePageState(
-        course: event.course, exerciseList: newExercise));
-  } else {
-    final List<ExerciseModel> exerciseList = await ExerciseService()
-        .getExerciseByDocIdList(event.course.exerciseDocId)
-        .first;
-    print("Loaded");
-    print(event.course.exerciseDocId[0]);
-    print(event.course.exerciseDocId[1]);
-    for (var i in exerciseList) {
-      print(i.name);
+      final newCourse = event.course;
+
+      emit(SelectCourseNavigateToCreatePageState(
+          course: event.course, exerciseList: newExercise));
+    } else {
+      final List<ExerciseModel> exerciseList = await ExerciseService()
+          .getExerciseByDocIdList(event.course.exerciseDocId)
+          .first;
+      print("Loaded");
+      print(event.course.exerciseDocId[0]);
+      print(event.course.exerciseDocId[1]);
+      for (var i in exerciseList) {
+        print(i.name);
+      }
+      emit(SelectCourseNavigateToCreatePageState(
+          course: event.course, exerciseList: exerciseList));
     }
-    emit(SelectCourseNavigateToCreatePageState(
-        course: event.course, exerciseList: exerciseList));
+  }
+
+  FutureOr<void> createPageInitialEvent(
+      CreatePageInitialEvent event, Emitter<SelectWorkoutState> emit) async {
+    emit(CreatePageLoading());
+    List<ExerciseModel> exerciseList = event.exerciseList;
+    int i = 0;
+    for (var exercise in exerciseList) {
+      final exerciseMedia = await ExerciseService()
+          .getExerciseMediaByDocIdList(exercise.mediaDocId)
+          .first;
+      exerciseList[i].setMedia(exerciseMedia);
+      i++;
+    }
+    emit(CreatePageInitial(
+        course: event.course, exerciseList: event.exerciseList));
+  }
+
+  FutureOr<void> createPageClickCreateEvent(CreatePageClickCreateEvent event,
+      Emitter<SelectWorkoutState> emit) async {
+    print(event.course.type[0].name);
+    if (event.course.type[0].name == "Custom") {
+      List<String> docIdList = [];
+      for (ExerciseModel exercise in event.exerciseList) {
+        docIdList.add(exercise.name);
+      }
+      final List<String>? exerciseDocIdList =
+          await ExerciseService().getExerciseDocIdByName(docIdList);
+      for (var name in exerciseDocIdList!) {
+        print(name);
+      }
+      CoursesModel course = event.course;
+      course.setCourseId(exerciseDocIdList!);
+      String newCourseDocId = await ExerciseService().addCourse(course);
+      String msg =
+          await ExerciseService().addUserCourse(newCourseDocId, event.username);
+      print(msg);
+    } else {
+      String? courseId =
+          await ExerciseService().getCourseDocIdByName(event.course.name);
+      String msg =
+          await ExerciseService().addUserCourse(courseId!, event.username);
+      print(msg);
+    }
   }
 }
 
-FutureOr<void> createPageInitialEvent(
-    CreatePageInitialEvent event, Emitter<SelectWorkoutState> emit) async {
-  emit(CreatePageLoading());
-  List<ExerciseModel> exerciseList = event.exerciseList;
-  int i = 0;
-  for (var exercise in exerciseList) {
-    final exerciseMedia = await ExerciseService()
-        .getExerciseMediaByDocIdList(exercise.mediaDocId)
-        .first;
-    exerciseList[i].setMedia(exerciseMedia);
-    i++;
-  }
-  emit(CreatePageInitial(
-      course: event.course, exerciseList: event.exerciseList));
-}
+
+
+// FutureOr<void> createPageClickCreateEvent(
+//     CreatePageClickCreateEvent event, Emitter<SelectWorkoutState> emit) {
+//   if (event.course.name == "Custom") {
+//   } else {}
+// }

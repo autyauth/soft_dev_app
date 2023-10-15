@@ -43,6 +43,10 @@ class CoursesModel {
   void setisGlobalIsFalse() {
     this.isGlobal = false;
   }
+
+  void setCourseId(List<String> exerciseDocId) {
+    this.exerciseDocId = exerciseDocId;
+  }
 }
 
 class CourseType {

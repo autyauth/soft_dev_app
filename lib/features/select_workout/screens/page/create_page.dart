@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soft_dev_app/features/select_workout/bloc/select_workout_bloc.dart';
+import 'package:soft_dev_app/features/select_workout/domain/models/exercise_model.dart';
 import 'package:soft_dev_app/features/select_workout/screens/widget/card_exercise_widget.dart';
 
 import '../../../../core/theme/theme.dart';
@@ -66,6 +67,10 @@ class _CreatePageState extends State<CreatePage> {
             );
           case CreatePageInitial:
             final successState = state as CreatePageInitial;
+            for (ExerciseModel exercise in state.exerciseList) {
+              print(exercise.name);
+            }
+
             return Scaffold(
               body: SafeArea(
                 child: CustomScrollView(
@@ -121,7 +126,12 @@ class _CreatePageState extends State<CreatePage> {
                     'สร้าง',
                     style: TextStyle(fontSize: 25),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    selectWorkoutBloc.add(CreatePageClickCreateEvent(
+                        course: successState.course,
+                        exerciseList: successState.exerciseList,
+                        username: "nakorn"));
+                  },
                 ),
               ),
             );
