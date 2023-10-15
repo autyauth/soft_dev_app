@@ -106,7 +106,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
   int height = 0;
   int weight = 0;
   String email = "null";
-     final requiredValidator = RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ');  
+
+
+
+  final requiredValidator =
+      RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ');
+final emailValidator = MultiValidator([  
+    EmailValidator(errorText: 'กรุฯากรอกรูปแบบemail ให้ถูกต้อง'),  RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ'),
+ ]); 
+final numberValidator = MultiValidator([  
+    RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ'), PatternValidator(r'^[0-9]*$', errorText: 'กรุณากรอกแต่ตัวเลขด้วยครับ'),
+ ]); 
+
+
+
+
   void pickBirthDate() {
     showDatePicker(
       context: context,
@@ -183,24 +197,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 // Close the keyboard when tapping outside text fields
                 FocusScope.of(context).unfocus();
               },
-              child: SingleChildScrollView(
-                child: Align(
-                  //edit form
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        left: screenWidth * 0.085,
-                        right: screenWidth * 0.085,
-                        top: screenHeight * 0.15,
-                        bottom: screenHeight * 0.25),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Palette.orangeColor,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
+              child: Align(
+                //edit form
+                alignment: Alignment.center,
+                child: Container(
+                  margin: EdgeInsets.only(
+                      left: screenWidth * 0.085,
+                      right: screenWidth * 0.085,
+                      top: screenHeight * 0.15,
+                      bottom: screenHeight * 0.25),
+                  height: screenHeight * 0.6,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: Palette.orangeColor,
+                      width: 2.0,
                     ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: SingleChildScrollView(
                     child: Column(
                       children: [
                         Container(
@@ -208,7 +223,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           child: TextFormField(
                             controller: firstNameInit,
                             validator: requiredValidator,
-
                             decoration: InputDecoration(
                               hintText: "Enter your First name",
                               border: OutlineInputBorder(
@@ -297,6 +311,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           child: TextFormField(
                             keyboardType: TextInputType.number,
                             controller: heightInit,
+                            validator: numberValidator,
                             decoration: InputDecoration(
                                 hintText: "Enter your Height(cm)",
                                 border: OutlineInputBorder(
@@ -308,6 +323,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           child: TextFormField(
                             controller: weightInit,
                             keyboardType: TextInputType.number,
+                            validator: numberValidator,
                             decoration: InputDecoration(
                                 hintText: "Enter your Weight(kg)",
                                 border: OutlineInputBorder(
@@ -318,6 +334,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           padding: EdgeInsets.all(8),
                           child: TextFormField(
                             controller: emailInit,
+                            validator: emailValidator,
                             keyboardType: TextInputType.emailAddress,
                             onSaved: (text) {
                               text != null ? email = text : email = "";
@@ -381,6 +398,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         if (userProfile != null) {
                           updateUserProfile(userProfile!);
                         }
+                        print('sucess');
                       }
                     },
                   )
