@@ -2,12 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:soft_dev_app/blocs/authentication_bloc/authentication_bloc_bloc.dart';
+import 'package:soft_dev_app/blocs/sign_in_bloc/sign_in_bloc_bloc.dart';
+import 'package:soft_dev_app/blocs/sign_up_bloc/sign_up_bloc_bloc.dart';
 import 'package:soft_dev_app/screens/auth/sign_in_screen.dart';
 import 'package:soft_dev_app/screens/auth/sign_up_screen.dart';
 
-import '../../blocs/authentication_bloc/authentication_bloc_bloc.dart';
-import '../../blocs/sign_in_bloc/sign_in_bloc_bloc.dart';
-import '../../blocs/sign_up_bloc/sign_up_bloc_bloc.dart';
+// import '../../blocs/authentication_bloc/authentication_bloc_bloc.dart';
+// import '../../blocs/sign_in_bloc/sign_in_bloc_bloc.dart';
+// import '../../blocs/sign_up_bloc/sign_up_bloc_bloc.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -134,7 +137,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               tabs: const [
                                 Padding(
                                   padding: EdgeInsets.all(13.0),
-                                  child: Text(  
+                                  child: Text(
                                     'Sign In',
                                     style: TextStyle(
                                       fontSize: 18,
