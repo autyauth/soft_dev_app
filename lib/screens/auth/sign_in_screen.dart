@@ -152,7 +152,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         )),
                   )
                 : const CircularProgressIndicator(),
-            const SizedBox(height: 170),
+            const SizedBox(height: 105),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
