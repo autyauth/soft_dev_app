@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:soft_dev_app/core/theme/theme.dart';
@@ -17,7 +19,9 @@ class ProfilePictureSelect extends StatefulWidget {
 class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
   final buttonwidth = 300.0;
 
-  File ? _pickedImage;
+  File? _pickedImage;
+
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<UserProfile?> fetchUserProfileData() async {
     try {
@@ -39,6 +43,7 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
       return null;
     }
   }
+
   UserProfile? userProfile;
   UserProfile? updatedUserProfile;
 
@@ -54,12 +59,16 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
       }
     });
   }
+
   String imageURL = '';
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-  print(imageURL);
+    final receivePort = ReceivePort();
+    final sendPort = receivePort.sendPort;
+
+    Isolate.spawn(uploadTask, sendPort);
     return Scaffold(
       body: Stack(
         children: [
@@ -92,11 +101,15 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
           Positioned(
             child: Container(
               margin: EdgeInsets.only(
-                  left: screenWidth * 0.085,
-                  top: screenHeight * 0.15,),
+                left: screenWidth * 0.085,
+                top: screenHeight * 0.15,
+              ),
               height: screenHeight * 0.6,
-              width: 0.83*screenWidth,
-              decoration: BoxDecoration(color: Colors.white),child: _pickedImage != null ? Image.file(_pickedImage!): Text('pleaseSelect Image'),
+              width: 0.83 * screenWidth,
+              decoration: BoxDecoration(color: Colors.white),
+              child: _pickedImage != null
+                  ? Image.file(_pickedImage!)
+                  : Text('pleaseSelect Image'),
             ),
           ),
           Positioned(
@@ -114,7 +127,7 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
                   ],
                   buttonText: 'Select Image',
                   onPress: () {
-                   _pickImageFromGallery();
+                    _pickImageFromGallery();
                   },
                 ),
                 SizedBox(height: 10),
@@ -127,7 +140,9 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
                     Palette.orangeColor
                   ],
                   buttonText: 'Save',
-                  onPress: () {},
+                  onPress: () {
+                    _uploadImageToStorage(_pickedImage!);
+                  },
                 )
               ],
             ),
@@ -136,11 +151,45 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
       ),
     );
   }
-  Future _pickImageFromGallery() async{
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedImage == null)return;
+
+  Future<void> _pickImageFromGallery() async {
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage == null) return;
     setState(() {
-      _pickedImage = File(pickedImage!.path); 
+      _pickedImage = File(pickedImage.path);
     });
   }
+
+   Future<void> _uploadImageToStorage(File imageFile) async {
+    final storageRef = _storage.ref().child(
+        'userImage/ProfilePicture.png'); // Change the storage path as needed
+
+    final receivePort = ReceivePort();
+    await Isolate.spawn(uploadTask, receivePort.sendPort);
+
+    receivePort.listen((message) async {
+      if (message is SendPort) {
+        message.send(imageFile.path);
+      } else if (message is String) {
+        try {
+          await storageRef.putFile(File(message));
+          print('Image uploaded successfully');
+        } catch (e) {
+          print('Error uploading image: $e');
+        }
+      }
+    });
+  }
+}
+
+void uploadTask(SendPort sendPort) {
+  final receivePort = ReceivePort();
+  sendPort.send(receivePort.sendPort);
+
+  receivePort.listen((message) async {
+    if (message is String) {
+      sendPort.send(message);
+    }
+  });
 }
