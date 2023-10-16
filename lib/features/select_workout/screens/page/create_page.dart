@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:soft_dev_app/features/select_workout/bloc/select_workout_bloc.dart';
 import 'package:soft_dev_app/features/select_workout/domain/models/exercise_model.dart';
 import 'package:soft_dev_app/features/select_workout/screens/widget/card_exercise_widget.dart';
@@ -68,6 +69,11 @@ class _CreatePageState extends State<CreatePage> {
       },
       listener: (context, state) {
         // TODO: implement listener
+        if (state is CreatePageNavigateToHome) {
+          context.pop();
+          context.pop();
+          context.pop();
+        }
       },
       builder: (context, state) {
         switch (state.runtimeType) {

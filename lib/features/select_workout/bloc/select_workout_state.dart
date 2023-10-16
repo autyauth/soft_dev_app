@@ -67,3 +67,5 @@ class CreatePageInitial extends CreatePageState {
     required this.exerciseList,
   });
 }
+
+class CreatePageNavigateToHome extends CreatePageActionState {}
