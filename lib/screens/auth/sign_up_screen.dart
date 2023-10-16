@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soft_dev_app/blocs/sign_up_bloc/sign_up_bloc_bloc.dart';
 import 'package:soft_dev_app/screens/auth/components/my_text_field.dart';
@@ -21,6 +22,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final ageController = TextEditingController();
   final genderController = TextEditingController();
 
+  int? age;
+  int? weight;
+  int? height;
+
   final _formKey = GlobalKey<FormState>();
 
   IconData iconPassword = CupertinoIcons.eye_fill;
@@ -37,6 +42,54 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isFemale = false;
   bool isOther = false;
 
+  bool isUsernameTaken = false;
+  String? _username;
+
+  bool isGmailTaken = false;
+  String? _Gmail;
+  //-----------------------------------------------
+    Future<bool> checkemailAvailability(String email) async {
+    final result = await FirebaseFirestore.instance
+        .collection('userProfile')
+        .where('email', isEqualTo: email)
+        .get();
+    return !result.docs.isEmpty;
+  }
+
+  Future<void> checkAndSetemail(String? val) async {
+    setState(() {
+      isGmailTaken = false;
+    });
+
+    if (val!.isNotEmpty) {
+      bool isTaken = await checkemailAvailability(val);
+      setState(() {
+        isGmailTaken = isTaken;
+      });
+    }
+  }
+//-----------------------------------------------
+  Future<bool> checkUsernameAvailability(String username) async {
+    final result = await FirebaseFirestore.instance
+        .collection('userProfile')
+        .where('username', isEqualTo: username)
+        .get();
+    return !result.docs.isEmpty;
+  }
+
+  Future<void> checkAndSetUsername(String? val) async {
+    setState(() {
+      isUsernameTaken = false;
+    });
+
+    if (val!.isNotEmpty) {
+      bool isTaken = await checkUsernameAvailability(val);
+      setState(() {
+        isUsernameTaken = isTaken;
+      });
+    }
+  }
+//-----------------------------------------------
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpBloc, SignUpState>(
@@ -87,8 +140,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         } else if (!RegExp(r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$')
                             .hasMatch(val)) {
                           return 'Please Enter a Valid Email';
+                        } else if (isGmailTaken) {
+                          return 'Email is already taken';
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                        _Gmail = val;
+                      });
+                                              
+                        checkAndSetemail(val);
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -260,8 +322,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return 'Please Fill in This Field';
                         } else if (val.length > 30) {
                           return 'Username too long';
+                        } else if (isUsernameTaken) {
+                          return 'Username is already taken';
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          _username = val;
+                        });
+                        
+                        checkAndSetUsername(val);
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -287,10 +358,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please Fill in This Field';
-                        } else if (val.length > 10) {
+                        } else if (int.tryParse(val) == null) {
+                          return 'Age must be a valid number';
+                        } else if (int.parse(val) > 150) {
                           return 'Age too much';
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          age = int.tryParse(val!);
+                        });
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -319,7 +397,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         });
                       },
                     ),
-                    Text('Male'),
+                    const Text('Male'),
                     Checkbox(
                       value: isFemale,
                       onChanged: (value) {
@@ -331,7 +409,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         });
                       },
                     ),
-                    Text('Female'),
+                    const Text('Female'),
                     Checkbox(
                       value: isOther,
                       onChanged: (value) {
@@ -343,7 +421,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         });
                       },
                     ),
-                    Text('Other'),
+                    const Text('Other'),
                   ],
                 ),
                  if (!(isMale || isFemale || isOther))
@@ -375,10 +453,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please Fill in This Field';
-                        } else if (val.length > 30) {
-                          return 'Height too long';
+                        } else if (int.tryParse(val) == null) {
+                          return 'Height must be a valid number';
+                        } else if (int.parse(val) > 400) {
+                          return 'Height too high';
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          height = int.tryParse(val!);
+                        });
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -404,10 +489,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please Fill in This Field';
-                        } else if (val.length > 10) {
+                        } else if (int.tryParse(val) == null) {
+                          return 'Weight must be a valid number';
+                        } else if (int.parse(val) > 150) {
                           return 'Weight too much';
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          weight = int.tryParse(val!);
+                        });
                       }),
                 ),
                 //ถ้าเพิ่มวิดเจ็ตระวังมัน overflow
@@ -424,9 +516,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   //เพิ่มลง data ได้
                                   email: emailController.text,
                                   name: nameController.text,
-                                  height: heightController.text,
-                                  weight: weightController.text,
-                                  age: ageController.text,
+                                  height: height,
+                                  weight: weight,
+                                  age: age,
                                   gender: genderController.text,
                                 );
                                 setState(() {
