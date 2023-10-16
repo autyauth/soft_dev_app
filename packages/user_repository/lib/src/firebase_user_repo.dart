@@ -73,4 +73,18 @@ class FirebaseUserRepo implements UserRepository {
 		await _firebaseAuth.signOut();
 	}
 
+//----------------------------------------------------------------------------
+
+  // Future<bool> isUsernameTaken(String username) async {
+  //   try {
+  //     QuerySnapshot querySnapshot = await usersCollection
+  //         .where('username', isEqualTo: username)
+  //         .get();
+
+  //     return querySnapshot.docs.isNotEmpty;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
+  
 }
