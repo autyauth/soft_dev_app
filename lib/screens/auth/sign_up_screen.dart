@@ -45,6 +45,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isUsernameTaken = false;
   String? _username;
 
+  bool isGmailTaken = false;
+  String? _Gmail;
+//-----------------------------------------------
+    Future<bool> checkemailAvailability(String email) async {
+    final result = await FirebaseFirestore.instance
+        .collection('userProfile')
+        .where('email', isEqualTo: email)
+        .get();
+    return !result.docs.isEmpty;
+  }
+
+  Future<void> checkAndSetemail(String? val) async {
+    setState(() {
+      isGmailTaken = false;
+    });
+
+    if (val!.isNotEmpty) {
+      bool isTaken = await checkemailAvailability(val);
+      setState(() {
+        isGmailTaken = isTaken;
+      });
+    }
+  }
+//-----------------------------------------------
   Future<bool> checkUsernameAvailability(String username) async {
     final result = await FirebaseFirestore.instance
         .collection('userProfile')
@@ -65,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
   }
-
+//-----------------------------------------------
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpBloc, SignUpState>(
@@ -116,8 +140,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         } else if (!RegExp(r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$')
                             .hasMatch(val)) {
                           return 'Please Enter a Valid Email';
+                        } else if (isGmailTaken) {
+                          return 'Email is already taken';
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                        _Gmail = val;
+                      });
+                                              
+                        checkAndSetemail(val);
                       }),
                 ),
                 const SizedBox(height: 15),
