@@ -54,6 +54,7 @@ class UserProfile {
       'email': email,
       'birthDate': birthDate,
       'gender': gender,
+      'imageUrl':imageUrl,
     };
   }
 }

@@ -71,9 +71,9 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           // Background image
           Container(
-            decoration: const BoxDecoration(
+            decoration:  BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/profile_background1.png'),
+                image: imageURL==""? AssetImage('assets/images/profile_background1.png') as ImageProvider :NetworkImage(imageURL),
                 fit: BoxFit.cover,
               ),
             ),
