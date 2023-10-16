@@ -75,6 +75,7 @@ class MyAppView extends StatelessWidget {
     return MaterialApp(
         title: 'Exercise LogReBloc',
         theme: ThemeData(),
+        debugShowCheckedModeBanner: false,
         home: BlocBuilder<AuthenticationBloc, AuthenticationBlocState>(
             builder: (context, state) {
           if (state.status == AuthenticationBlocStatus.authenticated) {

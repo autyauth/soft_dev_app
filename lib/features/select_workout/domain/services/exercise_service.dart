@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:soft_dev_app/features/select_workout/domain/models/exercise_model.dart';
 import 'package:soft_dev_app/features/select_workout/domain/models/user_course_model.dart';
 
@@ -12,6 +13,7 @@ class ExerciseService {
       FirebaseFirestore.instance.collection('exercise');
   final CollectionReference _courseCollection =
       FirebaseFirestore.instance.collection('course');
+  final User _user = FirebaseAuth.instance.currentUser!;
 
   Stream<QuerySnapshot> getExercise() {
     return _exerciseCollection.snapshots();
@@ -189,14 +191,60 @@ class ExerciseService {
     String docId = "";
 
     try {
-      QuerySnapshot querySnapshot =
-          await _courseCollection.where('name', isEqualTo: name).get();
+      QuerySnapshot querySnapshot = await _courseCollection
+          .where('name', isEqualTo: name)
+          .where('isGlobal', isEqualTo: true)
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         docId = querySnapshot.docs.first.id;
+        print('Id =' + docId);
       }
     } catch (e) {
       print('Error: $e');
     }
     return docId;
+  }
+
+  Stream<List<String>> getUserCourseIdByUsername(String username) {
+    Map<String, dynamic> docMap;
+    return FirebaseFirestore.instance
+        .collection('userCourse')
+        .where('username', isEqualTo: username)
+        .orderBy('lastDo', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        docMap = doc.data();
+
+        return docMap['courseDocId'].toString();
+      }).toList();
+    });
+  }
+
+  Stream<List<CoursesModel>> getCourseListByListDocId(List<String> courseId) {
+    // Assuming your Firestore collection is named 'courses'.
+    return FirebaseFirestore.instance
+        .collection('course')
+        .where(FieldPath.documentId, whereIn: courseId)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return CoursesModel.fromJson(doc.data());
+      }).toList();
+    });
+  }
+
+  Stream<String> getUsername(String uid) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .where('userId', isEqualTo: uid)
+        .snapshots()
+        .map((event) {
+      if (event.docs.isNotEmpty) {
+        return event.docs.first.get('name');
+      } else {
+        return 'now Found ID';
+      }
+    });
   }
 }

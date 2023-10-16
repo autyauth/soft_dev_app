@@ -120,14 +120,6 @@ class _SelectTypeCourseState extends State<SelectTypeCourse> {
                     Expanded(
                       child: SingleChildScrollView(
                         child: Column(children: [
-                          SelectExerciseWidget<CourseType>(
-                            onTap: () {},
-                            model: CourseType(
-                              name: 'Full Body',
-                              image:
-                                  'https://firebasestorage.googleapis.com/v0/b/soft-dev-project-23172.appspot.com/o/courseImage%2Ftemp_exercise.jpg?alt=media&token=f02eb63b-dbff-4cb8-888a-d1091dc8ac3d&_gl=1*zhwzn6*_ga*MjAxNzM0OTc5NS4xNjk2NDk0ODA3*_ga_CW55HF8NVT*MTY5NzI3NTA0MC4yNC4xLjE2OTcyNzUyNzkuNDAuMC4w',
-                            ),
-                          ),
                           Column(
                             children: List.generate(
                               // courseType.length,

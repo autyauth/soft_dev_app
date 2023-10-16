@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:soft_dev_app/app_view.dart';
 import 'package:soft_dev_app/features/select_workout/screens/page/create_page.dart';
 
+import '../features/select_workout/screens/page/home_select.dart';
 import '../features/select_workout/screens/page/select_courses_page.dart';
 import '../features/select_workout/screens/page/select_type_course_page.dart';
-import '../features/select_workout/screens/page/workout_home_page.dart';
 import 'route_constants.dart';
 
 class RouteConfig {
@@ -23,7 +23,7 @@ class RouteConfig {
           name: RouteConstants.workout,
           path: '/workout',
           builder: (BuildContext context, GoRouterState state) {
-            return const WorkOutHomePage();
+            return const HomeSelect();
           },
           routes: <RouteBase>[
             GoRoute(

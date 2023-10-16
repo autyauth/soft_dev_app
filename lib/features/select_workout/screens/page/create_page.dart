@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soft_dev_app/features/select_workout/bloc/select_workout_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:soft_dev_app/features/select_workout/domain/models/exercise_mode
 import 'package:soft_dev_app/features/select_workout/screens/widget/card_exercise_widget.dart';
 
 import '../../../../core/theme/theme.dart';
+import '../../domain/services/exercise_service.dart';
 
 class CreatePage extends StatefulWidget {
   const CreatePage({super.key});
@@ -17,6 +19,7 @@ class _CreatePageState extends State<CreatePage> {
   late ScrollController _scrollController;
   bool _isScrolled = false;
   late SelectWorkoutBloc selectWorkoutBloc;
+  String username = "";
   @override
   void initState() {
     selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
@@ -31,6 +34,15 @@ class _CreatePageState extends State<CreatePage> {
           _isScrolled = false;
         });
       }
+    });
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    ExerciseService().getUsername(currentUser!.uid).listen((event) {
+      setState(() {
+        username = event;
+        print(currentUser.uid);
+        print(username);
+      });
     });
     super.initState();
   }
@@ -130,7 +142,7 @@ class _CreatePageState extends State<CreatePage> {
                     selectWorkoutBloc.add(CreatePageClickCreateEvent(
                         course: successState.course,
                         exerciseList: successState.exerciseList,
-                        username: "nakorn"));
+                        username: username));
                   },
                 ),
               ),

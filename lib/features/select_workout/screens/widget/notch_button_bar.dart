@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
-import 'package:soft_dev_app/features/select_workout/screens/page/workout_home_page.dart';
+import 'package:soft_dev_app/features/select_workout/screens/page/home_select.dart';
 import 'package:soft_dev_app/features/workout/screens/page/profile_page.dart';
 
 class AnimatedNavbar extends StatefulWidget {
@@ -17,7 +17,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
   late double position;
   int noOfIcons = 3;
   int selected = 0;
-  List<Widget> pages = [WorkOutHomePage(), ProfilePage()];
+  List<Widget> pages = [HomeSelect(), ProfilePage()];
 
   List<String> icons = [
     'assets/icons/home.png',
@@ -133,7 +133,7 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
                                           ? Image.asset(
                                               icon,
                                               width: 30.0,
-                                              color: Palette.backgroundColor,
+                                              color: Palette.whiteColor,
                                               key: ValueKey('yellow$icon'),
                                             )
                                           : Image.asset(icon,
@@ -173,7 +173,7 @@ class AppbarPainter extends CustomPainter {
       ..color = Palette.greyColor
       ..style = PaintingStyle.fill;
     var paint2 = Paint()
-      ..color = Palette.whiteColor
+      ..color = Palette.orangeColor
       ..style = PaintingStyle.fill;
     var paint3 = Paint()
       ..color = Palette.backgroundColor

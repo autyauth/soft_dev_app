@@ -153,28 +153,33 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
   FutureOr<void> createPageClickCreateEvent(CreatePageClickCreateEvent event,
       Emitter<SelectWorkoutState> emit) async {
     print(event.course.type[0].name);
-    if (event.course.type[0].name == "Custom") {
-      List<String> docIdList = [];
-      for (ExerciseModel exercise in event.exerciseList) {
-        docIdList.add(exercise.name);
+    try {
+      if (event.course.type[0].name == "Custom") {
+        List<String> docIdList = [];
+        for (ExerciseModel exercise in event.exerciseList) {
+          docIdList.add(exercise.name);
+        }
+        final List<String>? exerciseDocIdList =
+            await ExerciseService().getExerciseDocIdByName(docIdList);
+        for (var name in exerciseDocIdList!) {
+          print(name);
+        }
+        CoursesModel course = event.course;
+        course.setCourseId(exerciseDocIdList);
+        String newCourseDocId = await ExerciseService().addCourse(course);
+        String msg = await ExerciseService()
+            .addUserCourse(newCourseDocId, event.username);
+        print(msg);
+      } else {
+        String? courseId =
+            await ExerciseService().getCourseDocIdByName(event.course.name);
+        print(courseId);
+        String msg =
+            await ExerciseService().addUserCourse(courseId!, event.username);
+        print(msg);
       }
-      final List<String>? exerciseDocIdList =
-          await ExerciseService().getExerciseDocIdByName(docIdList);
-      for (var name in exerciseDocIdList!) {
-        print(name);
-      }
-      CoursesModel course = event.course;
-      course.setCourseId(exerciseDocIdList!);
-      String newCourseDocId = await ExerciseService().addCourse(course);
-      String msg =
-          await ExerciseService().addUserCourse(newCourseDocId, event.username);
-      print(msg);
-    } else {
-      String? courseId =
-          await ExerciseService().getCourseDocIdByName(event.course.name);
-      String msg =
-          await ExerciseService().addUserCourse(courseId!, event.username);
-      print(msg);
+    } catch (e) {
+      print(e);
     }
   }
 }

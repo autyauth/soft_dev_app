@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
@@ -32,6 +33,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 //ดึง data ใน database มาใส่ userdoc
   Future<UserProfile?> fetchUserProfileData() async {
     try {
+      final User? currentUser = FirebaseAuth.instance.currentUser;
       DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
           .instance
           .collection('userProfile')
