@@ -21,6 +21,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final ageController = TextEditingController();
   final genderController = TextEditingController();
 
+  int? age;
+  int? weight;
+  int? height;
+
   final _formKey = GlobalKey<FormState>();
 
   IconData iconPassword = CupertinoIcons.eye_fill;
@@ -287,10 +291,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please Fill in This Field';
-                        } else if (val.length > 10) {
+                        } else if (int.tryParse(val) == null) {
+                          return 'Age must be a valid number';
+                        } else if (int.parse(val) > 150) {
                           return 'Age too much';
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          age = int.tryParse(val!);
+                        });
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -375,10 +386,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please Fill in This Field';
-                        } else if (val.length > 30) {
-                          return 'Height too long';
+                        } else if (int.tryParse(val) == null) {
+                          return 'Height must be a valid number';
+                        } else if (int.parse(val) > 400) {
+                          return 'Height too high';
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          height = int.tryParse(val!);
+                        });
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -404,10 +422,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please Fill in This Field';
-                        } else if (val.length > 10) {
+                        } else if (int.tryParse(val) == null) {
+                          return 'Weight must be a valid number';
+                        } else if (int.parse(val) > 150) {
                           return 'Weight too much';
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          weight = int.tryParse(val!);
+                        });
                       }),
                 ),
                 //ถ้าเพิ่มวิดเจ็ตระวังมัน overflow
@@ -424,9 +449,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   //เพิ่มลง data ได้
                                   email: emailController.text,
                                   name: nameController.text,
-                                  height: heightController.text,
-                                  weight: weightController.text,
-                                  age: ageController.text,
+                                  height: height,
+                                  weight: weight,
+                                  age: age,
                                   gender: genderController.text,
                                 );
                                 setState(() {

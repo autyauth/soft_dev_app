@@ -41,8 +41,7 @@ class FirebaseUserRepo implements UserRepository {
         password: password,
       );
 
-      myUser = myUser.copyWith(
-        //เพิ่นตรงนี้ไปเพิ่มใน bloc ด้วย
+      myUser = myUser.copyWith( //
         userId: user.user!.uid,
       );
 
