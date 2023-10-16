@@ -109,8 +109,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
   int weight = 0;
   String email = "null";
 
-  final requiredValidator =
-      RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ');
+  final nameValidator =MultiValidator([
+    RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ'),
+    PatternValidator(r'^[ก-๙]*$', errorText: 'กรุณากรอกแค่ตัวอักษรภาษาไทยครับ'),
+  ]);
   final emailValidator = MultiValidator([
     EmailValidator(errorText: 'กรุฯากรอกรูปแบบemail ให้ถูกต้อง'),
     RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ'),
@@ -222,7 +224,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           padding: const EdgeInsets.all(8),
                           child: TextFormField(
                             controller: firstNameInit,
-                            validator: requiredValidator,
+                            validator: nameValidator,
                             decoration: InputDecoration(
                               hintText: "Enter your First name",
                               border: OutlineInputBorder(
@@ -235,7 +237,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           padding: const EdgeInsets.all(8),
                           child: TextFormField(
                             controller: lastNameInit,
-                            validator: requiredValidator,
+                            validator: nameValidator,
                             decoration: InputDecoration(
                                 hintText: "Enter your last name",
                                 border: OutlineInputBorder(
