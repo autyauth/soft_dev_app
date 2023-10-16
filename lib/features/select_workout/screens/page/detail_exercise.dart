@@ -150,3 +150,131 @@
 //     );
 //   }
 // }
+import 'package:flutter/material.dart';
+
+class DetailExercise extends StatefulWidget {
+  const DetailExercise({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<DetailExercise> createState() => _DetailExerciseState();
+}
+
+class _DetailExerciseState extends State<DetailExercise>
+    with TickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(initialIndex: 0, length: 3, vsync: this);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.1,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: TabBar(
+                          controller: tabController,
+                          unselectedLabelColor: Colors.black,
+                          labelColor: Colors.black,
+                          tabs: const [
+                            Padding(
+                              padding: EdgeInsets.all(13.0),
+                              child: Text(
+                                'Animation',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(13.0),
+                              child: Text(
+                                'Video',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          controller: tabController,
+                          children: [
+                            // Content "Animation" tab
+                            Container(
+                              color: Colors.blue,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.network(
+                                    'https://example.com/your-image-url.jpg', // Replace image
+                                    width: 150,
+                                    height: 150,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  SizedBox(height: 20),
+                                  const Text(
+                                    'Animated Image',
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                  ),
+                                  SizedBox(height: 20),
+                                  const Text(
+                                    'Description of the animation goes here.',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(height: 20),
+                                  Image.network(
+                                    'https://example.com/another-image-url.jpg', // Replace image
+                                    width: 150,
+                                    height: 150,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Content "Video" tab
+                            Container(
+                              color: Colors.red,
+                              child: const Center(
+                                child: Text(
+                                  'Video Content',
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
