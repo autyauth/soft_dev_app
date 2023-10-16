@@ -23,6 +23,16 @@ const List<String> sex = <String>[
 ];
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  @override
+  void dispose() {
+    firstNameInit.dispose();
+    lastNameInit.dispose();
+    heightInit.dispose();
+    weightInit.dispose();
+    emailInit.dispose();
+    super.dispose();
+  }
+
   final formKey = GlobalKey<FormState>();
 //ไว้ใช้ init ค่าทีมีอยู่ ตอนเริ่ม
   TextEditingController firstNameInit = TextEditingController();
@@ -30,21 +40,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController heightInit = TextEditingController();
   TextEditingController weightInit = TextEditingController();
   TextEditingController emailInit = TextEditingController();
+  final User? currentUser = FirebaseAuth.instance.currentUser;
 //ดึง data ใน database มาใส่ userdoc
   Future<UserProfile?> fetchUserProfileData() async {
     try {
-      final User? currentUser = FirebaseAuth.instance.currentUser;
       DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
           .instance
           .collection('userProfile')
-          .doc('/cXZMVx6sIaGJnK7FgSIO')
+          .doc(currentUser?.uid)
           .get();
 
       if (userDoc.exists) {
         Map<String, dynamic> userData = userDoc.data()!;
         return UserProfile.fromMap(userData);
       } else {
-        print('User document does not exist.');
+        print('Us er document does not exist.');
         return null;
       }
     } catch (e) {
@@ -57,7 +67,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     try {
       await FirebaseFirestore.instance
           .collection('userProfile')
-          .doc('/cXZMVx6sIaGJnK7FgSIO') // Use the correct document ID
+          .doc(currentUser?.uid) // Use the correct document ID
           .update(userProfile.toMap());
       print('User profile updated successfully');
     } catch (e) {

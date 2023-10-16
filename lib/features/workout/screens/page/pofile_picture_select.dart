@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,13 +24,13 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
   File? _pickedImage;
 
   final FirebaseStorage _storage = FirebaseStorage.instance;
-
+  final User? currentUser = FirebaseAuth.instance.currentUser;
   Future<UserProfile?> fetchUserProfileData() async {
     try {
       DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
           .instance
           .collection('userProfile')
-          .doc('/cXZMVx6sIaGJnK7FgSIO')
+          .doc(currentUser?.uid)
           .get();
 
       if (userDoc.exists) {
@@ -47,7 +48,7 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
 
   UserProfile? userProfile;
   UserProfile? updatedUserProfile;
-
+  @override
   void initState() {
     super.initState();
     fetchUserProfileData().then((profile) {

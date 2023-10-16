@@ -236,12 +236,12 @@ class ExerciseService {
 
   Stream<String> getUsername(String uid) {
     return FirebaseFirestore.instance
-        .collection('users')
+        .collection('userProfile')
         .where('userId', isEqualTo: uid)
         .snapshots()
         .map((event) {
       if (event.docs.isNotEmpty) {
-        return event.docs.first.get('name');
+        return event.docs.first.get('username');
       } else {
         return 'now Found ID';
       }

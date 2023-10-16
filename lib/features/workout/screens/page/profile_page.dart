@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
 import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
@@ -7,19 +8,20 @@ import 'package:soft_dev_app/features/workout/screens/page/edit_profile_page.dar
 import '../../../select_workout/screens/widget/outline_text.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({super.key});
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final User? currentUser = FirebaseAuth.instance.currentUser;
   Future<UserProfile?> fetchUserProfileData() async {
     try {
       DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
           .instance
           .collection('userProfile')
-          .doc('/cXZMVx6sIaGJnK7FgSIO')
+          .doc(currentUser?.uid)
           .get();
 
       if (userDoc.exists) {
@@ -35,6 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  @override
   void initState() {
     super.initState();
     //fetch โดย เรียก function ข้างบนมาใส่ profile

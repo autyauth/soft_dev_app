@@ -58,6 +58,7 @@ class _HomeSelectState extends State<HomeSelect> {
             });
           } else {
             // Handle the case where the event is empty.
+            print('No Course');
           }
         });
       });
