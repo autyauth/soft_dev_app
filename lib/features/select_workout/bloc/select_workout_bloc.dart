@@ -62,7 +62,7 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
     final courses = await ExerciseService().getCourseCustom().first;
 
     emit(SelectWorkoutNavigateToCoursePageState(
-        courses: courses, courseTypeName: "Custom"));
+        courses: courses, courseTypeName: "เลือกเอง"));
   }
 
 //Course
@@ -84,7 +84,7 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
   FutureOr<void> selectCourseClickCourseEvent(
       SelectCourseClickCourseEvent event,
       Emitter<SelectWorkoutState> emit) async {
-    if (event.course.type[0].name == "Custom") {
+    if (event.course.type[0].name == "เลือกเอง") {
       print('okey');
       List<ExerciseModel> exerciseWarmUp = await ExerciseService()
           .getExerciseListByUserLevelAndPriorityAndPartFocus(
@@ -139,22 +139,27 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
     emit(CreatePageLoading());
     List<ExerciseModel> exerciseList = event.exerciseList;
     int i = 0;
-    for (var exercise in exerciseList) {
+    int time = 0;
+    int amout = 0;
+    for (ExerciseModel exercise in exerciseList) {
       final exerciseMedia = await ExerciseService()
           .getExerciseMediaByDocIdList(exercise.mediaDocId)
           .first;
       exerciseList[i].setMedia(exerciseMedia);
+      amout += exercise.amout;
+      time += exercise.time;
       i++;
     }
+    time += ((amout / 20.0) * 60).ceil();
     emit(CreatePageInitial(
-        course: event.course, exerciseList: event.exerciseList));
+        course: event.course, exerciseList: event.exerciseList, time: time));
   }
 
   FutureOr<void> createPageClickCreateEvent(CreatePageClickCreateEvent event,
       Emitter<SelectWorkoutState> emit) async {
     print(event.course.type[0].name);
     try {
-      if (event.course.type[0].name == "Custom") {
+      if (event.course.type[0].name == "เลือกเอง") {
         List<String> docIdList = [];
         for (ExerciseModel exercise in event.exerciseList) {
           docIdList.add(exercise.name);

@@ -6,7 +6,8 @@ class OutlinedText extends StatelessWidget {
   final Color outlineColor;
   final double outlineWidth;
 
-  OutlinedText({
+  const OutlinedText({
+    super.key,
     required this.text,
     required this.textStyle,
     required this.outlineColor,
@@ -34,5 +35,3 @@ class OutlinedText extends StatelessWidget {
     );
   }
 }
-
-

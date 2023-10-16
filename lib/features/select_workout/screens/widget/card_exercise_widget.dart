@@ -38,7 +38,7 @@ class _CardExerciseWidgetState<T> extends State<CardExerciseWidget<T>> {
             ),
           ),
         ),
-        height: 110,
+        // height: 110,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -71,7 +71,10 @@ class _CardExerciseWidgetState<T> extends State<CardExerciseWidget<T>> {
                         (widget.model as ExerciseModel).name,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       const SizedBox(
                         height: 10,

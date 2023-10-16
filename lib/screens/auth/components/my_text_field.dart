@@ -40,16 +40,16 @@ class MyTextField extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
-        suffixIconColor: Color.fromARGB(255, 186, 55, 71),
+        suffixIconColor: const Color.fromARGB(255, 186, 55, 71),
         prefixIcon: prefixIcon,
-        prefixIconColor: Color.fromARGB(255, 186, 55, 71),
+        prefixIconColor: const Color.fromARGB(255, 186, 55, 71),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Colors.transparent),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(color: Color.fromARGB(255, 186, 55, 71)),
+          borderSide: const BorderSide(color: Color.fromARGB(255, 186, 55, 71)),
         ),
         fillColor: Colors.grey.shade200,
         filled: true,

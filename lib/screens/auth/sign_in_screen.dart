@@ -134,7 +134,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         },
                         style: TextButton.styleFrom(
                             elevation: 3.0,
-                            backgroundColor: const Color.fromARGB(255, 186, 55, 71),
+                            backgroundColor:
+                                const Color.fromARGB(255, 186, 55, 71),
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(60))),
@@ -153,7 +154,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   )
                 : const CircularProgressIndicator(),
             const SizedBox(height: 105),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(

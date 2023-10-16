@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:soft_dev_app/features/select_workout/domain/models/exercise_model.dart';
 import 'package:soft_dev_app/features/select_workout/domain/models/user_course_model.dart';
 
@@ -13,7 +12,6 @@ class ExerciseService {
       FirebaseFirestore.instance.collection('exercise');
   final CollectionReference _courseCollection =
       FirebaseFirestore.instance.collection('course');
-  final User _user = FirebaseAuth.instance.currentUser!;
 
   Stream<QuerySnapshot> getExercise() {
     return _exerciseCollection.snapshots();

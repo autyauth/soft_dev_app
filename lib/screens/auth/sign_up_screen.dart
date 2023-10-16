@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soft_dev_app/blocs/sign_up_bloc/sign_up_bloc_bloc.dart';
 import 'package:soft_dev_app/screens/auth/components/my_text_field.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -48,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isGmailTaken = false;
   String? _Gmail;
   //-----------------------------------------------
-    Future<bool> checkemailAvailability(String email) async {
+  Future<bool> checkemailAvailability(String email) async {
     final result = await FirebaseFirestore.instance
         .collection('userProfile')
         .where('email', isEqualTo: email)
@@ -68,6 +68,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
   }
+
 //-----------------------------------------------
   Future<bool> checkUsernameAvailability(String username) async {
     final result = await FirebaseFirestore.instance
@@ -89,6 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
   }
+
 //-----------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -147,10 +149,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                       onChanged: (val) {
                         setState(() {
-                        _Gmail = val;
-                      });
-                                              
+                          _Gmail = val;
+                        });
+
                         checkAndSetemail(val);
+                        return null;
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -331,8 +334,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         setState(() {
                           _username = val;
                         });
-                        
+
                         checkAndSetUsername(val);
+                        return null;
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -369,6 +373,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         setState(() {
                           age = int.tryParse(val!);
                         });
+                        return null;
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -424,12 +429,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const Text('Other'),
                   ],
                 ),
-                 if (!(isMale || isFemale || isOther))
+                if (!(isMale || isFemale || isOther))
                   const Text(
                     'Please Select a Gender',
                     style: TextStyle(color: Colors.red),
                   ),
-                  
+
                 const SizedBox(height: 15),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -464,6 +469,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         setState(() {
                           height = int.tryParse(val!);
                         });
+                        return null;
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -500,6 +506,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         setState(() {
                           weight = int.tryParse(val!);
                         });
+                        return null;
                       }),
                 ),
                 //ถ้าเพิ่มวิดเจ็ตระวังมัน overflow
@@ -509,8 +516,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: TextButton(
                             onPressed: () {
-                              if (_formKey.currentState!.validate() && (isMale || isFemale || isOther)) 
-                              {
+                              if (_formKey.currentState!.validate() &&
+                                  (isMale || isFemale || isOther)) {
                                 MyUser myUser = MyUser.empty;
                                 myUser = myUser.copyWith(
                                   //เพิ่มลง data ได้

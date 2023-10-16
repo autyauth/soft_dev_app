@@ -6,12 +6,13 @@ class GradientButton extends StatelessWidget {
   final List<Color> colorsArray;
   final String buttonText;
   final VoidCallback onPress;
-  GradientButton({
+  const GradientButton({
+    super.key,
     required this.height,
     required this.width,
     required this.colorsArray,
-     required this.buttonText,
-     required this.onPress,
+    required this.buttonText,
+    required this.onPress,
   });
 
   @override
@@ -19,21 +20,21 @@ class GradientButton extends StatelessWidget {
     return Container(
       height: height,
       width: width,
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-         gradient: LinearGradient(
-          colors: colorsArray,
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter
-        ),
+        gradient: LinearGradient(
+            colors: colorsArray,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter),
       ),
       child: ElevatedButton(
         onPressed: onPress,
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent),
-        child: Text(buttonText,),
-        
+        child: Text(
+          buttonText,
+        ),
       ),
     );
   }

@@ -38,7 +38,11 @@ class SelectCourseClickCourseEvent extends SelectWorkoutEvent {
 class CreatePageInitialEvent extends SelectWorkoutEvent {
   final CoursesModel course;
   final List<ExerciseModel> exerciseList;
-  CreatePageInitialEvent({required this.course, required this.exerciseList});
+
+  CreatePageInitialEvent({
+    required this.course,
+    required this.exerciseList,
+  });
 }
 
 class CreatePageClickCreateEvent extends SelectWorkoutEvent {

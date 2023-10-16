@@ -61,10 +61,12 @@ class CreatePageLoading extends CreatePageState {}
 class CreatePageInitial extends CreatePageState {
   final CoursesModel course;
   final List<ExerciseModel> exerciseList;
+  final int time;
 
   CreatePageInitial({
     required this.course,
     required this.exerciseList,
+    required this.time,
   });
 }
 

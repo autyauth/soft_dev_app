@@ -5,6 +5,8 @@ import '../../../select_workout/screens/widget/back_btn.dart';
 import '../../../select_workout/screens/widget/outline_text.dart';
 
 class BackgroundPictureSelect extends StatefulWidget {
+  const BackgroundPictureSelect({super.key});
+
   @override
   State<BackgroundPictureSelect> createState() =>
       _BackgroundPictureSelectState();
@@ -30,16 +32,16 @@ class _BackgroundPictureSelectState extends State<BackgroundPictureSelect> {
           Positioned(
             top: screenHeight * 0.04,
             left: screenWidth * 0.1,
-            child: ImgBackButton(
+            child: const ImgBackButton(
               width: 80,
             ),
           ),
           Positioned(
             top: screenHeight * 0.04,
             right: screenWidth * 0.1,
-            child: OutlinedText(
+            child: const OutlinedText(
                 text: "Background\nPicture",
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 38,
                   fontWeight: FontWeight.bold,
                   color: Palette.orangeCreamColor2,
@@ -50,7 +52,7 @@ class _BackgroundPictureSelectState extends State<BackgroundPictureSelect> {
           Center(
             child: Text(
               count.toString(),
-              style: TextStyle(fontSize: 50),
+              style: const TextStyle(fontSize: 50),
             ),
           ),
           Align(

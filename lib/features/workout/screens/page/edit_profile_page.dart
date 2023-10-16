@@ -159,10 +159,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    final double buttonwidth = 300;
+    const double buttonwidth = 300;
 
     return Scaffold(
       body: Form(
@@ -180,9 +181,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Positioned(
               top: screenHeight * 0.04,
               right: screenWidth * 0.1,
-              child: OutlinedText(
+              child: const OutlinedText(
                   text: "edits",
-                  textStyle: const TextStyle(
+                  textStyle: TextStyle(
                     fontSize: 38,
                     fontWeight: FontWeight.bold,
                     color: Palette.orangeCreamColor2,
@@ -218,7 +219,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child: Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: TextFormField(
                             controller: firstNameInit,
                             validator: requiredValidator,
@@ -231,7 +232,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: TextFormField(
                             controller: lastNameInit,
                             validator: requiredValidator,
@@ -242,7 +243,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: GestureDetector(
                             onTap: pickBirthDate,
                             child: SizedBox(
@@ -257,7 +258,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
@@ -273,8 +274,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         Container(
                           //gender
-                          padding: EdgeInsets.all(4),
-                          margin: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(4),
+                          margin: const EdgeInsets.all(8),
                           width: screenWidth * 0.83,
                           height: 55,
                           decoration: BoxDecoration(
@@ -282,7 +283,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: DropdownButton<String>(
-                            padding: EdgeInsets.only(left: 8),
+                            padding: const EdgeInsets.only(left: 8),
                             underline: Container(
                               height: 0,
                             ),
@@ -306,7 +307,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: TextFormField(
                             keyboardType: TextInputType.number,
                             controller: heightInit,
@@ -318,7 +319,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: TextFormField(
                             controller: weightInit,
                             keyboardType: TextInputType.number,
@@ -330,7 +331,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: TextFormField(
                             controller: emailInit,
                             validator: emailValidator,
@@ -374,7 +375,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       );
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   GradientButton(
                     height: 44,
                     width: buttonwidth,

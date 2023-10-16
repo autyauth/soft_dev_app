@@ -21,6 +21,7 @@ class _CreatePageState extends State<CreatePage> {
   bool _isScrolled = false;
   late SelectWorkoutBloc selectWorkoutBloc;
   String username = "";
+
   @override
   void initState() {
     selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
@@ -96,7 +97,7 @@ class _CreatePageState extends State<CreatePage> {
                   slivers: <Widget>[
                     SliverAppBar(
                       pinned: true,
-                      expandedHeight: 160,
+                      expandedHeight: 170,
                       backgroundColor: Palette.whiteColor,
                       flexibleSpace: FlexibleSpaceBar(
                         background: Image.asset(
@@ -104,15 +105,37 @@ class _CreatePageState extends State<CreatePage> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      title: Text(
-                        _isScrolled ? successState.course.name : '',
-                        style: TextStyle(color: Colors.black),
+                      title: Column(
+                        children: [
+                          Text(
+                            _isScrolled
+                                ? successState.course.name
+                                : successState.course.name,
+                            style: TextStyle(
+                                color: _isScrolled
+                                    ? Colors.black
+                                    : Palette.orangeColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "${(successState.time / 60).floor()} : "
+                            "${successState.time % 60} นาที",
+                            style: TextStyle(
+                                color: _isScrolled
+                                    ? Colors.black
+                                    : Palette.orangeColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                       leading: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
                         child: IconButton(
                           icon: const Icon(Icons.arrow_back),
-                          color: _isScrolled ? Colors.black : Colors.white,
+                          color:
+                              _isScrolled ? Colors.black : Palette.whiteColor,
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -123,7 +146,6 @@ class _CreatePageState extends State<CreatePage> {
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                           final exercise = successState.exerciseList[index];
-
                           return CardExerciseWidget(
                               onTap: () {}, model: exercise);
                         },

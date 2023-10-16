@@ -14,6 +14,8 @@ import '../../../select_workout/screens/widget/gradient_button.dart';
 import '../../../select_workout/screens/widget/outline_text.dart';
 
 class ProfilePictureSelect extends StatefulWidget {
+  const ProfilePictureSelect({super.key});
+
   @override
   State<ProfilePictureSelect> createState() => _ProfilePictureSelectState();
 }
@@ -85,14 +87,14 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
           Positioned(
             top: screenHeight * 0.04,
             left: screenWidth * 0.1,
-            child: ImgBackButton(),
+            child: const ImgBackButton(),
           ),
           Positioned(
             top: screenHeight * 0.04,
             right: screenWidth * 0.1,
-            child: OutlinedText(
+            child: const OutlinedText(
                 text: "Profile\nPicture",
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 38,
                   fontWeight: FontWeight.bold,
                   color: Palette.orangeCreamColor2,
@@ -108,10 +110,10 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
               ),
               height: screenHeight * 0.6,
               width: 0.83 * screenWidth,
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: Colors.white),
               child: _pickedImage != null
                   ? Image.file(_pickedImage!)
-                  : Text('pleaseSelect Image'),
+                  : const Text('pleaseSelect Image'),
             ),
           ),
           Positioned(
@@ -132,7 +134,7 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
                     _pickImageFromGallery();
                   },
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 GradientButton(
                   height: 44,
                   width: buttonwidth,

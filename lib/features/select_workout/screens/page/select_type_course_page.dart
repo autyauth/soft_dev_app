@@ -102,7 +102,7 @@ class _SelectTypeCourseState extends State<SelectTypeCourse> {
             return Scaffold(
               appBar: AppBar(
                 title: const Text(
-                  'Select Your Exercise',
+                  'เลือกคอร์สของคุณ',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Palette.whiteColor,

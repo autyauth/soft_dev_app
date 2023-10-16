@@ -71,19 +71,19 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           // Background image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/profile_background1.png'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             top: 25,
             left: 16,
             child: OutlinedText(
                 text: "Welcome",
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 45,
                   fontWeight: FontWeight.bold,
                   color: Palette.orangeColor,
@@ -111,9 +111,10 @@ class _ProfilePageState extends State<ProfilePage> {
             child: IconButton(
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditProfilePage())).then((value) {
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EditProfilePage()))
+                    .then((value) {
                   setState(() {
                     fetchUserProfileData().then((profile) {
                       if (profile != null) {

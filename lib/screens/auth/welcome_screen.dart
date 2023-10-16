@@ -87,7 +87,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     ),
                   ),
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       height: 460.0, // Set the desired height
                       child: AppBar(
                         title: RichText(
@@ -134,7 +134,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               tabs: const [
                                 Padding(
                                   padding: EdgeInsets.all(13.0),
-                                  child: Text(  
+                                  child: Text(
                                     'Sign In',
                                     style: TextStyle(
                                       fontSize: 18,

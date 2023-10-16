@@ -21,11 +21,11 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   context.pushNamed(RouteConstants.courseTypeRoute);
                 },
-                child: Text('go workout'),
+                child: const Text('go workout'),
               ),
               ElevatedButton(
                 onPressed: () {},
-                child: Text('click me'),
+                child: const Text('click me'),
               ),
             ],
           ),

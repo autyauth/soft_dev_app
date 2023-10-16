@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,70 +25,113 @@ class _HomeSelectState extends State<HomeSelect> {
   List<CoursesModel> courseList = [];
   String userId = "";
   String username = "";
+  bool _isDisposed = false;
+
+  StreamSubscription? usernameSubscription;
+  //StreamSubscription? courseIdSubscription;
+  StreamSubscription? courseListSubscription;
 
   @override
   void initState() {
     super.initState();
-
     initializeData();
-    for (var course in courseDocId) {
-      print(course);
-    }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    usernameSubscription?.cancel();
+    //courseIdSubscription?.cancel();
+    courseListSubscription?.cancel();
+    super.dispose();
   }
 
   void initializeData() async {
-    // FirebaseUserRepo().user.listen((user) {
-    //   setState(() {
-    //     userId = user!.uid;
-    //   });
-    // });
     final User? currentUser = FirebaseAuth.instance.currentUser;
 
-    ExerciseService().getUsername(currentUser!.uid).listen((event) {
-      setState(() {
-        username = event;
-        print(currentUser.uid);
-        print(username);
-        final courseIdStream =
-            ExerciseService().getUserCourseIdByUsername(username);
-        courseIdStream.listen((event) {
-          print(event);
-          if (event.isNotEmpty) {
-            setState(() {
-              courseDocId = event;
-              getCourseUser(event);
-            });
-          } else {
-            // Handle the case where the event is empty.
-            print('No Course');
-          }
+    usernameSubscription =
+        ExerciseService().getUsername(currentUser!.uid).listen((event) {
+      if (mounted && !_isDisposed) {
+        setState(() {
+          username = event;
+          final courseIdStream =
+              ExerciseService().getUserCourseIdByUsername(username);
+          courseIdStream.listen((event) {
+            if (mounted && !_isDisposed) {
+              if (event.isNotEmpty) {
+                setState(() {
+                  courseDocId = event;
+                  courseList
+                      .clear(); // Clear the courseList before adding new elements
+                  getCourseUser(event);
+                });
+              } else {
+                // Handle the case where the event is empty.
+                print('No Course');
+              }
+            }
+          });
         });
-      });
+      }
     });
   }
+  // void initializeData() async {
+  //   final User? currentUser = FirebaseAuth.instance.currentUser;
 
+  //   usernameSubscription =
+  //       ExerciseService().getUsername(currentUser!.uid).listen((event) {
+  //     if (mounted && !_isDisposed) {
+  //       setState(() {
+  //         username = event;
+  //         final courseIdStream =
+  //             ExerciseService().getUserCourseIdByUsername(username);
+  //         courseIdSubscription = courseIdStream.listen((event) {
+  //           if (mounted && !_isDisposed) {
+  //             if (event.isNotEmpty) {
+  //               setState(() {
+  //                 courseDocId = event;
+  //                 getCourseUser(event);
+  //               });
+  //             } else {
+  //               // Handle the case where the event is empty.
+  //               print('No Course');
+  //             }
+  //           }
+  //         });
+  //       });
+  //     }
+  //   });
+  // }
+
+  // void getCourseUser(List<String> courseId) {
+  //   final courseStream = ExerciseService().getCourseListByListDocId(courseId);
+  //   courseListSubscription = courseStream.listen((event) {
+  //     if (mounted && !_isDisposed) {
+  //       setState(() {
+  //         courseList = event;
+  //       });
+  //     }
+  //   });
+  // }
   void getCourseUser(List<String> courseId) {
-    final courseStream = ExerciseService().getCourseListByListDocId(courseId);
-    courseStream.listen((event) {
-      setState(() {
-        courseList = event;
+    final int chunkSize = 30;
+    for (var i = 0; i < courseId.length; i += chunkSize) {
+      final List<String> chunk = courseId.sublist(
+          i, i + chunkSize > courseId.length ? courseId.length : i + chunkSize);
+      final courseStream = ExerciseService().getCourseListByListDocId(chunk);
+      courseListSubscription = courseStream.listen((event) {
+        if (mounted && !_isDisposed) {
+          setState(() {
+            courseList.addAll(event);
+          });
+        }
       });
-    });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   actions: [],
-      //   leading: IconButton(
-      //     icon: const Icon(Icons.arrow_back),
-      //     color: Colors.black,
-      //     onPressed: () {
-      //       context.read<SignInBloc>().add(const SignOutRequired());
-      //     },
-      //   ),
-      // ),
       floatingActionButton: TopFloatingActionButton(onTap: () {
         context.pushNamed(RouteConstants.courseTypeRoute).then((value) async {
           initializeData();
@@ -122,14 +167,14 @@ class _HomeSelectState extends State<HomeSelect> {
                                         .add(const SignOutRequired());
                                   },
                                 ),
-                                Text(' Your course : ',
+                                const Text(' คอร์สของคุณ : ',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     )),
                                 Text(courseList.length.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -145,7 +190,7 @@ class _HomeSelectState extends State<HomeSelect> {
                     ? CourseListWidget(
                         courseList: courseList,
                       )
-                    : BodyAddHomeSelect()
+                    : const BodyAddHomeSelect()
               ],
             ),
           ),
@@ -164,7 +209,7 @@ class TopFloatingActionButton extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
-          top: 170.0,
+          top: 180.0,
           right: 0.0,
           child: Align(
             alignment: Alignment.topRight,
@@ -173,7 +218,7 @@ class TopFloatingActionButton extends StatelessWidget {
               onPressed: () {
                 onTap();
               },
-              child: Icon(Icons.add),
+              child: const Icon(Icons.add),
             ),
           ),
         ),
@@ -196,7 +241,7 @@ class _CourseListWidgetState extends State<CourseListWidget> {
       children: [
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: widget.courseList.length,
           itemBuilder: (context, index) {
             final course = widget.courseList[index];

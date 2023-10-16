@@ -6,29 +6,29 @@ class CircularIconNavigationDestination extends StatelessWidget {
   final String assetPath;
   final IconData selectedIcon;
 
-  CircularIconNavigationDestination({
+  const CircularIconNavigationDestination({
+    super.key,
     required this.label,
     required this.assetPath,
     required this.selectedIcon,
-
   });
 
   @override
   Widget build(BuildContext context) {
     return NavigationDestination(
-              icon: SizedBox(
-                height: 25,
-                child: Image.asset(assetPath),
-              ),
-              selectedIcon: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Palette.orangeColor,
-                ),
-                child:  Center(
-                    child: Image.asset(assetPath,color: Colors.black,height: 50),
-                ),
-              ),
-              label: 'Workout');
+        icon: SizedBox(
+          height: 25,
+          child: Image.asset(assetPath),
+        ),
+        selectedIcon: Container(
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Palette.orangeColor,
+          ),
+          child: Center(
+            child: Image.asset(assetPath, color: Colors.black, height: 50),
+          ),
+        ),
+        label: 'Workout');
   }
 }

@@ -23,7 +23,7 @@ class BodyAddHomeSelect extends StatelessWidget {
           context.pushNamed(RouteConstants.courseTypeRoute);
         },
         style: ButtonStyle(
-          minimumSize: MaterialStateProperty.all(Size(150, 50)),
+          minimumSize: MaterialStateProperty.all(const Size(150, 50)),
           backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
             if (states.contains(MaterialState.pressed)) {
               return Colors.black; // Color when button is pressed
