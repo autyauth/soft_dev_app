@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soft_dev_app/blocs/sign_up_bloc/sign_up_bloc_bloc.dart';
 import 'package:soft_dev_app/screens/auth/components/my_text_field.dart';
@@ -40,6 +41,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isMale = false;
   bool isFemale = false;
   bool isOther = false;
+
+  bool isUsernameTaken = false;
+  String? _username;
+
+  Future<bool> checkUsernameAvailability(String username) async {
+    final result = await FirebaseFirestore.instance
+        .collection('userProfile')
+        .where('username', isEqualTo: username)
+        .get();
+    return !result.docs.isEmpty;
+  }
+
+  Future<void> checkAndSetUsername(String? val) async {
+    setState(() {
+      isUsernameTaken = false;
+    });
+
+    if (val!.isNotEmpty) {
+      bool isTaken = await checkUsernameAvailability(val);
+      setState(() {
+        isUsernameTaken = isTaken;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -264,8 +289,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return 'Please Fill in This Field';
                         } else if (val.length > 30) {
                           return 'Username too long';
+                        } else if (isUsernameTaken) {
+                          return 'Username is already taken';
                         }
                         return null;
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          _username = val;
+                        });
+                        
+                        checkAndSetUsername(val);
                       }),
                 ),
                 const SizedBox(height: 15),
@@ -330,7 +364,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         });
                       },
                     ),
-                    Text('Male'),
+                    const Text('Male'),
                     Checkbox(
                       value: isFemale,
                       onChanged: (value) {
@@ -342,7 +376,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         });
                       },
                     ),
-                    Text('Female'),
+                    const Text('Female'),
                     Checkbox(
                       value: isOther,
                       onChanged: (value) {
@@ -354,7 +388,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         });
                       },
                     ),
-                    Text('Other'),
+                    const Text('Other'),
                   ],
                 ),
                  if (!(isMale || isFemale || isOther))
