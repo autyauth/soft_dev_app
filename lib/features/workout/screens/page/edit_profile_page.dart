@@ -23,16 +23,6 @@ const List<String> sex = <String>[
 ];
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  @override
-  void dispose() {
-    firstNameInit.dispose();
-    lastNameInit.dispose();
-    heightInit.dispose();
-    weightInit.dispose();
-    emailInit.dispose();
-    super.dispose();
-  }
-
   final formKey = GlobalKey<FormState>();
 //ไว้ใช้ init ค่าทีมีอยู่ ตอนเริ่ม
   TextEditingController firstNameInit = TextEditingController();
