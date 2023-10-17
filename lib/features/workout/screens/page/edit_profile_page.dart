@@ -53,20 +53,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
-  Future<void> updateUserProfile(UserProfile userProfile) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('userProfile')
-          .doc(currentUser?.uid) // Use the correct document ID
-          .update(userProfile.toMap());
-      print('User profile updated successfully');
-    } catch (e) {
-      print('Error updating user profile: $e');
-    }
-  }
-
   UserProfile? userProfile;
   UserProfile? updatedUserProfile;
+  Future uploadData() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    await firebaseFirestore
+        .collection('users')
+        .doc(currentUser?.uid)
+        .update(userProfile!.toMap());
+  }
 
   @override
   void initState() {
@@ -89,16 +85,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
     });
   }
 
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   firstNameInit.dispose();
-  //   lastNameInit.dispose();
-  //   heightInit.dispose();
-  //   weightInit.dispose();
-  //   emailInit.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    firstNameInit.dispose();
+    lastNameInit.dispose();
+    heightInit.dispose();
+    weightInit.dispose();
+    emailInit.dispose();
+    super.dispose();
+  }
 
   DateTime? birthDate;
   String? _sex;
@@ -397,8 +393,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         userProfile?.gender = _sex;
 
                         if (userProfile != null) {
-                          updateUserProfile(userProfile!);
+                          uploadData();
                         }
+
                         print('sucess');
                         Navigator.pop(context);
                       }

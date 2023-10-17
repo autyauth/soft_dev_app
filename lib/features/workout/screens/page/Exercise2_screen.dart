@@ -107,19 +107,25 @@ class _exercisingState extends State<exercising> {
   void resetTimer() => setState(() => seconds = maxSeconds);
 
   void StartTimer({bool reset = true}) {
-    if (reset) {
-      resetTimer();
-    }
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() {
-        if (seconds > 0) {
-          seconds--;
-        } else {
-          StopTimer(reset: false);
-        }
-      });
-    });
+  if (reset) {
+    resetTimer();
   }
+  final startTime = DateTime.now().millisecondsSinceEpoch;
+
+  timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
+    final elapsedSeconds = ((currentTime - startTime) / 1000).floor();
+    final remainingSeconds = maxSeconds - elapsedSeconds;
+
+    setState(() {
+      if (remainingSeconds >= 0) {
+        seconds = remainingSeconds;
+      } else {
+        StopTimer(reset: false);
+      }
+    });
+  });
+}
 
   void StopTimer({bool reset = true}) {
     if (reset) {

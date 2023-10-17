@@ -185,7 +185,7 @@ class _StartExState extends State<StartEx> {
 
 Widget Boxdata(double screenWidth, String? name, String? Time, String? url) {
   return Container(
-    height: 200,
+    height: 250,
     margin: const EdgeInsets.all(15),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(9),
