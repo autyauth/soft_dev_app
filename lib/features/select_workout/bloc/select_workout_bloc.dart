@@ -61,10 +61,15 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
   FutureOr<void> selectWorkoutClickCustomEvent(
       SelectWorkoutClickCustomEvent event,
       Emitter<SelectWorkoutState> emit) async {
-    final courses = await ExerciseService().getCourseCustom().first;
+    try {
+      final courses = await ExerciseService().getCourseCustom().first;
 
-    emit(SelectWorkoutNavigateToCoursePageState(
-        courses: courses, courseTypeName: "เลือกเอง"));
+      emit(SelectWorkoutNavigateToCoursePageState(
+          courses: courses, courseTypeName: "เลือกเอง"));
+    } catch (e) {
+      // TODO
+      print(e);
+    }
   }
 
 //Course
@@ -86,75 +91,83 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
   FutureOr<void> selectCourseClickCourseEvent(
       SelectCourseClickCourseEvent event,
       Emitter<SelectWorkoutState> emit) async {
-    if (event.course.type[0].name == "เลือกเอง") {
-      print('okey');
-      List<ExerciseModel> exerciseWarmUp = await ExerciseService()
-          .getExerciseListByUserLevelAndPriorityAndPartFocus(
-              0, event.course.name)
-          .first;
-      List<ExerciseModel> exerciseDo = await ExerciseService()
-          .getExerciseListByUserLevelAndPriorityAndPartFocus(
-              1, event.course.name)
-          .first;
-      List<ExerciseModel> exerciseCoolDown = await ExerciseService()
-          .getExerciseListByUserLevelAndPriorityAndPartFocus(
-              2, event.course.name)
-          .first;
-      List<ExerciseModel> warmUpTemp = List.from(exerciseWarmUp);
-      warmUpTemp.shuffle();
-      warmUpTemp = warmUpTemp.take(2).toList();
+    try {
+      if (event.course.type[0].name == "เลือกเอง") {
+        print('okey');
+        List<ExerciseModel> exerciseWarmUp = await ExerciseService()
+            .getExerciseListByUserLevelAndPriorityAndPartFocus(
+                0, event.course.name)
+            .first;
+        List<ExerciseModel> exerciseDo = await ExerciseService()
+            .getExerciseListByUserLevelAndPriorityAndPartFocus(
+                1, event.course.name)
+            .first;
+        List<ExerciseModel> exerciseCoolDown = await ExerciseService()
+            .getExerciseListByUserLevelAndPriorityAndPartFocus(
+                2, event.course.name)
+            .first;
+        List<ExerciseModel> warmUpTemp = List.from(exerciseWarmUp);
+        warmUpTemp.shuffle();
+        warmUpTemp = warmUpTemp.take(2).toList();
 
-      List<ExerciseModel> doTemp = List.from(exerciseDo);
-      doTemp.shuffle();
-      doTemp = doTemp.take(5).toList();
+        List<ExerciseModel> doTemp = List.from(exerciseDo);
+        doTemp.shuffle();
+        doTemp = doTemp.take(5).toList();
 
-      List<ExerciseModel> coolDownTemp = List.from(exerciseCoolDown);
-      coolDownTemp.shuffle();
-      coolDownTemp = coolDownTemp.take(2).toList();
+        List<ExerciseModel> coolDownTemp = List.from(exerciseCoolDown);
+        coolDownTemp.shuffle();
+        coolDownTemp = coolDownTemp.take(2).toList();
 
-      List<ExerciseModel> newExercise = [];
-      newExercise.addAll(warmUpTemp);
-      newExercise.addAll(doTemp);
-      newExercise.addAll(coolDownTemp);
+        List<ExerciseModel> newExercise = [];
+        newExercise.addAll(warmUpTemp);
+        newExercise.addAll(doTemp);
+        newExercise.addAll(coolDownTemp);
 
-      //final newCourse = event.course;
+        //final newCourse = event.course;
 
-      emit(SelectCourseNavigateToCreatePageState(
-          course: event.course, exerciseList: newExercise));
-    } else {
-      final List<ExerciseModel> exerciseList = await ExerciseService()
-          .getExerciseByDocIdList(event.course.exerciseDocId)
-          .first;
-      print("Loaded");
-      print(event.course.exerciseDocId[0]);
-      print(event.course.exerciseDocId[1]);
-      for (var i in exerciseList) {
-        print(i.name);
+        emit(SelectCourseNavigateToCreatePageState(
+            course: event.course, exerciseList: newExercise));
+      } else {
+        final List<ExerciseModel> exerciseList = await ExerciseService()
+            .getExerciseByDocIdList(event.course.exerciseDocId)
+            .first;
+        print("Loaded");
+        print(event.course.exerciseDocId[0]);
+        print(event.course.exerciseDocId[1]);
+        for (var i in exerciseList) {
+          print(i.name);
+        }
+        emit(SelectCourseNavigateToCreatePageState(
+            course: event.course, exerciseList: exerciseList));
       }
-      emit(SelectCourseNavigateToCreatePageState(
-          course: event.course, exerciseList: exerciseList));
+    } catch (e) {
+      print(e);
     }
   }
 
   FutureOr<void> createPageInitialEvent(
       CreatePageInitialEvent event, Emitter<SelectWorkoutState> emit) async {
     emit(CreatePageLoading());
-    List<ExerciseModel> exerciseList = event.exerciseList;
-    int i = 0;
-    int time = 0;
-    int amout = 0;
-    for (ExerciseModel exercise in exerciseList) {
-      final exerciseMedia = await ExerciseService()
-          .getExerciseMediaByDocIdList(exercise.mediaDocId)
-          .first;
-      exerciseList[i].setMedia(exerciseMedia);
-      amout += exercise.amout;
-      time += exercise.time;
-      i++;
+    try {
+      List<ExerciseModel> exerciseList = event.exerciseList;
+      int i = 0;
+      int time = 0;
+      int amout = 0;
+      for (ExerciseModel exercise in exerciseList) {
+        final exerciseMedia = await ExerciseService()
+            .getExerciseMediaByDocIdList(exercise.mediaDocId)
+            .first;
+        exerciseList[i].setMedia(exerciseMedia);
+        amout += exercise.amout;
+        time += exercise.time;
+        i++;
+      }
+      time += ((amout / 20.0) * 60).ceil();
+      emit(CreatePageInitial(
+          course: event.course, exerciseList: event.exerciseList, time: time));
+    } catch (e) {
+      print(e);
     }
-    time += ((amout / 20.0) * 60).ceil();
-    emit(CreatePageInitial(
-        course: event.course, exerciseList: event.exerciseList, time: time));
   }
 
   FutureOr<void> createPageClickCreateEvent(CreatePageClickCreateEvent event,

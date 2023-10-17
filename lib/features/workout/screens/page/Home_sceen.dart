@@ -210,9 +210,11 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     void onStart() {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return const StartEx();
-      }));
+      if (testdataCourse.isNotEmpty) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return const StartEx();
+        }));
+      }
     }
 
     void onBack() {
