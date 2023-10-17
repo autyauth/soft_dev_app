@@ -63,6 +63,7 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
   UserProfile? userProfile;
   UserProfile? updatedUserProfile;
 
+  @override
   void initState() {
     super.initState();
     fetchUserProfileData().then((profile) {
@@ -99,14 +100,14 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
           Positioned(
             top: screenHeight * 0.04,
             left: screenWidth * 0.1,
-            child: ImgBackButton(),
+            child: const ImgBackButton(),
           ),
           Positioned(
             top: screenHeight * 0.04,
             right: screenWidth * 0.1,
-            child: OutlinedText(
+            child: const OutlinedText(
                 text: "Profile\nPicture",
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 38,
                   fontWeight: FontWeight.bold,
                   color: Palette.orangeCreamColor2,
@@ -122,10 +123,10 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
               ),
               height: screenHeight * 0.6,
               width: 0.83 * screenWidth,
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: Colors.white),
               child: _pickedImage != null
                   ? Image.file(_pickedImage!)
-                  : Center(child: Text('Please select image')),
+                  : const Center(child: Text('Please select image')),
             ),
           ),
           Positioned(
@@ -146,7 +147,7 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
                     _pickImageFromGallery();
                   },
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 GradientButton(
                   height: 44,
                   width: buttonwidth,
@@ -157,10 +158,8 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
                   ],
                   buttonText: 'Save',
                   onPress: () {
-                    if(_pickedImage != null)
-                    {
-                    _uploadImageToStorage(_pickedImage!);
-
+                    if (_pickedImage != null) {
+                      _uploadImageToStorage(_pickedImage!);
                     }
                   },
                 )
@@ -195,7 +194,7 @@ class _ProfilePictureSelectState extends State<ProfilePictureSelect> {
         try {
           await storageRef.putFile(File(message));
           final imageUrl = await storageRef.getDownloadURL();
-           userProfile?.imageUrl = imageUrl;
+          userProfile?.imageUrl = imageUrl;
           if (userProfile != null) {
             updateUserProfile(userProfile!);
           }

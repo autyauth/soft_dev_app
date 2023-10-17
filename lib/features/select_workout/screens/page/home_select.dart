@@ -114,7 +114,7 @@ class _HomeSelectState extends State<HomeSelect> {
   //   });
   // }
   void getCourseUser(List<String> courseId) {
-    final int chunkSize = 30;
+    const int chunkSize = 30;
     for (var i = 0; i < courseId.length; i += chunkSize) {
       final List<String> chunk = courseId.sublist(
           i, i + chunkSize > courseId.length ? courseId.length : i + chunkSize);

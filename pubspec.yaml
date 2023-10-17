@@ -50,6 +50,7 @@ dependencies:
     path: packages/user_repository
   lottie: ^2.6.0
   firebase_storage: ^11.2.8
+  youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
   flutter_test:

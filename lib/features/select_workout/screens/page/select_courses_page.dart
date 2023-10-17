@@ -34,8 +34,12 @@ class _SelectCoursesPageState extends State<SelectCoursesPage> {
           return true;
         } else if (current is CreatePageState) {
           return true;
+        } else if (current is DetailPageState) {
+          return true;
+        } else if (current is DetailPageActionState) {
+          return true;
         }
-        return true;
+        return false;
       },
       buildWhen: (previous, current) {
         if (current is SelectCoursesActionState) {
@@ -43,6 +47,10 @@ class _SelectCoursesPageState extends State<SelectCoursesPage> {
         } else if (current is CreatePageActionState) {
           return false;
         } else if (current is CreatePageState) {
+          return false;
+        } else if (current is DetailPageState) {
+          return false;
+        } else if (current is DetailPageActionState) {
           return false;
         }
         if (current is SelectCoursesState) {

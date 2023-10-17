@@ -100,7 +100,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   //   super.dispose();
   // }
 
-  @override
   DateTime? birthDate;
   String? _sex;
   String firstName = "";
@@ -109,9 +108,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   int weight = 0;
   String email = "null";
 
-  final nameValidator =MultiValidator([
+  final nameValidator = MultiValidator([
     RequiredValidator(errorText: 'กรุณาอย่าเว้นข้อมูลว่างครับ'),
-    PatternValidator(r'^[ก-๙]*$', errorText: 'กรุณากรอกแค่ตัวอักษรภาษาไทยครับ'),
+    //PatternValidator(r'^[ก-๙]*$', errorText: 'กรุณากรอกแค่ตัวอักษรภาษาไทยครับ'),
   ]);
   final emailValidator = MultiValidator([
     EmailValidator(errorText: 'กรุฯากรอกรูปแบบemail ให้ถูกต้อง'),
@@ -401,6 +400,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           updateUserProfile(userProfile!);
                         }
                         print('sucess');
+                        Navigator.pop(context);
                       }
                     },
                   )

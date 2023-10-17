@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:soft_dev_app/app_view.dart';
 import 'package:soft_dev_app/features/select_workout/screens/page/create_page.dart';
+import 'package:soft_dev_app/features/select_workout/screens/page/detail_exercise.dart';
 
 import '../features/select_workout/screens/page/home_select.dart';
 import '../features/select_workout/screens/page/select_courses_page.dart';
@@ -43,7 +44,16 @@ class RouteConfig {
                           path: 'create-course-page',
                           builder:
                               (BuildContext context, GoRouterState state) =>
-                                  const CreatePage()),
+                                  const CreatePage(),
+                          routes: <RouteBase>[
+                            GoRoute(
+                              name: RouteConstants.detailExercise,
+                              path: 'exercise-detail',
+                              builder:
+                                  (BuildContext context, GoRouterState state) =>
+                                      const DetailExercise(),
+                            )
+                          ]),
                     ]),
               ],
             )

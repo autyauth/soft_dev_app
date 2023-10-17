@@ -54,3 +54,13 @@ class CreatePageClickCreateEvent extends SelectWorkoutEvent {
       required this.exerciseList,
       required this.username});
 }
+
+class CreatePageClickCardDetailEvent extends SelectWorkoutEvent {
+  final ExerciseModel exercise;
+  CreatePageClickCardDetailEvent({required this.exercise});
+}
+
+class CardDetailInitialEvent extends SelectWorkoutEvent {
+  final ExerciseModel exercise;
+  CardDetailInitialEvent({required this.exercise});
+}

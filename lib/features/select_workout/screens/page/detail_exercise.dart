@@ -1,161 +1,13 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-
-// import '../../../../core/theme/theme.dart';
-// import '../../bloc/select_workout_bloc.dart';
-
-// class DetialWorkoutPage extends StatefulWidget {
-//   const DetialWorkoutPage({super.key});
-
-//   @override
-//   State<DetialWorkoutPage> createState() => _DetialWorkoutPageState();
-// }
-
-// class _DetialWorkoutPageState extends State<DetialWorkoutPage> {
-//   late SelectWorkoutBloc selectWorkoutBloc;
-//   @override
-//   void initState() {
-//     super.initState();
-//     selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     print(selectWorkoutBloc.state.toString());
-//     return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
-//       bloc: selectWorkoutBloc,
-//       listenWhen: (previous, current) => current is SelectWorkoutActionState,
-//       buildWhen: (previous, current) => current is! SelectWorkoutActionState,
-//       listener: (context, state) {
-//         // TODO: implement listener
-//       },
-//       builder: (context, state) {
-//         switch (state.runtimeType) {
-//           case DetailExerciseLoadingState:
-//             return const Scaffold(
-//               body: Center(
-//                 child: CircularProgressIndicator(),
-//               ),
-//             );
-//           case DetailExerciseLoadedSuccessState:
-//             final success = state as DetailExerciseLoadedSuccessState;
-//             return Scaffold(
-//               body: SafeArea(
-//                 child: CustomScrollView(
-//                   slivers: <Widget>[
-//                     SliverAppBar(
-//                       pinned: true,
-//                       expandedHeight: 160,
-//                       backgroundColor: Palette.whiteColor,
-//                       flexibleSpace: FlexibleSpaceBar(
-//                         background: Image.asset(
-//                           'assets/images/temp_exercise.jpg',
-//                           fit: BoxFit.cover,
-//                         ),
-//                       ),
-//                       leading: IconButton(
-//                         icon: const Icon(Icons.arrow_back, color: Colors.white),
-//                         onPressed: () => Navigator.of(context).pop(),
-//                       ),
-//                     ),
-//                     SliverList(
-//                       delegate: SliverChildBuilderDelegate(
-//                           (BuildContext context, int index) {
-//                         return Container(
-//                           alignment: Alignment.center,
-//                           decoration: BoxDecoration(
-//                             border: Border(
-//                               bottom: BorderSide(
-//                                 color: const Color.fromARGB(255, 228, 226, 226),
-//                                 width: 2.0,
-//                               ),
-//                             ),
-//                           ),
-//                           height: 110,
-//                           child: Column(
-//                             children: [
-//                               Row(
-//                                 mainAxisAlignment: MainAxisAlignment.start,
-//                                 children: [
-//                                   Container(
-//                                     // height: 100,
-//                                     width: 60,
-//                                     child: Icon(Icons.unfold_more_double),
-//                                   ),
-//                                   Container(
-//                                     //alignment: Alignment.center,
-//                                     height: 100,
-//                                     width: 100,
-//                                     child: Image.asset(
-//                                       success.exerciseList[index].image,
-//                                       fit: BoxFit.contain,
-//                                     ),
-//                                   ),
-//                                   Container(
-//                                     padding: const EdgeInsets.only(left: 20),
-//                                     child: Column(
-//                                       crossAxisAlignment:
-//                                           CrossAxisAlignment.start,
-//                                       children: [
-//                                         Text(
-//                                           success.exerciseList[index].name,
-//                                           style: TextStyle(
-//                                               fontSize: 20,
-//                                               fontWeight: FontWeight.bold),
-//                                         ),
-//                                         const SizedBox(
-//                                           height: 10,
-//                                         ),
-//                                         Text(
-//                                           "X" +
-//                                               success.exerciseList[index].amout
-//                                                   .toString(),
-//                                           style: TextStyle(fontSize: 15),
-//                                         ),
-//                                       ],
-//                                     ),
-//                                   ),
-//                                 ],
-//                               ),
-//                             ],
-//                           ),
-//                         );
-//                       }, childCount: success.exerciseList.length),
-//                     )
-//                   ],
-//                 ),
-//               ),
-//             );
-//           default:
-//             return Scaffold(
-//               appBar: AppBar(
-//                 title: const Text(
-//                   'Select Your Exercise',
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(
-//                     color: Palette.whiteColor,
-//                     fontSize: 30,
-//                     fontWeight: FontWeight.w500,
-//                   ),
-//                 ),
-//                 centerTitle: true,
-//                 backgroundColor: Palette.greyColor,
-//               ),
-//               body: Center(
-//                 child: Text('Error'),
-//               ),
-//             );
-//         }
-//       },
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:soft_dev_app/core/theme/pallete.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../../bloc/select_workout_bloc.dart';
 
 class DetailExercise extends StatefulWidget {
-  const DetailExercise({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const DetailExercise({Key? key}) : super(key: key);
 
   @override
   State<DetailExercise> createState() => _DetailExerciseState();
@@ -164,117 +16,367 @@ class DetailExercise extends StatefulWidget {
 class _DetailExerciseState extends State<DetailExercise>
     with TickerProviderStateMixin {
   late TabController tabController;
+  late SelectWorkoutBloc selectWorkoutBloc;
+  late YoutubePlayerController _youtubeController;
 
   @override
   void initState() {
-    tabController = TabController(initialIndex: 0, length: 3, vsync: this);
+    tabController = TabController(initialIndex: 0, length: 2, vsync: this);
+    selectWorkoutBloc = BlocProvider.of<SelectWorkoutBloc>(context);
     super.initState();
   }
 
   @override
+  void dispose() {
+    _youtubeController.dispose();
+    tabController.dispose();
+    super.dispose();
+  }
+
+  void setYoutube(String url) {
+    _youtubeController = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(url) ?? '',
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
+    return BlocConsumer<SelectWorkoutBloc, SelectWorkoutState>(
+      bloc: selectWorkoutBloc,
+      listenWhen: (previous, current) {
+        if (current is DetailPageActionState) {
+          return true;
+        } else if (current is DetailPageState) {
+          return false;
+        }
+        return false;
+      },
+      buildWhen: (previous, current) {
+        if (current is DetailPageState) {
+          return true;
+        } else if (current is DetailPageActionState) {
+          return false;
+        }
+        return false;
+      },
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        print(state);
+        switch (state.runtimeType) {
+          case CardDetailLoading:
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          case CardDetailInitial:
+            final succesState = state as CardDetailInitial;
+            List<String> partFocusList = [];
+            for (String part in succesState.exercise.partFocus) {
+              partFocusList.add(part);
+            }
+            setYoutube(succesState.exercise.media![0].video);
+            return Scaffold(
+              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+              body: SingleChildScrollView(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.1,
-                  child: Column(
+                  height: MediaQuery.of(context).size.height,
+                  child: Stack(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: TabBar(
-                          controller: tabController,
-                          unselectedLabelColor: Colors.black,
-                          labelColor: Colors.black,
-                          tabs: const [
-                            Padding(
-                              padding: EdgeInsets.all(13.0),
-                              child: Text(
-                                'Animation',
-                                style: TextStyle(
-                                  fontSize: 18,
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 1.1,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: TabBar(
+                                  controller: tabController,
+                                  unselectedLabelColor: Colors.black,
+                                  labelColor: Colors.black,
+                                  tabs: const [
+                                    Padding(
+                                      padding: EdgeInsets.all(13.0),
+                                      child: Text(
+                                        'Animation',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(13.0),
+                                      child: Text(
+                                        'Video',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(13.0),
-                              child: Text(
-                                'Video',
-                                style: TextStyle(
-                                  fontSize: 18,
+                              Expanded(
+                                child: TabBarView(
+                                  controller: tabController,
+                                  children: [
+                                    // Content "Animation" tab
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        padding: const EdgeInsets.only(top: 20),
+                                        color: Palette.whiteColor,
+                                        child: Column(
+                                          // mainAxisAlignment:
+                                          //     MainAxisAlignment.center,
+                                          children: [
+                                            Lottie.network(
+                                              succesState.exercise.media![0]
+                                                  .animation, // Replace image
+                                              width: 200,
+                                              height: 200,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            const SizedBox(height: 20),
+                                            Container(
+                                              padding: const EdgeInsets.only(
+                                                  left: 15, right: 15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    succesState.exercise.name,
+                                                    style: const TextStyle(
+                                                      fontSize: 28,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  Text(
+                                                    succesState
+                                                        .exercise.description,
+                                                    style: const TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.black),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  const Text(
+                                                    'กล้ามเนื้อที่เน้น',
+                                                    style: TextStyle(
+                                                      fontSize: 28,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 20),
+                                            Image.network(
+                                              succesState.exercise.media![0]
+                                                  .image, // Replace image
+                                              width: 200,
+                                              height: 200,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              child: Row(
+                                                children: List.generate(
+                                                  partFocusList.length,
+                                                  (index) {
+                                                    return Row(
+                                                      children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.all(5),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    255,
+                                                                    180,
+                                                                    155),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Text(
+                                                              partFocusList[
+                                                                  index],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 16,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    // Content "Video" tab
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        padding: const EdgeInsets.only(top: 20),
+                                        color: Palette.whiteColor,
+                                        child: Column(
+                                          // mainAxisAlignment:
+                                          //     MainAxisAlignment.center,
+                                          children: [
+                                            YoutubePlayer(
+                                              controller: _youtubeController,
+                                              showVideoProgressIndicator: true,
+                                              progressIndicatorColor:
+                                                  Colors.amber,
+                                            ),
+                                            const SizedBox(height: 20),
+                                            Container(
+                                              padding: const EdgeInsets.only(
+                                                  left: 15, right: 15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    succesState.exercise.name,
+                                                    style: const TextStyle(
+                                                      fontSize: 28,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  Text(
+                                                    succesState
+                                                        .exercise.description,
+                                                    style: const TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.black),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  const SizedBox(height: 10),
+                                                  const Text(
+                                                    'กล้ามเนื้อที่เน้น',
+                                                    style: TextStyle(
+                                                      fontSize: 28,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 20),
+                                            Image.network(
+                                              succesState.exercise.media![0]
+                                                  .image, // Replace image
+                                              width: 200,
+                                              height: 200,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              child: Row(
+                                                children: List.generate(
+                                                  partFocusList.length,
+                                                  (index) {
+                                                    return Row(
+                                                      children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.all(5),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    255,
+                                                                    180,
+                                                                    155),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Text(
+                                                              partFocusList[
+                                                                  index],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 16,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          controller: tabController,
-                          children: [
-                            // Content "Animation" tab
-                            Container(
-                              color: Colors.blue,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.network(
-                                    'https://example.com/your-image-url.jpg', // Replace image
-                                    width: 150,
-                                    height: 150,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  SizedBox(height: 20),
-                                  const Text(
-                                    'Animated Image',
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.white),
-                                  ),
-                                  SizedBox(height: 20),
-                                  const Text(
-                                    'Description of the animation goes here.',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: 20),
-                                  Image.network(
-                                    'https://example.com/another-image-url.jpg', // Replace image
-                                    width: 150,
-                                    height: 150,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            // Content "Video" tab
-                            Container(
-                              color: Colors.red,
-                              child: const Center(
-                                child: Text(
-                                  'Video Content',
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
+              ),
+            );
+          default:
+            return const Scaffold(
+              body: Center(
+                child: Text('Error2'),
+              ),
+            );
+        }
+      },
     );
   }
 }

@@ -26,7 +26,9 @@ class _CardExerciseWidgetState<T> extends State<CardExerciseWidget<T>> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        widget.onTap();
+      },
       child: Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.only(top: 20, bottom: 10),

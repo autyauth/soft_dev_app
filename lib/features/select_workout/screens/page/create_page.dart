@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:soft_dev_app/features/select_workout/bloc/select_workout_bloc.dart';
 import 'package:soft_dev_app/features/select_workout/domain/models/exercise_model.dart';
 import 'package:soft_dev_app/features/select_workout/screens/widget/card_exercise_widget.dart';
+import 'package:soft_dev_app/routing/route_constants.dart';
 
 import '../../../../core/theme/theme.dart';
 import '../../domain/services/exercise_service.dart';
@@ -57,12 +58,26 @@ class _CreatePageState extends State<CreatePage> {
         if (current is CreatePageActionState) {
           return true;
         }
+        if (current is DetailPageActionState) {
+          return true;
+        } else if (current is DetailPageState) {
+          return true;
+        }
         if (current is CreatePageState) {
           return false;
         }
-        return true;
+
+        return false;
       },
       buildWhen: (previous, current) {
+        if (current is DetailPageActionState) {
+          return false;
+        } else if (current is DetailPageState) {
+          return false;
+        }
+        if (current is CreatePageActionState) {
+          return false;
+        }
         if (current is CreatePageState) {
           return true;
         }
@@ -74,6 +89,10 @@ class _CreatePageState extends State<CreatePage> {
           context.pop();
           context.pop();
           context.pop();
+        } else if (state is CreatePageNavigateToCardDetail) {
+          selectWorkoutBloc
+              .add(CardDetailInitialEvent(exercise: state.exercise));
+          context.pushNamed(RouteConstants.detailExercise);
         }
       },
       builder: (context, state) {
@@ -147,7 +166,12 @@ class _CreatePageState extends State<CreatePage> {
                         (BuildContext context, int index) {
                           final exercise = successState.exerciseList[index];
                           return CardExerciseWidget(
-                              onTap: () {}, model: exercise);
+                              onTap: () {
+                                selectWorkoutBloc.add(
+                                    CreatePageClickCardDetailEvent(
+                                        exercise: exercise));
+                              },
+                              model: exercise);
                         },
                         childCount: state.exerciseList.length,
                       ),

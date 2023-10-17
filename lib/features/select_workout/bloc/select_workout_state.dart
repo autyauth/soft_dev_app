@@ -13,6 +13,10 @@ abstract class CreatePageState extends SelectWorkoutState {}
 
 abstract class CreatePageActionState extends CreatePageState {}
 
+abstract class DetailPageState extends SelectWorkoutState {}
+
+abstract class DetailPageActionState extends DetailPageState {}
+
 //SelectWorkout
 class SelectWorkoutInitial extends SelectWorkoutState {}
 
@@ -71,3 +75,17 @@ class CreatePageInitial extends CreatePageState {
 }
 
 class CreatePageNavigateToHome extends CreatePageActionState {}
+
+class CreatePageNavigateToCardDetail extends CreatePageActionState {
+  final ExerciseModel exercise;
+  CreatePageNavigateToCardDetail({required this.exercise});
+}
+
+//cardDetail
+
+class CardDetailInitial extends DetailPageState {
+  final ExerciseModel exercise;
+  CardDetailInitial({required this.exercise});
+}
+
+class CardDetailLoading extends DetailPageState {}

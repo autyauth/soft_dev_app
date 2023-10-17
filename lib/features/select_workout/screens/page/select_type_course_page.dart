@@ -45,6 +45,10 @@ class _SelectTypeCourseState extends State<SelectTypeCourse> {
           return true;
         } else if (current is CreatePageState) {
           return true;
+        } else if (current is DetailPageState) {
+          return true;
+        } else if (current is DetailPageActionState) {
+          return true;
         } else {
           return false;
         }
@@ -58,6 +62,10 @@ class _SelectTypeCourseState extends State<SelectTypeCourse> {
         } else if (current is CreatePageActionState) {
           return false;
         } else if (current is CreatePageState) {
+          return false;
+        } else if (current is DetailPageState) {
+          return false;
+        } else if (current is DetailPageActionState) {
           return false;
         } else if (current is! SelectWorkoutActionState) {
           return true;

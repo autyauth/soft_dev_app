@@ -22,6 +22,8 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
     on<CreatePageInitialEvent>(createPageInitialEvent);
     // on<SelectWorkoutClickFullBodyEvent>(selectClickFullBodyEvent);
     on<CreatePageClickCreateEvent>(createPageClickCreateEvent);
+    on<CreatePageClickCardDetailEvent>(createPageClickCardDetailEvent);
+    on<CardDetailInitialEvent>(cardDetailInitialEvent);
   }
 
 //SelectWorkout
@@ -176,6 +178,7 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
             .addUserCourse(newCourseDocId, event.username);
         print(msg);
       } else {
+        String newCourseDocId = await ExerciseService().addCourse(event.course);
         String? courseId =
             await ExerciseService().getCourseDocIdByName(event.course.name);
         print(courseId);
@@ -187,6 +190,16 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
     } catch (e) {
       print(e);
     }
+  }
+
+  FutureOr<void> createPageClickCardDetailEvent(
+      CreatePageClickCardDetailEvent event, Emitter<SelectWorkoutState> emit) {
+    emit(CreatePageNavigateToCardDetail(exercise: event.exercise));
+  }
+
+  FutureOr<void> cardDetailInitialEvent(
+      CardDetailInitialEvent event, Emitter<SelectWorkoutState> emit) {
+    emit(CardDetailInitial(exercise: event.exercise));
   }
 }
 
