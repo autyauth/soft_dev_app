@@ -54,6 +54,8 @@ dependencies:
   table_calendar: ^3.0.9
   curved_navigation_bar: ^1.0.3
   confetti: ^0.7.0
+  fl_chart: ^0.36.2
+  smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
   flutter_test:

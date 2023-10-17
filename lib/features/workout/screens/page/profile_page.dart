@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
 import 'package:soft_dev_app/features/workout/modal/Userprofile.dart';
 import 'package:soft_dev_app/features/workout/screens/page/edit_profile_page.dart';
+import 'package:soft_dev_app/features/workout/screens/widget/ProfileButton.dart';
 
 import '../../../select_workout/screens/widget/outline_text.dart';
 
@@ -107,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 outlineColor: Colors.black,
                 outlineWidth: 2.0),
           ),
-
+          const ProfileButton(),
           Positioned(
             top: 30,
             right: 16,
