@@ -55,13 +55,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   UserProfile? userProfile;
   UserProfile? updatedUserProfile;
-  Future uploadData() async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
-    await firebaseFirestore
-        .collection('users')
-        .doc(currentUser?.uid)
-        .update(userProfile!.toMap());
+  Future<void> updateUserProfile(UserProfile userProfile) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('userProfile')
+          .doc(currentUser?.uid) // Use the correct document ID
+          .update(userProfile.toMap());
+      print('User profile updated successfully');
+    } catch (e) {
+      print('Error updating user profile: $e');
+    }
   }
 
   @override
@@ -393,7 +396,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         userProfile?.gender = _sex;
 
                         if (userProfile != null) {
-                          uploadData();
+                          updateUserProfile(userProfile!);
                         }
 
                         print('sucess');

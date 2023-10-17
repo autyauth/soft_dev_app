@@ -26,8 +26,8 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
 
   List<String> icons = [
     'assets/icons/home.png',
-    'assets/icons/medal.png',
     'assets/icons/dumble.png',
+    'assets/icons/person.png',
   ];
 
   late AnimationController controller;
