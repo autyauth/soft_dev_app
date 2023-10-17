@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
-import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
+import 'package:soft_dev_app/features/workout/modal/Userprofile.dart';
 import 'package:soft_dev_app/features/workout/screens/page/edit_profile_page.dart';
 
 import '../../../select_workout/screens/widget/outline_text.dart';

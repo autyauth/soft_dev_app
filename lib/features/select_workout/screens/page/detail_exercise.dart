@@ -194,7 +194,8 @@ class _DetailExerciseState extends State<DetailExercise>
                                               fit: BoxFit.cover,
                                             ),
                                             Container(
-                                              margin: EdgeInsets.only(left: 10),
+                                              margin: const EdgeInsets.only(
+                                                  left: 10),
                                               child: Row(
                                                 children: List.generate(
                                                   partFocusList.length,
@@ -203,15 +204,13 @@ class _DetailExerciseState extends State<DetailExercise>
                                                       children: [
                                                         Container(
                                                           margin:
-                                                              EdgeInsets.all(5),
+                                                              const EdgeInsets
+                                                                  .all(5),
                                                           decoration:
                                                               BoxDecoration(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    255,
-                                                                    180,
-                                                                    155),
+                                                            color: const Color
+                                                                .fromARGB(255,
+                                                                255, 180, 155),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -308,7 +307,8 @@ class _DetailExerciseState extends State<DetailExercise>
                                               fit: BoxFit.cover,
                                             ),
                                             Container(
-                                              margin: EdgeInsets.only(left: 10),
+                                              margin: const EdgeInsets.only(
+                                                  left: 10),
                                               child: Row(
                                                 children: List.generate(
                                                   partFocusList.length,
@@ -317,15 +317,13 @@ class _DetailExerciseState extends State<DetailExercise>
                                                       children: [
                                                         Container(
                                                           margin:
-                                                              EdgeInsets.all(5),
+                                                              const EdgeInsets
+                                                                  .all(5),
                                                           decoration:
                                                               BoxDecoration(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    255,
-                                                                    180,
-                                                                    155),
+                                                            color: const Color
+                                                                .fromARGB(255,
+                                                                255, 180, 155),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(

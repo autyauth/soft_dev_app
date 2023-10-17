@@ -179,11 +179,8 @@ class SelectWorkoutBloc extends Bloc<SelectWorkoutEvent, SelectWorkoutState> {
         print(msg);
       } else {
         String newCourseDocId = await ExerciseService().addCourse(event.course);
-        String? courseId =
-            await ExerciseService().getCourseDocIdByName(event.course.name);
-        print(courseId);
-        String msg =
-            await ExerciseService().addUserCourse(courseId!, event.username);
+        String msg = await ExerciseService()
+            .addUserCourse(newCourseDocId!, event.username);
         print(msg);
       }
       emit(CreatePageNavigateToHome());

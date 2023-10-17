@@ -7,7 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:soft_dev_app/core/theme/theme.dart';
-import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
+import 'package:soft_dev_app/features/workout/modal/Userprofile.dart';
 
 import '../../../select_workout/screens/widget/back_btn.dart';
 import '../../../select_workout/screens/widget/gradient_button.dart';

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
-import 'package:soft_dev_app/features/workout/screens/modal/Userprofile.dart';
+import 'package:soft_dev_app/features/workout/modal/Userprofile.dart';
 import 'package:soft_dev_app/features/workout/screens/page/pofile_picture_select.dart';
 
 import '../../../select_workout/screens/widget/gradient_button.dart';

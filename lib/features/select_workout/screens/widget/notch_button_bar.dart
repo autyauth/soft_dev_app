@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soft_dev_app/core/theme/pallete.dart';
 import 'package:soft_dev_app/features/select_workout/screens/page/home_select.dart';
+import 'package:soft_dev_app/features/workout/screens/page/Home_sceen.dart';
 import 'package:soft_dev_app/features/workout/screens/page/profile_page.dart';
 
 class AnimatedNavbar extends StatefulWidget {
@@ -17,7 +18,11 @@ class _AnimatedNavbarState extends State<AnimatedNavbar>
   late double position;
   int noOfIcons = 3;
   int selected = 0;
-  List<Widget> pages = [const HomeSelect(), const ProfilePage()];
+  List<Widget> pages = [
+    const MyHomeScreen(),
+    const HomeSelect(),
+    const ProfilePage()
+  ];
 
   List<String> icons = [
     'assets/icons/home.png',

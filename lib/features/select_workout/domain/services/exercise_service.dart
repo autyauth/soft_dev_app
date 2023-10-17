@@ -164,6 +164,33 @@ class ExerciseService {
     }
   }
 
+  Future<String> deleteUserCourse(List<String> courseId) async {
+    CollectionReference collection =
+        FirebaseFirestore.instance.collection('userCourse');
+    try {
+      for (String docId in courseId) {
+        await collection
+            .where(FieldPath.documentId, isEqualTo: docId)
+            .get()
+            .then((snapshot) {
+          for (DocumentSnapshot doc in snapshot.docs) {
+            doc.reference.delete();
+          }
+        });
+      }
+      return 'delete success';
+    } catch (e) {
+      return 'delete fail';
+    }
+  }
+
+  Future<void> deleteCourse(String courseId) async {
+    CollectionReference coursesCollection =
+        FirebaseFirestore.instance.collection('course');
+
+    await coursesCollection.doc(courseId).delete();
+  }
+
   Future<List<String>?> getExerciseDocIdByName(List<String> nameList) async {
     List<String> docId = [];
     int i = 0;
@@ -203,6 +230,19 @@ class ExerciseService {
     return docId;
   }
 
+  Future<String> getUserCourseIdByCourseId(String courseId) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('userCourse')
+        .where('courseDocId', isEqualTo: courseId)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      return querySnapshot.docs.first.id;
+    } else {
+      return ""; // Return an empty string or handle the case when the document doesn't exist
+    }
+  }
+
   Stream<List<String>> getUserCourseIdByUsername(String username) {
     Map<String, dynamic> docMap;
     return FirebaseFirestore.instance
@@ -216,6 +256,16 @@ class ExerciseService {
 
         return docMap['courseDocId'].toString();
       }).toList();
+    });
+  }
+
+  Stream<String> getCourseIdInUserCourse(String userCourseId) {
+    return FirebaseFirestore.instance
+        .collection('userCourse')
+        .doc(userCourseId)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.data()?['courseDocId'] as String;
     });
   }
 
