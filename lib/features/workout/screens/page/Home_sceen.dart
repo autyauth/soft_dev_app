@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/sign_in_bloc/sign_in_bloc_bloc.dart';
 import '../../../../core/theme/ColorSet.dart';
 import '../../../select_workout/domain/models/exercise_model.dart';
 import '../../../select_workout/domain/services/exercise_service.dart';
@@ -235,9 +237,11 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                     children: [
                       OutlinedButton.icon(
                         label: const Text(""),
-                        onPressed: () {},
+                        onPressed: () {context
+                                        .read<SignInBloc>()
+                                        .add(const SignOutRequired());},
                         icon: const Icon(
-                          Icons.arrow_back,
+                          Icons.power,
                           color: Colors.white,
                         ),
                         style: ButtonStyle(
