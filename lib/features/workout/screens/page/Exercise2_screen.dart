@@ -138,7 +138,7 @@ class _exercisingState extends State<exercising> {
   }
 
   void finishEx() {
-    maxSeconds = 25;
+    maxSeconds = 30 ;
     seconds = maxSeconds;
     state = 1;
     //fetchMaxSecondsFromFirestore(testdataExercise[indexEx]);

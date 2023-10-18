@@ -139,7 +139,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Please Fill in This Field';
-                        } else if (!RegExp(r'^[\w-\.]+@([\w-]+.)+[\w-]{2,4}$')
+                        } else if (!RegExp(
+                                r'^[A-Za-z0-9_.-]+@([A-Za-z0-9-]+.)+[A-Za-z]{2,4}$')
                             .hasMatch(val)) {
                           return 'Please Enter a Valid Email';
                         } else if (isGmailTaken) {

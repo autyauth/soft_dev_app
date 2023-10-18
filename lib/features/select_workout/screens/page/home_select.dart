@@ -124,15 +124,15 @@ class _HomeSelectState extends State<HomeSelect> {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                IconButton(
-                                  icon: const Icon(Icons.arrow_back),
-                                  color: Colors.white,
-                                  onPressed: () {
-                                    context
-                                        .read<SignInBloc>()
-                                        .add(const SignOutRequired());
-                                  },
-                                ),
+                                // IconButton(
+                                //   icon: const Icon(Icons.arrow_back),
+                                //   color: Colors.white,
+                                //   onPressed: () {
+                                //     context
+                                //         .read<SignInBloc>()
+                                //         .add(const SignOutRequired());
+                                //   },
+                                // ),
                                 const Text(' คอร์สของคุณ : ',
                                     style: TextStyle(
                                       color: Colors.white,
